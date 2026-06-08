@@ -23,3 +23,27 @@ const double borderRadiusM = 16.0;
 const double borderRadiusL = 24.0;
 
 class ScreenSizes {}
+
+Widget horizontalSmallSpacing() {
+  return SizedBox(width: GeneralSizes.small);
+}
+
+Widget horizontalMediumSpacing() {
+  return SizedBox(width: GeneralSizes.medium);
+}
+
+Widget horizontalLargeSpacing() {
+  return SizedBox(width: GeneralSizes.large);
+}
+
+Widget verticalSmallSpacing() {
+  return SizedBox(height: GeneralSizes.small);
+}
+
+Widget verticalMediumSpacing() {
+  return SizedBox(height: GeneralSizes.medium);
+}
+
+Widget verticalLargeSpacing() {
+  return SizedBox(height: GeneralSizes.large);
+}

@@ -15,7 +15,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => NavigationCubit(),
-      child: MaterialApp.router(routerConfig: router),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+      ),
     );
   }
 }
