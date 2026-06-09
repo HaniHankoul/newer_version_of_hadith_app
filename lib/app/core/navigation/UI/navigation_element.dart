@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith_app/app/core/widgets/custom_text.dart';
 
 import '../../app_theme.dart';
 import '../../helper/general_sizes.dart';
@@ -21,34 +22,34 @@ class NavigationElements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
+    return InkWell(
+      onTap: () {
         context.read<NavigationCubit>().navigate(index);
       },
-      hoverElevation: 2,
-      splashColor: AppColors.grey,
-      color: state == index ? AppColors.primaryLight : AppColors.primary,
-      elevation: state == index ? 6 : 0,
-      hoverColor: transparent.withAlpha(40),
-      mouseCursor: SystemMouseCursors.click,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadiusL),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: GeneralSizes.small,
-          vertical: 4.0,
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: state == index ? AppColors.white : transparent,
-              radius: 15,
-              child: Icon(icon, color: Colors.black),
-            ),
-            SizedBox(width: 8),
-            Text(title, style: TextStyle(color: AppColors.black)),
-          ],
+      child: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: GeneralSizes.small,
+            vertical: 4.0,
+          ),
+          child: Column(
+            children: [
+              CircleAvatar(
+                backgroundColor: state == index ? AppColors.white : transparent,
+                radius: 15,
+                child: Icon(
+                  icon,
+                  color: state == index ? AppColors.primary : AppColors.black,
+                ),
+              ),
+              CustomText(
+                text: title,
+                color: state == index ? AppColors.primary : AppColors.black,
+                fontSize: 15,
+              ),
+            ],
+          ),
         ),
       ),
     );

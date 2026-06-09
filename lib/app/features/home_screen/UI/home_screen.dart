@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/widgets/custom_drawer.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
-
-import '../../../core/helper/general_sizes.dart';
 import '../../../core/navigation/UI/navigation_panel.dart';
 import '../../../core/navigation/logic/navigation_cubit.dart';
 import 'home_body.dart';
