@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
-import 'package:hadith_app/app/features/home_screen/UI/widgets/container_element.dart';
+import 'package:hadith_app/app/features/home/UI/widgets/container_element.dart';
 
 import '../../../core/app_theme.dart';
 
@@ -54,6 +54,8 @@ class HomeBody extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: GeneralSizes.large),
           children: [
             ContainerElement(icon: Icons.book, title: "الأحاديث"),
+            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
+            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
             ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
             ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
             ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),

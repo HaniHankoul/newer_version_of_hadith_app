@@ -14,17 +14,21 @@ class NavigationPanel extends StatelessWidget {
     return BlocBuilder<NavigationCubit, NavigationState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: GeneralSizes.medium,
+            vertical: GeneralSizes.small,
+          ),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: GeneralSizes.large),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(GeneralSizes.medium),
+              borderRadius: BorderRadius.circular(borderRadiusL + 6),
               border: Border.all(color: AppColors.primary),
               color: Colors.white,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 NavigationElements(
                   index: NavigationState.profile,
