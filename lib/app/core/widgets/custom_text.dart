@@ -18,6 +18,7 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
+      textDirection: TextDirection.rtl,
       text,
       style: TextStyle(
         color: color,

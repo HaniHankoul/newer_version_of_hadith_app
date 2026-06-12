@@ -5,6 +5,7 @@ import 'package:hadith_app/app/core/widgets/custom_drawer.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/favourite/UI/favourite_screen.dart';
 import 'package:hadith_app/app/features/profile/UI/profile_screen.dart';
+import 'package:hadith_app/app/features/questions/UI/questions_screen.dart';
 import '../../../core/navigation/UI/navigation_panel.dart';
 import '../../../core/navigation/logic/navigation_cubit.dart';
 import 'home_body.dart';
@@ -57,7 +58,7 @@ Widget body(NavigationState state) {
     case NavigationState.profile:
       return ProfileScreen();
     case NavigationState.questions:
-      return Center(child: Text('Questions Content'));
+      return QuestionsScreen();
     case NavigationState.favourites:
       return FavouriteScreen();
   }

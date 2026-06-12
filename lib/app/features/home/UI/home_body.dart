@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/features/home/UI/widgets/container_element.dart';
 
@@ -53,14 +54,38 @@ class HomeBody extends StatelessWidget {
           crossAxisSpacing: GeneralSizes.large,
           padding: EdgeInsets.symmetric(horizontal: GeneralSizes.large),
           children: [
-            ContainerElement(icon: Icons.book, title: "الأحاديث"),
-            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
-            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
-            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
-            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
-            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
-            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
-            ContainerElement(icon: Icons.person, title: "الكتب و المصادر"),
+            ContainerElement(
+              onTap: () {
+                context.go('/login');
+              },
+              icon: Icons.book,
+              title: "الأحاديث",
+            ),
+            ContainerElement(
+              onTap: () {},
+              icon: Icons.person,
+              title: "الكتب و المصادر",
+            ),
+            ContainerElement(
+              onTap: () {},
+              icon: Icons.person,
+              title: "الكتب و المصادر",
+            ),
+            ContainerElement(
+              onTap: () {},
+              icon: Icons.person,
+              title: "الكتب و المصادر",
+            ),
+            ContainerElement(
+              onTap: () {},
+              icon: Icons.person,
+              title: "الكتب و المصادر",
+            ),
+            ContainerElement(
+              onTap: () {},
+              icon: Icons.person,
+              title: "الكتب و المصادر",
+            ),
           ],
         ),
       ],

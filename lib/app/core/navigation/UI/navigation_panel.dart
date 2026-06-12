@@ -27,7 +27,6 @@ class NavigationPanel extends StatelessWidget {
               color: Colors.white,
             ),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 NavigationElements(
