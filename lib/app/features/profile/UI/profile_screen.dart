@@ -22,24 +22,26 @@ class ProfileScreen extends StatelessWidget {
               widthPortion: .85,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
-
                 children: [
-                  Row(
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          backgroundColor: AppColors.primary,
-                          child: Icon(Icons.person, color: AppColors.white),
+                  Padding(
+                    padding: const EdgeInsets.only(top: GeneralSizes.small),
+                    child: Row(
+                      textDirection: TextDirection.rtl,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            backgroundColor: AppColors.primary,
+                            child: Icon(Icons.person, color: AppColors.white),
+                          ),
                         ),
-                      ),
-                      CustomText(
-                        text: 'بيانات الملف الشخصي',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ],
+                        CustomText(
+                          text: 'بيانات الملف الشخصي',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                      ],
+                    ),
                   ),
                   Align(
                     alignment: Alignment.center,
@@ -81,8 +83,8 @@ class ProfileScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: GeneralSizes.medium),
                     child: CustomText(
-                      text: ' اسم المستخدم ',
-                      fontSize: 16,
+                      text: 'تغيير اسم المستخدم',
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -96,13 +98,13 @@ class ProfileScreen extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.zero,
-                          hintText: 'ابحث عن حديث',
+                          hintText: 'Hani Hankoul',
                           hintStyle: TextStyle(
                             color: AppColors.primary,
                             fontFamily: "cairo",
                           ),
                           prefixIcon: Icon(
-                            Icons.search,
+                            Icons.person,
                             color: AppColors.primary,
                           ),
                           border: OutlineInputBorder(
@@ -127,8 +129,8 @@ class ProfileScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: GeneralSizes.medium),
                     child: CustomText(
-                      text: 'البريد الالكتروني ',
-                      fontSize: 16,
+                      text: 'تغيير البريد الالكتروني ',
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -142,13 +144,13 @@ class ProfileScreen extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.zero,
-                          hintText: 'ابحث عن حديث',
+                          hintText: 'hani-haha@gmail.com',
                           hintStyle: TextStyle(
                             color: AppColors.primary,
                             fontFamily: "cairo",
                           ),
                           prefixIcon: Icon(
-                            Icons.search,
+                            Icons.mail,
                             color: AppColors.primary,
                           ),
                           border: OutlineInputBorder(
@@ -173,8 +175,8 @@ class ProfileScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: GeneralSizes.medium),
                     child: CustomText(
-                      text: ' تاريخ الميلاد',
-                      fontSize: 16,
+                      text: ' تغيير تاريخ الميلاد',
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -188,7 +190,7 @@ class ProfileScreen extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.zero,
-                          hintText: 'ابحث عن حديث',
+                          hintText: '25/1/2003',
                           hintStyle: TextStyle(
                             color: AppColors.primary,
                             fontFamily: "cairo",
@@ -226,6 +228,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: UniversalButton(
                 onTap: () {},
+                height: 45,
                 title: 'حفظ التغييرات في الملف الشخصي',
                 color: AppColors.primaryRich,
                 textColor: Colors.black,

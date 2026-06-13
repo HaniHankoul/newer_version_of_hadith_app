@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith_app/app/core/app_theme.dart';
-import 'package:hadith_app/app/core/helper/general_sizes.dart';
-import 'package:hadith_app/app/core/widgets/universal_button.dart';
-import '../../../../core/helper/assets.dart';
-import '../../../../core/widgets/custom_text.dart';
-import 'widgets/login_form_body.dart';
+import 'package:hadith_app/app/features/auth/sign_up/UI/widgets/signup_form_body.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+import '../../../../core/app_theme.dart';
+import '../../../../core/helper/assets.dart';
+import '../../../../core/helper/general_sizes.dart';
+import '../../../../core/widgets/custom_text.dart';
+import '../../../../core/widgets/universal_button.dart';
+
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +65,8 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Spacer(),
-                  LoginFormBody(),
+                  verticalLargeSpacing(),
+                  SignupFormBody(),
                   verticalLargeSpacing(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -73,22 +74,22 @@ class LoginScreen extends StatelessWidget {
                       UniversalButton(
                         widthPortion: .35,
                         height: 45,
-                        onTap: () {
-                          context.go('/signUp');
-                        },
+                        onTap: () {},
                         title: 'انشاء حساب',
-                        color: transparent,
-                        textColor: AppColors.primary,
+                        color: AppColors.primaryRich,
+                        textColor: AppColors.black,
                         borderColor: AppColors.primaryRich,
                       ),
                       horizontalLargeSpacing(),
                       UniversalButton(
                         widthPortion: .35,
                         height: 45,
-                        onTap: () {},
+                        onTap: () {
+                          context.go('/login');
+                        },
                         title: 'تسجيل الدخول',
-                        color: AppColors.primaryRich,
-                        textColor: AppColors.black,
+                        color: Colors.transparent,
+                        textColor: AppColors.textPrimaryDark,
                         borderColor: AppColors.primaryRich,
                       ),
                     ],

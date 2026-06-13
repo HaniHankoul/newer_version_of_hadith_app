@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/app_theme.dart';
-import 'package:hadith_app/app/core/widgets/custom_drawer.dart';
+import 'package:hadith_app/app/core/widgets/drawer/custom_drawer.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/favourite/UI/favourite_screen.dart';
 import 'package:hadith_app/app/features/profile/UI/profile_screen.dart';
@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(kToolbarHeight),
             child: AppBar(
               title: CustomText(
-                text: 'الرئيسية',
+                text: titleSelect(state),
                 color: AppColors.primary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -61,5 +61,20 @@ Widget body(NavigationState state) {
       return QuestionsScreen();
     case NavigationState.favourites:
       return FavouriteScreen();
+  }
+}
+
+String titleSelect(NavigationState state) {
+  switch (state) {
+    case NavigationState.home:
+      return 'الرئيسية';
+    case NavigationState.settings:
+      return 'الاعدادات';
+    case NavigationState.profile:
+      return 'الملف الشخصي ';
+    case NavigationState.questions:
+      return 'الأسئلة';
+    case NavigationState.favourites:
+      return 'المفضلة';
   }
 }

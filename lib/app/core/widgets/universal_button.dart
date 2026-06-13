@@ -13,6 +13,7 @@ class UniversalButton extends StatefulWidget {
     required this.textColor,
     required this.borderColor,
     this.icon,
+    this.bRadius,
   });
   final VoidCallback onTap;
   final double? widthPortion;
@@ -22,6 +23,7 @@ class UniversalButton extends StatefulWidget {
   final Color color;
   final Color textColor;
   final Color borderColor;
+  final double? bRadius;
 
   @override
   State<UniversalButton> createState() => _UniversalButtonState();
@@ -57,7 +59,7 @@ class _UniversalButtonState extends State<UniversalButton> {
         onTap: _handleTap,
         onTapDown: (_) => _setPressed(true),
         onTapCancel: () => _setPressed(false),
-        borderRadius: BorderRadius.circular(borderRadiusL),
+        borderRadius: BorderRadius.circular(widget.bRadius ?? borderRadiusL),
         child: Container(
           width: widget.widthPortion == null
               ? widget.widthPortion
@@ -69,7 +71,9 @@ class _UniversalButtonState extends State<UniversalButton> {
           ),
           decoration: BoxDecoration(
             color: widget.color,
-            borderRadius: BorderRadius.circular(borderRadiusL),
+            borderRadius: BorderRadius.circular(
+              widget.bRadius ?? borderRadiusL,
+            ),
             border: Border.all(color: widget.borderColor, width: 2),
           ),
           child: Row(
