@@ -11,12 +11,14 @@ class UniversalContainer extends StatelessWidget {
     this.color,
     this.borderColor,
     required this.child,
+    this.borderR,
   });
   final double heightPortion;
   final double widthPortion;
   final Widget child;
   Color? color = AppColors.white;
   Color? borderColor = Colors.black26;
+  double? borderR = GeneralSizes.medium;
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -25,7 +27,7 @@ class UniversalContainer extends StatelessWidget {
       height: heightPortion == 0 ? null : screenHeight * heightPortion,
       width: screenWidth * widthPortion,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(GeneralSizes.medium),
+        borderRadius: BorderRadius.circular(borderR ?? GeneralSizes.medium),
         border: Border.all(color: borderColor ?? Colors.black26),
         color: color ?? AppColors.white,
       ),

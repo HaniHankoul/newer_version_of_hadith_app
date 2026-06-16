@@ -21,6 +21,7 @@ class ContainerElement extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(GeneralSizes.medium),
       child: Container(
         height: screenHeight * .2,
         width: screenWidth * .42,
