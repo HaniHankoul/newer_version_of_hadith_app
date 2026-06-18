@@ -8,7 +8,7 @@ import '../../features/translators/speakers/UI/speakers_screen.dart';
 // GoRouter configuration
 final router = GoRouter(
   routes: [
-    GoRoute(path: '/', builder: (context, state) => HomeScreen()),
+    GoRoute(path: '/', builder: (context, state) => LoginScreen()),
     GoRoute(path: '/login', builder: (context, state) => LoginScreen()),
     GoRoute(path: '/signUp', builder: (context, state) => SignupScreen()),
     GoRoute(path: '/speakers', builder: (context, state) => SpeakersScreen()),
