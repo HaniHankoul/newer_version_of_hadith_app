@@ -67,7 +67,9 @@ class HomeBody extends StatelessWidget {
               title: "الكتب و المصادر",
             ),
             ContainerElement(
-              onTap: () {},
+              onTap: () {
+                context.push('/tellers');
+              },
               icon: Icons.people,
               title: "تراجم الرواة",
             ),

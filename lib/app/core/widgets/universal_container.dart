@@ -25,7 +25,7 @@ class UniversalContainer extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       height: heightPortion == 0 ? null : screenHeight * heightPortion,
-      width: screenWidth * widthPortion,
+      width: widthPortion == 0 ? null : screenWidth * widthPortion,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderR ?? GeneralSizes.medium),
         border: Border.all(color: borderColor ?? Colors.black26),
