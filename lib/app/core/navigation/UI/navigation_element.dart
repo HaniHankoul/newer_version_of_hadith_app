@@ -27,7 +27,10 @@ class NavigationElements extends StatelessWidget {
         context.read<NavigationCubit>().navigate(index);
       },
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(borderRadiusL + 6),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: GeneralSizes.small,
