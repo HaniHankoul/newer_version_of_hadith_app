@@ -87,7 +87,9 @@ class CustomDrawer extends StatelessWidget {
                 child: Column(
                   children: [
                     CustomDrawerButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.push('/advancedSearch');
+                      },
                       title: 'البحث المتقدم ',
                       icon: Icons.search,
                     ),
