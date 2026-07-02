@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/core/navigation/logic/navigation_cubit.dart';
 import 'package:hadith_app/app/core/widgets/drawer/drawer_button.dart';
 
 import '../../app_theme.dart';
@@ -79,22 +82,47 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            CustomDrawerButton(title: 'البحث المتقدم ', icon: Icons.search),
-            CustomDrawerButton(title: 'قائمة المفضلة ', icon: Icons.bookmark),
-            CustomDrawerButton(
-              title: 'قائمة الاسئلة ',
-              icon: Icons.question_answer_outlined,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CustomDrawerButton(
+                      onTap: () {},
+                      title: 'البحث المتقدم ',
+                      icon: Icons.search,
+                    ),
+                    CustomDrawerButton(
+                      onTap: () {
+                        context.read<NavigationCubit>().navigate(
+                          NavigationState.favourites,
+                        );
+                        Navigator.pop(context);
+                        context.go('/');
+                      },
+                      title: 'قائمة المفضلة ',
+                      icon: Icons.bookmark,
+                    ),
+                    CustomDrawerButton(
+                      onTap: () {},
+                      title: 'قائمة الاسئلة ',
+                      icon: Icons.question_answer_outlined,
+                    ),
+                    CustomDrawerButton(
+                      onTap: () {},
+                      title: 'حديث اليوم ',
+                      icon: Icons.menu_book_sharp,
+                    ),
+                    CustomDrawerButton(
+                      onTap: () {},
+                      title: 'طلب الترقية ',
+                      icon: Icons.badge_outlined,
+                    ),
+                  ],
+                ),
+              ),
             ),
             CustomDrawerButton(
-              title: 'حديث اليوم ',
-              icon: Icons.menu_book_sharp,
-            ),
-            CustomDrawerButton(
-              title: 'طلب الترقية ',
-              icon: Icons.badge_outlined,
-            ),
-            Spacer(),
-            CustomDrawerButton(
+              onTap: () {},
               title: 'تسجيل الخروج ',
               icon: Icons.door_back_door,
               color: Colors.red,

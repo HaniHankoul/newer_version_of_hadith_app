@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
+import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/home/UI/widgets/container_element.dart';
 
 import '../../../core/app_theme.dart';
+import '../../../core/widgets/universal_container.dart';
+import 'widgets/todays_hadith_header.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});
@@ -46,6 +49,7 @@ class HomeBody extends StatelessWidget {
             ),
           ),
         ),
+        TodaysHadithHeader(),
         GridView.count(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -55,15 +59,13 @@ class HomeBody extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: GeneralSizes.large),
           children: [
             ContainerElement(
-              onTap: () {
-                context.go('/login');
-              },
-              icon: Icons.book,
-              title: "تسجيل الدخول (مؤقت)",
+              onTap: () {},
+              icon: Icons.people,
+              title: "احاديث منتشرة لا تصح",
             ),
             ContainerElement(
               onTap: () {},
-              icon: Icons.menu_book_rounded,
+              icon: Icons.people,
               title: "الكتب و المصادر",
             ),
             ContainerElement(
@@ -79,16 +81,6 @@ class HomeBody extends StatelessWidget {
               },
               icon: Icons.person,
               title: "تراجم المحدثين",
-            ),
-            ContainerElement(
-              onTap: () {},
-              icon: Icons.badge_rounded,
-              title: "طلب الترقية لعالم",
-            ),
-            ContainerElement(
-              onTap: () {},
-              icon: Icons.bookmark,
-              title: "حديث اليوم",
             ),
           ],
         ),

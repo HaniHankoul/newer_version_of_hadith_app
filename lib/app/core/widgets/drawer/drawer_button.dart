@@ -10,7 +10,9 @@ class CustomDrawerButton extends StatelessWidget {
     required this.title,
     required this.icon,
     this.color,
+    required this.onTap,
   });
+  final VoidCallback onTap;
   final String title;
   final IconData icon;
   final Color? color;
@@ -21,28 +23,31 @@ class CustomDrawerButton extends StatelessWidget {
         horizontal: GeneralSizes.medium,
         vertical: GeneralSizes.small,
       ),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: GeneralSizes.medium,
-          vertical: GeneralSizes.small,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(GeneralSizes.medium),
-          border: Border.all(color: Colors.black26),
-        ),
-        child: Row(
-          textDirection: TextDirection.rtl,
-          children: [
-            Icon(icon, color: color ?? AppColors.primary),
-            horizontalMediumSpacing(),
-            CustomText(
-              text: title,
-              color: color ?? Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-          ],
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: GeneralSizes.medium,
+            vertical: GeneralSizes.small,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(GeneralSizes.medium),
+            border: Border.all(color: Colors.black26),
+          ),
+          child: Row(
+            textDirection: TextDirection.rtl,
+            children: [
+              Icon(icon, color: color ?? AppColors.primary),
+              horizontalMediumSpacing(),
+              CustomText(
+                text: title,
+                color: color ?? Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+            ],
+          ),
         ),
       ),
     );
