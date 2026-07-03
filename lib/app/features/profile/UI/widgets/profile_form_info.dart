@@ -4,8 +4,8 @@ import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 
-class ProfileFromInfo extends StatelessWidget {
-  const ProfileFromInfo({super.key});
+class ProfileFormInfo extends StatelessWidget {
+  const ProfileFormInfo({super.key});
 
   @override
   Widget build(BuildContext context) {

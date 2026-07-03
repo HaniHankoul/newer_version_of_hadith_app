@@ -86,6 +86,13 @@ class HomeBody extends StatelessWidget {
                               icon: Icons.person,
                               title: "تراجم المحدثين",
                             ),
+                            ContainerElement(
+                              onTap: () {
+                                context.push('/login');
+                              },
+                              icon: Icons.person,
+                              title: "temp",
+                            ),
                           ]
                           .animate(interval: 230.ms)
                           .fade(duration: 250.ms)

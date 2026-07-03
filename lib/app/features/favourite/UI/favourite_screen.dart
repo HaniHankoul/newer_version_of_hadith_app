@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
@@ -39,7 +40,7 @@ class FavouriteScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          ).animate().scale(curve: Curves.easeInOut, duration: 300.ms),
         ],
       ),
     );

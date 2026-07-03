@@ -8,6 +8,7 @@ import 'package:hadith_app/app/features/profile/UI/profile_screen.dart';
 import 'package:hadith_app/app/features/questions/UI/questions_screen.dart';
 import '../../../core/navigation/UI/navigation_panel.dart';
 import '../../../core/navigation/logic/navigation_cubit.dart';
+import '../../profile/logic/profile_cubit.dart';
 import 'home_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -56,7 +57,10 @@ Widget body(NavigationState state) {
     case NavigationState.settings:
       return Center(child: Text('Settings Content'));
     case NavigationState.profile:
-      return ProfileScreen();
+      return BlocProvider(
+        create: (context) => ProfileCubit()..updateProfile(),
+        child: ProfileScreen(),
+      );
     case NavigationState.questions:
       return QuestionsScreen();
     case NavigationState.favourites:
