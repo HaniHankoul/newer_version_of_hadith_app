@@ -7,6 +7,7 @@ import 'package:hadith_app/app/features/translators/tellers/UI/tellers_screen.da
 import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/home/UI/home_screen.dart';
 import '../../features/translators/speakers/UI/speakers_screen.dart';
+import '../widgets/detail_screen.dart';
 
 // GoRouter configuration
 final router = GoRouter(
@@ -16,6 +17,13 @@ final router = GoRouter(
     GoRoute(path: '/signUp', builder: (context, state) => SignupScreen()),
     GoRoute(path: '/speakers', builder: (context, state) => SpeakersScreen()),
     GoRoute(path: '/tellers', builder: (context, state) => TellersScreen()),
+    GoRoute(
+      path: '/hadithDetail',
+      builder: (context, state) {
+        final title = state.extra as String;
+        return DetailScreen(title: title);
+      },
+    ),
     GoRoute(
       path: '/advancedSearch',
       builder: (context, state) => AdvancedSearchScreen(),

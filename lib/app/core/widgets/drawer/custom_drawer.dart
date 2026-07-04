@@ -62,20 +62,31 @@ class CustomDrawer extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: GeneralSizes.medium,
-                        vertical: GeneralSizes.small / 2,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(GeneralSizes.large),
-                        border: Border.all(color: AppColors.primary),
-                      ),
-                      child: CustomText(
-                        text: 'تعديل الملف الشخصي',
-                        color: AppColors.primary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                    InkWell(
+                      onTap: () {
+                        context.read<NavigationCubit>().navigate(
+                          NavigationState.profile,
+                        );
+                        Navigator.pop(context);
+                        context.go('/');
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: GeneralSizes.medium,
+                          vertical: GeneralSizes.small / 2,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            GeneralSizes.large,
+                          ),
+                          border: Border.all(color: AppColors.primary),
+                        ),
+                        child: CustomText(
+                          text: 'تعديل الملف الشخصي',
+                          color: AppColors.primary,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],

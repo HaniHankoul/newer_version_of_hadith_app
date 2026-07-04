@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/widgets/universal_button.dart';
 
 import '../../../../core/app_theme.dart';
@@ -42,7 +43,9 @@ class TodaysHadithHeader extends StatelessWidget {
                 style: TextStyle(fontSize: 14),
               ),
               UniversalButton(
-                onTap: () {},
+                onTap: () {
+                  context.push('/hadithDetail', extra: 'حديث اليوم');
+                },
                 title: 'تفاصيل',
                 icon: Icons.arrow_forward,
                 color: AppColors.primaryRich,
