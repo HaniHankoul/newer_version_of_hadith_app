@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_appbar.dart';
 import 'package:hadith_app/app/core/widgets/custom_reactive_form.dart';
+import 'package:hadith_app/app/features/search/advanced_search/UI/widgets/filtering_section.dart';
 
 import '../../../../core/app_theme.dart';
 
@@ -27,6 +28,8 @@ class AdvancedSearchScreen extends StatelessWidget {
               icon: Icons.search,
               validationMessages: {},
             ),
+            verticalSmallSpacing(),
+            FilteringSection(),
           ],
         ),
       ),

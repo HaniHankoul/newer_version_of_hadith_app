@@ -9,6 +9,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     try {
       // Simulate a delay for the update operation
       await Future.delayed(Duration(seconds: 2));
+      if (isClosed) return;
       emit(ProfileCubitSuccess());
     } catch (e) {
       emit(ProfileCubitError(e.toString()));
