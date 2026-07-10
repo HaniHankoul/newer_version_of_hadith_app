@@ -109,19 +109,25 @@ class CustomDrawer extends StatelessWidget {
                         context.read<NavigationCubit>().navigate(
                           NavigationState.favourites,
                         );
-                        Navigator.pop(context);
-                        context.go('/');
+                        context.pop(context);
                       },
                       title: 'قائمة المفضلة ',
                       icon: Icons.bookmark,
                     ),
                     CustomDrawerButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<NavigationCubit>().navigate(
+                          NavigationState.questions,
+                        );
+                        context.pop(context);
+                      },
                       title: 'قائمة الاسئلة ',
                       icon: Icons.question_answer_outlined,
                     ),
                     CustomDrawerButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.push('/hadithDetail', extra: 'حديث اليوم');
+                      },
                       title: 'حديث اليوم ',
                       icon: Icons.menu_book_sharp,
                     ),

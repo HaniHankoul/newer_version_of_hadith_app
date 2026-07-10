@@ -10,6 +10,10 @@ class Assets {
   /// assets/images/big_circle.svg
   static const String assetsImagesBigCircle = "assets/images/big_circle.svg";
 
+  /// Assets for assetsImagesLottiesLoadingCircle
+  /// assets/images/lotties/Loading_circle.json
+  static const String assetsImagesLottiesLoadingCircle = "assets/images/lotties/Loading_circle.json";
+
   /// Assets for assetsImagesSmallCircle
   /// assets/images/small_circle.svg
   static const String assetsImagesSmallCircle = "assets/images/small_circle.svg";
