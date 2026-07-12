@@ -1,7 +1,9 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/features/auth/sign_up/UI/signup_screen.dart';
 import 'package:hadith_app/app/features/favourite/UI/favourite_screen.dart';
 import 'package:hadith_app/app/features/search/advanced_search/UI/advanced_search_screen.dart';
+import 'package:hadith_app/app/features/search/advanced_search/logic/advanced_search_cubit.dart';
 import 'package:hadith_app/app/features/translators/tellers/UI/tellers_screen.dart';
 
 import '../../features/auth/login/UI/login_screen.dart';
@@ -26,7 +28,10 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/advancedSearch',
-      builder: (context, state) => AdvancedSearchScreen(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => AdvancedSearchCubit(),
+        child: AdvancedSearchScreen(),
+      ),
     ),
     GoRoute(
       path: '/favourites',
