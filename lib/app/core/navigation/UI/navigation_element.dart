@@ -32,10 +32,7 @@ class NavigationElements extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadiusL + 6),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: GeneralSizes.small,
-            vertical: 4.0,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: Column(
             children: [
               CircleAvatar(
