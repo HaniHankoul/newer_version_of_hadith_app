@@ -82,7 +82,7 @@ class _UniversalButtonState extends State<UniversalButton> {
             children: [
               if (widget.icon != null)
                 Icon(widget.icon, size: 18, color: widget.textColor),
-              SizedBox(width: GeneralSizes.small),
+              SizedBox(width: GeneralSizes.small + 3),
               CustomText(
                 text: widget.title,
                 color: widget.textColor,

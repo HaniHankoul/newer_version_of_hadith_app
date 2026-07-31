@@ -4,7 +4,6 @@ import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_appbar.dart';
 import 'package:hadith_app/app/core/widgets/custom_reactive_form.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
-import 'package:hadith_app/app/core/widgets/universal_button.dart';
 import 'package:hadith_app/app/features/search/advanced_search/UI/widgets/filtering_section.dart';
 import 'package:hadith_app/app/features/search/advanced_search/logic/advanced_search_cubit.dart';
 import 'package:lottie/lottie.dart';
