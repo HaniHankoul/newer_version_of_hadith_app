@@ -4,6 +4,7 @@ import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/widgets/drawer/custom_drawer.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/favourite/UI/favourite_screen.dart';
+import 'package:hadith_app/app/features/home/Logic/search_cubit.dart';
 import 'package:hadith_app/app/features/profile/UI/profile_screen.dart';
 import 'package:hadith_app/app/features/questions/UI/questions_screen.dart';
 import '../../../core/navigation/UI/navigation_panel.dart';
@@ -53,7 +54,10 @@ class HomeScreen extends StatelessWidget {
 Widget body(NavigationState state) {
   switch (state) {
     case NavigationState.home:
-      return HomeBody();
+      return BlocProvider(
+        create: (context) => SearchCubit(),
+        child: HomeBody(),
+      );
     case NavigationState.settings:
       return Center(child: Text('Settings Content'));
     case NavigationState.profile:
