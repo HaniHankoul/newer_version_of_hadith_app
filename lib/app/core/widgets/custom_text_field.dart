@@ -5,16 +5,20 @@ import '../app_theme.dart';
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
+    this.onFieldSubmitted,
     required this.hintText,
     required this.icon,
   });
+  final Function(String)? onFieldSubmitted;
   final String hintText;
   final IconData icon;
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextFormField(
+        onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
           hintText: hintText,

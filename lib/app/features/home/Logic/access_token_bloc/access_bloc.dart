@@ -7,15 +7,11 @@ class AccessBloc extends Cubit<AccessState> {
   AccessBloc() : super(AccessInitial());
 
   void getAccessToken() async {
-    print('AccessBloc: loading access token...');
     emit(AccessLoading());
     try {
-      await Future.delayed(
-        Duration(seconds: 1),
-      ); // Simulate a delay for loading
       final response = await AuthStorage.getAccessToken();
       emit(AccessSuccess(response));
-      print('AccessBloc: access token loaded successfully: $response');
+      print('AccessBloc: access token loaded successfully:');
     } catch (e) {
       emit(AccessError('Failed to get access token: $e'));
     }

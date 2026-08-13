@@ -5,7 +5,7 @@ import '../models/login_model_res.dart';
 class LoginApiService {
   final dio = Dio(
     BaseOptions(
-      baseUrl: "https://api.jamilhelal.me",
+      baseUrl: "https://api.jamilhelal.me/api/v1",
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
       headers: {"Content-Type": "application/json"},
@@ -14,10 +14,7 @@ class LoginApiService {
 
   Future<Loginmodelresponse> login(Loginmodel model) async {
     try {
-      final response = await dio.post(
-        "/api/v1/auth/login",
-        data: model.toJson(),
-      );
+      final response = await dio.post("/auth/login", data: model.toJson());
       print(response.data);
       return Loginmodelresponse.fromJson(response.data);
     } on DioException catch (e) {

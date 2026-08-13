@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith_app/app/features/home/Logic/access_token_bloc/access_bloc.dart';
-import '../../../core/app_theme.dart';
+import 'package:hadith_app/app/core/widgets/custom_text_field.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
-import '../Logic/access_token_bloc/acces_states.dart';
 import '../Logic/search_bloc/search_cubit.dart';
 import '../Logic/search_bloc/search_cubit_state.dart';
 import 'widgets/container_element.dart';
@@ -17,68 +15,31 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccessBloc, AccessState>(
-      builder: (context, state) {
-        if (state is AccessLoading) {
-          return CircularProgressIndicator();
-        } else if (state is AccessError) {
-          return CustomText(text: state.errorMessage);
-        }
-
-        return Column(
-          children:
-              [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: GeneralSizes.large,
-                        vertical: GeneralSizes.medium,
-                      ),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: TextFormField(
-                          onFieldSubmitted: (value) {
-                            context.read<SearchCubit>().search();
-                          },
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.zero,
-                            hintText: 'ابحث عن حديث',
-                            hintStyle: TextStyle(
-                              color: AppColors.primary,
-                              fontFamily: "cairo",
-                            ),
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: AppColors.primary,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide(color: AppColors.primary),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide(color: AppColors.primary),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide(color: AppColors.primary),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    BlocBuilder<SearchCubit, SearchCubitState>(
-                      builder: (context, state) {
-                        return body(context, state);
-                      },
-                    ),
-                  ]
-                  .animate(interval: 150.ms)
-                  .fade(duration: 250.ms)
-                  .slide(begin: Offset(0, 0.3), duration: 200.ms),
-        );
-      },
+    return Column(
+      children:
+          [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: GeneralSizes.large,
+                    vertical: GeneralSizes.medium,
+                  ),
+                  child: CustomTextField(
+                    onFieldSubmitted: (value) {
+                      context.read<SearchCubit>().search(value);
+                    },
+                    hintText: 'ابحث عن حديث ',
+                    icon: Icons.search,
+                  ),
+                ),
+                BlocBuilder<SearchCubit, SearchCubitState>(
+                  builder: (context, state) {
+                    return body(context, state);
+                  },
+                ),
+              ]
+              .animate(interval: 150.ms)
+              .fade(duration: 250.ms)
+              .slide(begin: Offset(0, 0.3), duration: 200.ms),
     );
   }
 }

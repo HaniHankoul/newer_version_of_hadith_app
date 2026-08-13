@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith_app/app/core/app_theme.dart';
-import 'package:hadith_app/app/core/widgets/drawer/custom_drawer.dart';
-import 'package:hadith_app/app/core/widgets/custom_text.dart';
-import 'package:hadith_app/app/features/favourite/UI/favourite_screen.dart';
-import 'package:hadith_app/app/features/home/Logic/access_token_bloc/access_bloc.dart';
-import 'package:hadith_app/app/features/home/Logic/search_bloc/search_cubit.dart';
-import 'package:hadith_app/app/features/profile/UI/profile_screen.dart';
-import 'package:hadith_app/app/features/questions/UI/questions_screen.dart';
+import '../../../core/app_theme.dart';
 import '../../../core/navigation/UI/navigation_panel.dart';
 import '../../../core/navigation/logic/navigation_cubit.dart';
+import '../../../core/widgets/custom_text.dart';
+import '../../../core/widgets/drawer/custom_drawer.dart';
+import '../../favourite/UI/favourite_screen.dart';
+import '../../profile/UI/profile_screen.dart';
 import '../../profile/logic/profile_cubit.dart';
+import '../../questions/UI/questions_screen.dart';
 import '../../settings/UI/settings_screen.dart';
+import '../../settings/logic/setting_cubit.dart';
+import '../Logic/access_token_bloc/access_bloc.dart';
+import '../Logic/search_bloc/search_cubit.dart';
 import 'home_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -64,10 +65,14 @@ Widget body(NavigationState state) {
         child: HomeBody(),
       );
     case NavigationState.settings:
-      return BlocProvider(
-        create: (context) => AccessBloc()..getAccessToken(),
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => SettingCubit()..updateSetting()),
+          BlocProvider(create: (context) => AccessBloc()..getAccessToken()),
+        ],
         child: SettingsScreen(),
       );
+
     case NavigationState.profile:
       return BlocProvider(
         create: (context) => ProfileCubit()..updateProfile(),
