@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadith_app/app/features/profile/logic/profile_cubit_state.dart';
 
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
@@ -6,8 +7,8 @@ import '../../../../core/widgets/custom_text_field.dart';
 import '../../../auth/login/logic/login_cubit.dart';
 
 class ProfileFormInfo extends StatelessWidget {
-  const ProfileFormInfo({super.key});
-
+  const ProfileFormInfo({super.key, required this.state});
+  final ProfileCubitSuccess state;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +28,7 @@ class ProfileFormInfo extends StatelessWidget {
             vertical: GeneralSizes.small,
           ),
           child: CustomTextField(
-            hintText: loginResponseGlobal?.user.name ?? 'name',
+            hintText: state.profileResponse?.name ?? '',
             icon: Icons.person,
           ),
         ),
@@ -35,7 +36,7 @@ class ProfileFormInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: GeneralSizes.medium),
           child: CustomText(
-            text: loginResponseGlobal?.user.email ?? 'email',
+            text: 'تغيير البريد الإلكتروني',
             fontSize: 14,
             fontWeight: FontWeight.w700,
           ),
@@ -46,7 +47,7 @@ class ProfileFormInfo extends StatelessWidget {
             vertical: GeneralSizes.small,
           ),
           child: CustomTextField(
-            hintText: 'hani@example.com',
+            hintText: state.profileResponse?.email ?? '',
             icon: Icons.mail,
           ),
         ),
@@ -64,10 +65,7 @@ class ProfileFormInfo extends StatelessWidget {
             horizontal: GeneralSizes.medium,
             vertical: GeneralSizes.small,
           ),
-          child: CustomTextField(
-            hintText: '12/11/2002',
-            icon: Icons.date_range,
-          ),
+          child: CustomTextField(hintText: '', icon: Icons.date_range),
         ),
         verticalMediumSpacing(),
       ],
