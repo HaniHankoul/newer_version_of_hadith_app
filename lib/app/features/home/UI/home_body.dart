@@ -6,6 +6,7 @@ import 'package:hadith_app/app/features/home/Logic/access_token_bloc/access_bloc
 import '../../../core/app_theme.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
+import '../Logic/access_token_bloc/acces_states.dart';
 import '../Logic/search_bloc/search_cubit.dart';
 import '../Logic/search_bloc/search_cubit_state.dart';
 import 'widgets/container_element.dart';
@@ -19,8 +20,11 @@ class HomeBody extends StatelessWidget {
     return BlocBuilder<AccessBloc, AccessState>(
       builder: (context, state) {
         if (state is AccessLoading) {
-          return const CircularProgressIndicator();
+          return CircularProgressIndicator();
+        } else if (state is AccessError) {
+          return CustomText(text: state.errorMessage);
         }
+
         return Column(
           children:
               [
@@ -118,13 +122,6 @@ Widget body(BuildContext context, SearchCubitState state) {
                         },
                         icon: Icons.person,
                         title: "تراجم المحدثين",
-                      ),
-                      ContainerElement(
-                        onTap: () {
-                          context.push('/login');
-                        },
-                        icon: Icons.person,
-                        title: "temp",
                       ),
                     ]
                     .animate(interval: 230.ms)

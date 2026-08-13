@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/navigation/logic/navigation_cubit.dart';
 import 'package:hadith_app/app/core/widgets/drawer/drawer_button.dart';
+import 'package:hadith_app/app/features/home/Logic/access_token_bloc/acces_states.dart';
+import 'package:hadith_app/app/features/home/Logic/access_token_bloc/access_bloc.dart';
 
 import '../../app_theme.dart';
 import '../../helper/general_sizes.dart';
@@ -140,12 +142,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            CustomDrawerButton(
-              onTap: () {},
-              title: 'تسجيل الخروج ',
-              icon: Icons.door_back_door,
-              color: Colors.red,
-            ),
+
             verticalMediumSpacing(),
           ],
         ),
