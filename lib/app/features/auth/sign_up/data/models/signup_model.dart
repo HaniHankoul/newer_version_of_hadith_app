@@ -23,12 +23,14 @@ class Signupmodel {
   String toRawJson() => json.encode(toJson());
 
   factory Signupmodel.fromJson(Map<String, dynamic> json) => Signupmodel(
-    name: json["name"],
-    email: json["email"],
-    password: json["password"],
-    gender: json["gender"],
-    birthDate: DateTime.parse(json["birthDate"]),
-    avatarUrl: json["avatarUrl"] ?? "",
+    name: (json["name"] ?? '').toString(),
+    email: (json["email"] ?? '').toString(),
+    password: (json["password"] ?? '').toString(),
+    gender: (json["gender"] ?? '').toString(),
+    birthDate:
+        DateTime.tryParse((json["birthDate"] ?? '').toString()) ??
+        DateTime.now(),
+    avatarUrl: (json["avatarUrl"] ?? '').toString(),
   );
 
   Map<String, dynamic> toJson() => {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/helper/shared/shared_init.dart';
 import '../../../core/widgets/drawer/drawer_button.dart';
 import '../../home/Logic/access_token_bloc/acces_states.dart';
 import '../../home/Logic/access_token_bloc/access_bloc.dart';
@@ -26,7 +27,10 @@ class SettingsScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is AccessSuccess && state.token != null) {
                   return CustomDrawerButton(
-                    onTap: () {},
+                    onTap: () {
+                      AuthStorage.clearTokens();
+                      context.go('/login');
+                    },
                     title: 'تسجيل الخروج ',
                     icon: Icons.door_back_door,
                     color: Colors.red,

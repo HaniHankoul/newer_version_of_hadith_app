@@ -11,8 +11,8 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       final response = await ProfileRepo().getProfile();
       if (isClosed) return;
       emit(ProfileCubitSuccess(profileResponse: response));
-      print('ProfileCubit: profile loaded successfully: ${response?.name}');
     } catch (e) {
+      if (isClosed) return;
       emit(ProfileCubitError(e.toString()));
     }
   }

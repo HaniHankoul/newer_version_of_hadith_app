@@ -22,11 +22,13 @@ class Signupmodelresponse {
 
   factory Signupmodelresponse.fromJson(Map<String, dynamic> json) =>
       Signupmodelresponse(
-        accessToken: json["accessToken"],
-        refreshToken: json["refreshToken"],
-        tokenType: json["tokenType"],
-        expiresIn: json["expiresIn"],
-        user: User.fromJson(json["user"]),
+        accessToken: (json["accessToken"] ?? '').toString(),
+        refreshToken: (json["refreshToken"] ?? '').toString(),
+        tokenType: (json["tokenType"] ?? '').toString(),
+        expiresIn: (json["expiresIn"] is int)
+            ? json["expiresIn"] as int
+            : int.tryParse((json["expiresIn"] ?? '').toString()) ?? 0,
+        user: User.fromJson(Map<String, dynamic>.from(json["user"] ?? {})),
       );
 
   Map<String, dynamic> toJson() => {
@@ -64,14 +66,16 @@ class User {
   String toRawJson() => json.encode(toJson());
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    name: json["name"],
-    email: json["email"],
-    avatarUrl: json["avatarUrl"],
-    status: json["status"],
-    gender: json["gender"],
-    type: json["type"],
-    birthDate: DateTime.parse(json["birthDate"]),
+    id: (json["id"] ?? '').toString(),
+    name: (json["name"] ?? '').toString(),
+    email: (json["email"] ?? '').toString(),
+    avatarUrl: (json["avatarUrl"] ?? '').toString(),
+    status: (json["status"] ?? '').toString(),
+    gender: (json["gender"] ?? '').toString(),
+    type: (json["type"] ?? '').toString(),
+    birthDate:
+        DateTime.tryParse((json["birthDate"] ?? '').toString()) ??
+        DateTime.now(),
   );
 
   Map<String, dynamic> toJson() => {

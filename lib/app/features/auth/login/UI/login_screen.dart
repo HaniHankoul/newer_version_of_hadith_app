@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/core/navigation/logic/navigation_cubit.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/assets.dart';
@@ -38,7 +39,7 @@ class LoginScreen extends StatelessWidget {
               ),
             );
 
-            context.go('/');
+            context.go('/', extra: NavigationState.home);
           } else if (state is LoginError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error), backgroundColor: Colors.red),

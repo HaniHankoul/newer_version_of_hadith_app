@@ -1,24 +1,41 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith_app/app/features/auth/sign_up/UI/signup_screen.dart';
-import 'package:hadith_app/app/features/favourite/UI/favourite_screen.dart';
-import 'package:hadith_app/app/features/search/advanced_search/UI/advanced_search_screen.dart';
-import 'package:hadith_app/app/features/search/advanced_search/logic/advanced_search_cubit.dart';
-import 'package:hadith_app/app/features/translators/tellers/UI/tellers_screen.dart';
-
 import '../../features/auth/login/UI/login_screen.dart';
+import '../../features/auth/sign_up/UI/signup_screen.dart';
+import '../../features/favourite/UI/favourite_screen.dart';
 import '../../features/home/UI/home_screen.dart';
+import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
+import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
 import '../../features/translators/speakers/UI/speakers_screen.dart';
+import '../../features/translators/tellers/UI/tellers_screen.dart';
+import '../navigation/logic/navigation_cubit.dart';
 import '../widgets/detail_screen.dart';
 
-// GoRouter configuration
 final router = GoRouter(
   routes: [
-    GoRoute(path: '/', builder: (context, state) => HomeScreen()),
-    GoRoute(path: '/login', builder: (context, state) => LoginScreen()),
-    GoRoute(path: '/signUp', builder: (context, state) => SignupScreen()),
-    GoRoute(path: '/speakers', builder: (context, state) => SpeakersScreen()),
-    GoRoute(path: '/tellers', builder: (context, state) => TellersScreen()),
+    GoRoute(
+      path: '/',
+      builder: (context, state) {
+        final selectedState = state.extra is NavigationState
+            ? state.extra as NavigationState
+            : NavigationState.home;
+
+        final navCubit = context.read<NavigationCubit>();
+        navCubit.navigate(selectedState);
+
+        return const HomeScreen();
+      },
+    ),
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+    GoRoute(path: '/signUp', builder: (context, state) => const SignupScreen()),
+    GoRoute(
+      path: '/speakers',
+      builder: (context, state) => const SpeakersScreen(),
+    ),
+    GoRoute(
+      path: '/tellers',
+      builder: (context, state) => const TellersScreen(),
+    ),
     GoRoute(
       path: '/hadithDetail',
       builder: (context, state) {
@@ -30,12 +47,12 @@ final router = GoRouter(
       path: '/advancedSearch',
       builder: (context, state) => BlocProvider(
         create: (context) => AdvancedSearchCubit(),
-        child: AdvancedSearchScreen(),
+        child: const AdvancedSearchScreen(),
       ),
     ),
     GoRoute(
       path: '/favourites',
-      builder: (context, state) => FavouriteScreen(),
+      builder: (context, state) => const FavouriteScreen(),
     ),
   ],
 );

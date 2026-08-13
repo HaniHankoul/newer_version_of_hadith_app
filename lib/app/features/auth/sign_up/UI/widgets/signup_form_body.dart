@@ -1,81 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+
 import '../../../../../core/app_theme.dart';
 import '../../../../../core/helper/general_sizes.dart';
 import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../core/widgets/universal_container.dart';
+import '../../data/models/signup_model.dart';
+import '../../logic/signup_cubit.dart';
 
-class SignupFormBody extends StatefulWidget {
+class SignupFormBody extends StatelessWidget {
   const SignupFormBody({super.key});
 
-  @override
-  State<SignupFormBody> createState() => _SignupFormBodyState();
-}
-
-class _SignupFormBodyState extends State<SignupFormBody> {
-  final FormGroup form = FormGroup({
+  FormGroup get _signupForm => FormGroup({
     'username': FormControl<String>(
-      value: '',
       validators: [Validators.required, Validators.minLength(3)],
     ),
     'email': FormControl<String>(
-      value: '',
       validators: [Validators.required, Validators.email],
     ),
-    'gender': FormControl<String>(
-      value: '',
-      validators: [Validators.required],
-    ),
-    'birthdate': FormControl<String>(
-      value: '',
-      validators: [Validators.required],
-    ),
+    'gender': FormControl<String>(validators: [Validators.required]),
+    'birthdate': FormControl<String>(validators: [Validators.required]),
     'password': FormControl<String>(
-      value: '',
-      validators: [Validators.required, Validators.minLength(6)],
-    ),
-    'confirmPassword': FormControl<String>(
-      value: '',
       validators: [Validators.required, Validators.minLength(6)],
     ),
   });
 
-  void _signup() {
-    if (form.valid) {
-      final username = form.control('username').value;
-      final email = form.control('email').value;
-      final gender = form.control('gender').value;
-      final birthdate = form.control('birthdate').value;
-      final password = form.control('password').value;
-
-      print('اسم المستخدم: $username');
-      print('البريد الإلكتروني: $email');
-      print('الجنس: $gender');
-      print('تاريخ الميلاد: $birthdate');
-      print('كلمة المرور: $password');
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تم إنشاء الحساب بنجاح! 🎉'),
-          backgroundColor: Colors.green,
-        ),
-      );
+  void _submit(FormGroup form, BuildContext context) {
+    if (!form.valid) {
+      form.markAllAsTouched();
+      return;
     }
-  }
 
-  void _validatePasswordMatch() {
-    final password = form.control('password').value;
-    final confirmPassword = form.control('confirmPassword').value;
-    
-    if (password != null &&
-        confirmPassword != null &&
-        password.isNotEmpty &&
-        confirmPassword.isNotEmpty &&
-        password != confirmPassword) {
-      form.control('confirmPassword').setErrors({'mismatch': true});
-    } else {
-      form.control('confirmPassword').setErrors({});
+    final birthDateText = (form.control('birthdate').value ?? '')
+        .toString()
+        .trim();
+    final birthDate = DateTime.tryParse(birthDateText);
+
+    if (birthDate == null) {
+      form.control('birthdate').setErrors({'invalidDate': true});
+      return;
     }
+
+    final genderValue = (form.control('gender').value ?? '').toString();
+    final mappedGender = genderValue == 'ذكر'
+        ? 'male'
+        : genderValue == 'أنثى'
+        ? 'female'
+        : genderValue;
+
+    if (mappedGender != 'male' && mappedGender != 'female') {
+      form.control('gender').setErrors({'invalidGender': true});
+      return;
+    }
+
+    context.read<SignupCubit>().signup(
+      Signupmodel(
+        name: (form.control('username').value ?? '').toString().trim(),
+        email: (form.control('email').value ?? '').toString().trim(),
+        password: (form.control('password').value ?? '').toString(),
+        gender: mappedGender,
+        birthDate: birthDate,
+      ),
+    );
   }
 
   @override
@@ -89,17 +76,16 @@ class _SignupFormBodyState extends State<SignupFormBody> {
           borderColor: AppColors.primary,
           widthPortion: 0.8,
           child: ReactiveForm(
-            formGroup: form,
+            formGroup: _signupForm,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 verticalMediumSpacing(),
 
-                // حقل اسم المستخدم
                 Padding(
                   padding: const EdgeInsets.only(right: GeneralSizes.medium),
                   child: CustomText(
-                    text: ' اسم المستخدم ',
+                    text: 'اسم المستخدم',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
@@ -120,13 +106,16 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                           color: AppColors.primary,
                           fontFamily: "cairo",
                         ),
-                        prefixIcon: Icon(Icons.person, color: AppColors.primary),
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: AppColors.primary,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: AppColors.primary),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: AppColors.primary),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -145,19 +134,20 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                         fillColor: AppColors.primaryLight,
                       ),
                       validationMessages: {
-                        ValidationMessage.required: (_) => 'الرجاء إدخال اسم المستخدم',
-                        ValidationMessage.minLength: (_) => 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
+                        ValidationMessage.required: (_) =>
+                            'الرجاء إدخال اسم المستخدم',
+                        ValidationMessage.minLength: (_) =>
+                            'اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
                       },
                     ),
                   ),
                 ),
                 verticalSmallSpacing(),
 
-                // حقل البريد الإلكتروني
                 Padding(
                   padding: const EdgeInsets.only(right: GeneralSizes.medium),
                   child: CustomText(
-                    text: 'البريد الالكتروني ',
+                    text: 'البريد الالكتروني',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
@@ -185,7 +175,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                           borderSide: BorderSide(color: AppColors.primary),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: AppColors.primary),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -204,19 +194,82 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                         fillColor: AppColors.primaryLight,
                       ),
                       validationMessages: {
-                        ValidationMessage.required: (_) => 'الرجاء إدخال البريد الإلكتروني',
-                        ValidationMessage.email: (_) => 'الرجاء إدخال بريد إلكتروني صحيح',
+                        ValidationMessage.required: (_) =>
+                            'الرجاء إدخال البريد الإلكتروني',
+                        ValidationMessage.email: (_) =>
+                            'الرجاء إدخال بريد إلكتروني صحيح',
+                      },
+                    ),
+                  ),
+                ),
+                verticalSmallSpacing(),
+                Padding(
+                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
+                  child: CustomText(
+                    text: 'كلمة المرور',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: GeneralSizes.medium,
+                    vertical: GeneralSizes.small,
+                  ),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ReactiveTextField(
+                      formControlName: 'password',
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.zero,
+                        hintText: 'اكتب كلمة المرور',
+                        hintStyle: TextStyle(
+                          color: AppColors.primary,
+                          fontFamily: "cairo",
+                        ),
+                        prefixIcon: Icon(
+                          Icons.password,
+                          color: AppColors.primary,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppColors.primary),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppColors.primary),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppColors.primary),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Colors.red),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Colors.red),
+                        ),
+                        filled: true,
+                        fillColor: AppColors.primaryLight,
+                      ),
+                      validationMessages: {
+                        ValidationMessage.required: (_) =>
+                            'الرجاء إدخال كلمة المرور',
+                        ValidationMessage.minLength: (_) =>
+                            'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
                       },
                     ),
                   ),
                 ),
                 verticalSmallSpacing(),
 
-                // حقل الجنس - اختيار من خيارين
                 Padding(
                   padding: const EdgeInsets.only(right: GeneralSizes.medium),
                   child: CustomText(
-                    text: 'الجنس ',
+                    text: 'الجنس',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
@@ -238,7 +291,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                         Expanded(
                           child: ReactiveRadioListTile<String>(
                             formControlName: 'gender',
-                            value: 'ذكر',
+                            value: 'male',
                             title: const Text(
                               'ذكر',
                               style: TextStyle(
@@ -253,7 +306,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                         Expanded(
                           child: ReactiveRadioListTile<String>(
                             formControlName: 'gender',
-                            value: 'أنثى',
+                            value: 'female',
                             title: const Text(
                               'أنثى',
                               style: TextStyle(
@@ -271,11 +324,10 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                 ),
                 verticalSmallSpacing(),
 
-                // حقل تاريخ الميلاد - أصبح نص عادي
                 Padding(
                   padding: const EdgeInsets.only(right: GeneralSizes.medium),
                   child: CustomText(
-                    text: ' تاريخ الميلاد',
+                    text: 'تاريخ الميلاد',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
@@ -306,7 +358,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                           borderSide: BorderSide(color: AppColors.primary),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: AppColors.primary),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -325,171 +377,21 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                         fillColor: AppColors.primaryLight,
                       ),
                       validationMessages: {
-                        ValidationMessage.required: (_) => 'الرجاء إدخال تاريخ الميلاد',
+                        ValidationMessage.required: (_) =>
+                            'الرجاء إدخال تاريخ الميلاد',
                       },
                     ),
                   ),
                 ),
                 verticalSmallSpacing(),
 
-                // حقل كلمة المرور
-                Padding(
-                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
-                  child: CustomText(
-                    text: 'كلمة المرور',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.medium,
-                    vertical: GeneralSizes.small,
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
-                      formControlName: 'password',
-                      obscureText: true,
-                      onChanged: (_) => _validatePasswordMatch(),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'اكتب كلمة المرور',
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                          fontFamily: "cairo",
-                        ),
-                        prefixIcon: Icon(
-                          Icons.password,
-                          color: AppColors.primary,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.primaryLight,
-                      ),
-                      validationMessages: {
-                        ValidationMessage.required: (_) => 'الرجاء إدخال كلمة المرور',
-                        ValidationMessage.minLength: (_) => 'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
-                      },
-                    ),
-                  ),
-                ),
                 verticalSmallSpacing(),
 
-                // حقل تأكيد كلمة المرور
-                Padding(
-                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
-                  child: CustomText(
-                    text: 'تاكيد كلمة المرور',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.medium,
-                    vertical: GeneralSizes.small,
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
-                      formControlName: 'confirmPassword',
-                      obscureText: true,
-                      onChanged: (_) => _validatePasswordMatch(),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'اكتب كلمة المرور مرة أخرى',
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                          fontFamily: "cairo",
-                        ),
-                        prefixIcon: Icon(
-                          Icons.password,
-                          color: AppColors.primary,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.primaryLight,
-                      ),
-                      validationMessages: {
-                        ValidationMessage.required: (_) => 'الرجاء تأكيد كلمة المرور',
-                        ValidationMessage.minLength: (_) => 'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
-                      },
-                    ),
-                  ),
-                ),
-
-                // عرض رسالة عدم تطابق كلمة المرور
-                ReactiveFormConsumer(
-                  builder: (context, form, child) {
-                    final confirmPasswordControl = form.control('confirmPassword');
-                    if (confirmPasswordControl.hasError('mismatch') &&
-                        confirmPasswordControl.touched) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                          right: GeneralSizes.medium,
-                          top: 4,
-                        ),
-                        child: Text(
-                          'كلمة المرور غير متطابقة',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontFamily: "cairo",
-                          ),
-                        ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-
-                verticalSmallSpacing(),
-
-                // زر إنشاء الحساب
                 ReactiveFormConsumer(
                   builder: (context, form, child) {
                     return Center(
                       child: GestureDetector(
-                        onTap: form.valid ? _signup : null,
+                        onTap: form.valid ? () => _submit(form, context) : null,
                         child: Opacity(
                           opacity: form.valid ? 1.0 : 0.6,
                           child: Container(
@@ -497,7 +399,9 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                             height: 45,
                             decoration: BoxDecoration(
                               border: Border.all(color: AppColors.primary),
-                              borderRadius: BorderRadius.circular(borderRadiusS),
+                              borderRadius: BorderRadius.circular(
+                                borderRadiusS,
+                              ),
                               color: AppColors.primaryRich,
                             ),
                             child: Center(
