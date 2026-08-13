@@ -57,8 +57,7 @@ class QuestionsScreen extends StatelessWidget {
                           ),
                           verticalSmallSpacing(),
                           CustomText(
-                            text:
-                                'نص نصن صن صن صن نص نصن صن نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نصن صن نص نص ',
+                            text: 'السؤال الاول ',
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
                           ),

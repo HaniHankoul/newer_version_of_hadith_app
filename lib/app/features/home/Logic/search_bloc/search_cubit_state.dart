@@ -1,4 +1,4 @@
-import '../data/models/search_model.dart';
+import '../../data/models/search_model.dart';
 
 abstract class SearchCubitState {}
 

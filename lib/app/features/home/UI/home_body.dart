@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/features/home/Logic/access_token_bloc/access_bloc.dart';
 import '../../../core/app_theme.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
-import '../Logic/search_cubit.dart';
-import '../Logic/search_cubit_state.dart';
+import '../Logic/search_bloc/search_cubit.dart';
+import '../Logic/search_bloc/search_cubit_state.dart';
 import 'widgets/container_element.dart';
 import 'widgets/todays_hadith_header.dart';
 
@@ -15,58 +16,65 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children:
-          [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.large,
-                    vertical: GeneralSizes.medium,
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: TextFormField(
-                      onFieldSubmitted: (value) {
-                        context.read<SearchCubit>().search();
-                      },
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'ابحث عن حديث',
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                          fontFamily: "cairo",
+    return BlocBuilder<AccessBloc, AccessState>(
+      builder: (context, state) {
+        if (state is AccessLoading) {
+          return const CircularProgressIndicator();
+        }
+        return Column(
+          children:
+              [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GeneralSizes.large,
+                        vertical: GeneralSizes.medium,
+                      ),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextFormField(
+                          onFieldSubmitted: (value) {
+                            context.read<SearchCubit>().search();
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintText: 'ابحث عن حديث',
+                            hintStyle: TextStyle(
+                              color: AppColors.primary,
+                              fontFamily: "cairo",
+                            ),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: AppColors.primary,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
                         ),
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: AppColors.primary,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
                       ),
                     ),
-                  ),
-                ),
-                BlocBuilder<SearchCubit, SearchCubitState>(
-                  builder: (context, state) {
-                    return body(context, state);
-                  },
-                ),
-              ]
-              .animate(interval: 150.ms)
-              .fade(duration: 250.ms)
-              .slide(begin: Offset(0, 0.3), duration: 200.ms),
+                    BlocBuilder<SearchCubit, SearchCubitState>(
+                      builder: (context, state) {
+                        return body(context, state);
+                      },
+                    ),
+                  ]
+                  .animate(interval: 150.ms)
+                  .fade(duration: 250.ms)
+                  .slide(begin: Offset(0, 0.3), duration: 200.ms),
+        );
+      },
     );
   }
 }

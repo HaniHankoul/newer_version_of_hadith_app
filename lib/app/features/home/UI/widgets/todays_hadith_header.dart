@@ -51,7 +51,7 @@ class TodaysHadithHeader extends StatelessWidget {
                 color: AppColors.primaryRich,
                 textColor: AppColors.white,
                 borderColor: AppColors.primaryRich,
-                widthPortion: .25,
+                widthPortion: .28,
               ),
             ],
           ),

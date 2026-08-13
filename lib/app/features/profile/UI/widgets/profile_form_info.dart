@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../../auth/login/logic/login_cubit.dart';
 
 class ProfileFormInfo extends StatelessWidget {
   const ProfileFormInfo({super.key});
@@ -25,13 +26,16 @@ class ProfileFormInfo extends StatelessWidget {
             horizontal: GeneralSizes.medium,
             vertical: GeneralSizes.small,
           ),
-          child: CustomTextField(hintText: 'Hani Hankoul', icon: Icons.person),
+          child: CustomTextField(
+            hintText: loginResponseGlobal?.user.name ?? 'name',
+            icon: Icons.person,
+          ),
         ),
         verticalSmallSpacing(),
         Padding(
           padding: const EdgeInsets.only(right: GeneralSizes.medium),
           child: CustomText(
-            text: 'تغيير البريد الالكتروني ',
+            text: loginResponseGlobal?.user.email ?? 'email',
             fontSize: 14,
             fontWeight: FontWeight.w700,
           ),
