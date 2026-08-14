@@ -7,7 +7,7 @@ class QuestionsInitialState extends QuestionsStates {}
 class QuestionsLoadingState extends QuestionsStates {}
 
 class QuestionsSuccessState extends QuestionsStates {
-  final QuestionModelResponse questions;
+  final List<QuestionModelResponse> questions;
   QuestionsSuccessState(this.questions);
 }
 

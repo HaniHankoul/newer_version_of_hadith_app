@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hadith_app/app/core/widgets/universal_container.dart';
+import 'package:hadith_app/app/features/questions/data/models/questions_model_response.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 
 class QuestionHeaderSection extends StatelessWidget {
-  const QuestionHeaderSection({super.key});
-
+  const QuestionHeaderSection({super.key, required this.state});
+  final List<QuestionModelResponse> state;
   @override
   Widget build(BuildContext context) {
     return UniversalContainer(
@@ -64,7 +65,10 @@ class QuestionHeaderSection extends StatelessWidget {
                         ),
                       ),
                       CustomText(
-                        text: '0',
+                        text: state
+                            .where((question) => question.answerText != null)
+                            .length
+                            .toString(),
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
                       ),
@@ -97,7 +101,7 @@ class QuestionHeaderSection extends StatelessWidget {
                         ),
                       ),
                       CustomText(
-                        text: '1',
+                        text: state.length.toString(),
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
                         color: Colors.white,

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:hadith_app/app/features/questions/data/models/questions_model_response.dart';
 
 import '../../../../core/helper/shared/shared_init.dart';
+import '../models/questions_model_response.dart';
 
 class QuestionsRepo {
   final Dio _dio = Dio(
@@ -13,7 +13,24 @@ class QuestionsRepo {
     ),
   );
 
-  Future<QuestionModelResponse> getQuestions() async {
+  dynamic _extractQuestionPayload(dynamic data) {
+    if (data is Map) {
+      final map = Map<String, dynamic>.from(data);
+
+      if (map.containsKey('data')) return map['data'];
+      if (map.containsKey('question')) return map['question'];
+      if (map.containsKey('questions')) return map['questions'];
+      return map;
+    }
+
+    if (data is List && data.isNotEmpty) {
+      return data.first;
+    }
+
+    return data;
+  }
+
+  Future<List<QuestionModelResponse>> getQuestions() async {
     try {
       final token = await AuthStorage.getAccessToken();
 
@@ -26,62 +43,68 @@ class QuestionsRepo {
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
-      final data = response.data;
-
       if (response.statusCode == 200) {
-        // If backend returns: { "data": {...} }
-        final profileJson =
-            data is Map<String, dynamic> && data.containsKey('data')
-            ? data['data']
-            : data;
+        final data = response.data;
 
-        return QuestionModelResponse.fromJson(profileJson);
+        final items = data is Map && data['data'] is List
+            ? data['data'] as List
+            : data as List;
+
+        return items
+            .map(
+              (item) => QuestionModelResponse.fromJson(
+                Map<String, dynamic>.from(item),
+              ),
+            )
+            .toList();
       }
 
-      throw Exception(
-        data is Map<String, dynamic> && data['message'] != null
-            ? data['message'].toString()
-            : 'Failed to fetch questions',
-      );
+      throw Exception('Failed to fetch questions');
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.data is Map<String, dynamic> &&
-                e.response?.data['message'] != null
-            ? e.response!.data['message'].toString()
-            : e.message ?? 'question request failed',
-      );
-    } catch (e) {
-      throw Exception(e.toString());
+      throw Exception(e.message ?? 'Questions request failed');
     }
   }
 
   Future<QuestionModelResponse> sendMessage(String query) async {
     try {
-      final response = await _dio.post('/me/questions', data: {'query': query});
+      final token = await AuthStorage.getAccessToken();
 
-      final data = response.data;
+      if (token == null || token.isEmpty) {
+        throw Exception('No access token found');
+      }
 
-      if (response.statusCode == 200) {
-        // If backend returns: { "data": {...} }
-        final profileJson =
-            data is Map<String, dynamic> && data.containsKey('data')
-            ? data['data']
-            : data;
+      final response = await _dio.post(
+        '/me/questions',
+        data: {'query': query},
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
 
-        return QuestionModelResponse.fromJson(profileJson);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final payload = _extractQuestionPayload(response.data);
+
+        if (payload is Map<String, dynamic>) {
+          return QuestionModelResponse.fromJson(payload);
+        }
+
+        if (payload is Map) {
+          return QuestionModelResponse.fromJson(
+            Map<String, dynamic>.from(payload),
+          );
+        }
+
+        throw Exception('Unexpected response format: ${response.data}');
       }
 
       throw Exception(
-        data is Map<String, dynamic> && data['message'] != null
-            ? data['message'].toString()
-            : 'Failed to fetch questions',
+        response.data is Map && response.data['message'] != null
+            ? response.data['message'].toString()
+            : 'Failed to send question',
       );
     } on DioException catch (e) {
       throw Exception(
-        e.response?.data is Map<String, dynamic> &&
-                e.response?.data['message'] != null
+        e.response?.data is Map && e.response?.data['message'] != null
             ? e.response!.data['message'].toString()
-            : e.message ?? 'question request failed',
+            : e.message ?? 'Question send failed',
       );
     } catch (e) {
       throw Exception(e.toString());

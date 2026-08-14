@@ -4,9 +4,69 @@ import '../../../../core/app_theme.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/universal_button.dart';
+import '../../data/repo/questions_repo.dart';
 
-class DialogBody extends StatelessWidget {
+class DialogBody extends StatefulWidget {
   const DialogBody({super.key});
+
+  @override
+  State<DialogBody> createState() => _DialogBodyState();
+}
+
+class _DialogBodyState extends State<DialogBody> {
+  final TextEditingController _controller = TextEditingController();
+  bool _isLoading = false;
+  String? _message;
+
+  Future<void> _sendQuestion() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+
+    setState(() {
+      _isLoading = true;
+      _message = null;
+    });
+
+    try {
+      await QuestionsRepo().sendMessage(text);
+
+      if (!mounted) return;
+
+      setState(() {
+        _isLoading = false;
+        _message = 'تم ارسال سؤالك بنجاح';
+      });
+
+      Navigator.pop(context);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم ارسال سؤالك بنجاح'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _isLoading = false;
+        _message = e.toString();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(_message ?? 'حدث خطأ'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +86,7 @@ class DialogBody extends StatelessWidget {
                 ),
               ),
               CustomText(
-                text: 'اطرح سؤالك هنا  ',
+                text: 'اطرح سؤالك هنا',
                 fontWeight: FontWeight.w700,
                 fontSize: 16,
               ),
@@ -40,15 +100,16 @@ class DialogBody extends StatelessWidget {
         ],
       ),
       content: TextFormField(
+        controller: _controller,
         textDirection: TextDirection.rtl,
         maxLines: 5,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
-          hintText: 'اكتب سؤالك ',
+          hintText: 'اكتب سؤالك',
           hintTextDirection: TextDirection.rtl,
           hintStyle: TextStyle(
             color: AppColors.primary,
-            fontFamily: "cairo",
+            fontFamily: 'cairo',
             fontSize: 14,
           ),
           border: OutlineInputBorder(
@@ -68,18 +129,17 @@ class DialogBody extends StatelessWidget {
         ),
       ),
       actions: [
-        UniversalButton(
-          onTap: () {
-            // Handle question submission logic here
-            Navigator.pop(context);
-          },
-          title: 'إرسال',
-          color: AppColors.primaryRich,
-          textColor: Colors.black,
-          borderColor: AppColors.primaryRich,
-          icon: Icons.send,
-          widthPortion: .3,
-        ),
+        _isLoading
+            ? const CircularProgressIndicator()
+            : UniversalButton(
+                onTap: _sendQuestion,
+                title: 'إرسال',
+                color: AppColors.primaryRich,
+                textColor: Colors.black,
+                borderColor: AppColors.primaryRich,
+                icon: Icons.send,
+                widthPortion: .3,
+              ),
       ],
     );
   }
