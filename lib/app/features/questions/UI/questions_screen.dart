@@ -54,7 +54,10 @@ class QuestionsScreen extends StatelessWidget {
                 onTap: () {
                   showDialog(
                     context: context,
-                    builder: (context) => DialogBody(),
+                    builder: (context) => BlocProvider(
+                      create: (context) => QuestionsCubit(),
+                      child: DialogBody(),
+                    ),
                   );
                 },
                 title: 'اطرح سؤالك هنا',

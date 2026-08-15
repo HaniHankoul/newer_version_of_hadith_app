@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/universal_button.dart';
 import '../../data/repo/questions_repo.dart';
+import '../../logic/questions_cubit.dart';
 
 class DialogBody extends StatefulWidget {
   const DialogBody({super.key});
@@ -35,8 +37,8 @@ class _DialogBodyState extends State<DialogBody> {
       setState(() {
         _isLoading = false;
         _message = 'تم ارسال سؤالك بنجاح';
+        context.read<QuestionsCubit>().getQuestions();
       });
-
       Navigator.pop(context);
 
       ScaffoldMessenger.of(context).showSnackBar(

@@ -73,9 +73,14 @@ class QuestionsRepo {
         throw Exception('No access token found');
       }
 
+      final cleanQuery = query.trim();
+      if (cleanQuery.isEmpty) {
+        throw Exception('Question cannot be empty');
+      }
+
       final response = await _dio.post(
         '/me/questions',
-        data: {'query': query},
+        data: {'askerText': cleanQuery},
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
@@ -101,11 +106,62 @@ class QuestionsRepo {
             : 'Failed to send question',
       );
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.data is Map && e.response?.data['message'] != null
-            ? e.response!.data['message'].toString()
-            : e.message ?? 'Question send failed',
+      final errorMap = e.response?.data;
+
+      if (errorMap is Map) {
+        final message =
+            errorMap['message'] ?? errorMap['error'] ?? errorMap['errors'];
+        throw Exception(
+          message?.toString() ?? e.message ?? 'Question send failed',
+        );
+      }
+
+      throw Exception(e.message ?? 'Question send failed');
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<void> deleteQuestion(String questionId) async {
+    try {
+      final token = await AuthStorage.getAccessToken();
+
+      if (token == null || token.isEmpty) {
+        throw Exception('No access token found');
+      }
+
+      final id = questionId.trim();
+      if (id.isEmpty) {
+        throw Exception('Question id is required');
+      }
+
+      final response = await _dio.delete(
+        '/me/questions/$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return;
+      }
+
+      throw Exception(
+        response.data is Map && response.data['message'] != null
+            ? response.data['message'].toString()
+            : 'Failed to delete question',
+      );
+    } on DioException catch (e) {
+      final errorMap = e.response?.data;
+
+      if (errorMap is Map) {
+        final message =
+            errorMap['message'] ?? errorMap['error'] ?? errorMap['errors'];
+
+        throw Exception(
+          message?.toString() ?? e.message ?? 'Delete question failed',
+        );
+      }
+
+      throw Exception(e.message ?? 'Delete question failed');
     } catch (e) {
       throw Exception(e.toString());
     }
