@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toastification/toastification.dart';
 
 import 'app/core/navigation/logic/navigation_cubit.dart';
 import 'app/core/routing/app_route.dart';
@@ -21,9 +22,11 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => NavigationCubit(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: router,
+      child: ToastificationWrapper(
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          routerConfig: router,
+        ),
       ),
     );
   }

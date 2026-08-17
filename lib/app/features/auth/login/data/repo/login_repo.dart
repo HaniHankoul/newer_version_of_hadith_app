@@ -6,8 +6,8 @@ class LoginApiService {
   final dio = Dio(
     BaseOptions(
       baseUrl: "https://api.jamilhelal.me/api/v1",
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
       headers: {"Content-Type": "application/json"},
     ),
   );

@@ -14,6 +14,7 @@ class UniversalButton extends StatefulWidget {
     required this.borderColor,
     this.icon,
     this.bRadius,
+    this.isLoading = false,
   });
   final VoidCallback onTap;
   final double? widthPortion;
@@ -24,6 +25,7 @@ class UniversalButton extends StatefulWidget {
   final Color textColor;
   final Color borderColor;
   final double? bRadius;
+  final bool isLoading;
 
   @override
   State<UniversalButton> createState() => _UniversalButtonState();
@@ -43,6 +45,9 @@ class _UniversalButtonState extends State<UniversalButton> {
   }
 
   void _handleTap() {
+    if (widget.isLoading) {
+      return;
+    }
     widget.onTap();
     _setPressed(false);
   }
@@ -56,9 +61,9 @@ class _UniversalButtonState extends State<UniversalButton> {
       duration: const Duration(milliseconds: 120),
       curve: Curves.easeOut,
       child: InkWell(
-        onTap: _handleTap,
-        onTapDown: (_) => _setPressed(true),
-        onTapCancel: () => _setPressed(false),
+        onTap: widget.isLoading ? null : _handleTap,
+        onTapDown: widget.isLoading ? null : (_) => _setPressed(true),
+        onTapCancel: widget.isLoading ? null : () => _setPressed(false),
         borderRadius: BorderRadius.circular(widget.bRadius ?? borderRadiusL),
         child: Container(
           width: widget.widthPortion == null
@@ -80,15 +85,25 @@ class _UniversalButtonState extends State<UniversalButton> {
             mainAxisAlignment: MainAxisAlignment.center,
             textDirection: TextDirection.rtl,
             children: [
-              if (widget.icon != null)
+              if (widget.isLoading)
+                SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: widget.textColor,
+                  ),
+                )
+              else if (widget.icon != null)
                 Icon(widget.icon, size: 18, color: widget.textColor),
-              SizedBox(width: GeneralSizes.small + 3),
-              CustomText(
-                text: widget.title,
-                color: widget.textColor,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
+              if (!widget.isLoading) SizedBox(width: GeneralSizes.small + 3),
+              if (!widget.isLoading)
+                CustomText(
+                  text: widget.title,
+                  color: widget.textColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
             ],
           ),
         ),

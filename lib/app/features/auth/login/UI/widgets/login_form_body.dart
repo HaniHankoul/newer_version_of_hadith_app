@@ -8,33 +8,18 @@ import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../core/widgets/universal_container.dart';
 import '../../data/models/login_model.dart';
 import '../../logic/login_cubit.dart';
+import '../../logic/login_states.dart';
 import 'divider_stack.dart';
 
 class LoginFormBody extends StatelessWidget {
-  const LoginFormBody({super.key});
-
-  FormGroup get _loginForm => FormGroup({
-    'email': FormControl<String>(
-      validators: [Validators.required, Validators.email],
-    ),
-    'password': FormControl<String>(
-      validators: [Validators.required, Validators.minLength(6)],
-    ),
+  const LoginFormBody({
+    super.key,
+    required this.formGroup,
+    required this.onSubmit,
   });
 
-  void _login(FormGroup form, BuildContext context) {
-    if (!form.valid) {
-      form.markAllAsTouched();
-      return;
-    }
-
-    final email = (form.control('email').value ?? '').toString().trim();
-    final password = (form.control('password').value ?? '').toString();
-
-    context.read<LoginCubit>().login(
-      Loginmodel(email: email, password: password),
-    );
-  }
+  final FormGroup formGroup;
+  final VoidCallback onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +32,7 @@ class LoginFormBody extends StatelessWidget {
           borderColor: AppColors.primary,
           widthPortion: 0.8,
           child: ReactiveForm(
-            formGroup: _loginForm,
+            formGroup: formGroup,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -179,42 +164,55 @@ class LoginFormBody extends StatelessWidget {
                 DividerStack(),
                 verticalMediumSpacing(),
 
-                ReactiveFormConsumer(
-                  builder: (context, form, child) {
-                    return Center(
-                      child: GestureDetector(
-                        onTap: form.valid ? () => _login(form, context) : null,
-                        child: Opacity(
-                          opacity: form.valid ? 1.0 : 0.6,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.65,
-                            height: 45,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primary),
-                              borderRadius: BorderRadius.circular(
-                                borderRadiusS,
-                              ),
-                              color: AppColors.primaryRich,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.lock_open_rounded),
-                                horizontalMediumSpacing(),
-                                CustomText(
-                                  text: 'تسجيل الدخول',
-                                  color: AppColors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                // ReactiveFormConsumer(
+                //   builder: (context, form, child) {
+                //     final isLoading =
+                //         context.read<LoginCubit>().state is LoginLoading;
+                //     return Center(
+                //       child: GestureDetector(
+                //         onTap: form.valid && !isLoading ? onSubmit : null,
+                //         child: Opacity(
+                //           opacity: form.valid && !isLoading ? 1.0 : 0.6,
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width * 0.65,
+                //             height: 45,
+                //             decoration: BoxDecoration(
+                //               border: Border.all(color: AppColors.primary),
+                //               borderRadius: BorderRadius.circular(
+                //                 borderRadiusS,
+                //               ),
+                //               color: AppColors.primaryRich,
+                //             ),
+                //             child: isLoading
+                //                 ? Center(
+                //                     child: SizedBox(
+                //                       width: 20,
+                //                       height: 20,
+                //                       child: CircularProgressIndicator(
+                //                         strokeWidth: 2,
+                //                         color: AppColors.black,
+                //                       ),
+                //                     ),
+                //                   )
+                //                 : Row(
+                //                     mainAxisAlignment: MainAxisAlignment.center,
+                //                     children: [
+                //                       Icon(Icons.lock_open_rounded),
+                //                       horizontalMediumSpacing(),
+                //                       CustomText(
+                //                         text: 'تسجيل الدخول',
+                //                         color: AppColors.black,
+                //                         fontSize: 15,
+                //                         fontWeight: FontWeight.w700,
+                //                       ),
+                //                     ],
+                //                   ),
+                //           ),
+                //         ),
+                //       ),
+                //     );
+                //   },
+                // ),
                 verticalMediumSpacing(),
               ],
             ),

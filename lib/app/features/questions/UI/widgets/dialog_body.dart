@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../../../core/helper/constants.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/universal_button.dart';
@@ -41,12 +42,7 @@ class _DialogBodyState extends State<DialogBody> {
       });
       Navigator.pop(context);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('تم ارسال سؤالك بنجاح'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      Constants().successBar('تم ارسال سؤالك بنجاح');
     } catch (e) {
       if (!mounted) return;
 
