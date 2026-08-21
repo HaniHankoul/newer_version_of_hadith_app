@@ -15,7 +15,6 @@ class LoginApiService {
   Future<Loginmodelresponse> login(Loginmodel model) async {
     try {
       final response = await dio.post("/auth/login", data: model.toJson());
-      print(response.data);
       return Loginmodelresponse.fromJson(response.data);
     } on DioException catch (e) {
       throw Exception(e.response?.data ?? "Login failed");

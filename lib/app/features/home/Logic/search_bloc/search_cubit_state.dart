@@ -7,7 +7,7 @@ class SearchCubitInitial extends SearchCubitState {}
 class SearchCubitLoading extends SearchCubitState {}
 
 class SearchCubitSuccess extends SearchCubitState {
-  Searchmodel searchModel;
+  SearchModel searchModel;
   SearchCubitSuccess(this.searchModel);
 }
 

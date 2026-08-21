@@ -9,6 +9,7 @@ import 'package:hadith_app/app/features/profile/logic/profile_cubit_state.dart';
 
 import '../../../core/app_theme.dart';
 import '../../../core/helper/general_sizes.dart';
+import '../../../core/widgets/loading_card.dart';
 import '../../../core/widgets/universal_button.dart';
 import '../../../core/widgets/universal_container.dart';
 
@@ -20,9 +21,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocBuilder<ProfileCubit, ProfileCubitState>(
       builder: (context, state) {
         if (state is ProfileCubitLoading) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColors.primary),
-          );
+          return LoadingCard();
         }
         if (state is ProfileCubitSuccess) {
           return Padding(
@@ -67,7 +66,15 @@ class ProfileScreen extends StatelessWidget {
             ),
           );
         }
-        return CustomText(text: 'حدث خطأ أثناء جلب بيانات الملف الشخصي');
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Center(
+            child: CustomText(
+              text: 'سجل الدخول للوصول إلى الملف الشخصي',
+              color: Colors.black,
+            ),
+          ),
+        );
       },
     );
   }

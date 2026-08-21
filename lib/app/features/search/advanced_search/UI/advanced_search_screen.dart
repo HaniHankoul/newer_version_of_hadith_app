@@ -57,11 +57,9 @@ class AdvancedSearchScreen extends StatelessWidget {
                       ],
                     );
                   } else if (state is AdvancedSearchSuccess) {
-                    return Container(
-                      child: Text('bloc body state ${state.toString()}'),
-                    );
+                    return Text('bloc body state ${state.toString()}');
                   }
-                  return Container(child: Text('Cubit ${state.toString()}'));
+                  return Text('Cubit ${state.toString()}');
                 },
               ),
             ],

@@ -82,7 +82,7 @@ class _FilterGroupCard extends StatefulWidget {
 
 class _FilterGroupCardState extends State<_FilterGroupCard> {
   late final List<bool> _selected;
-  bool _isExpanded = false;
+  bool isExpanded = false;
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class _FilterGroupCardState extends State<_FilterGroupCard> {
           fontWeight: FontWeight.w500,
           fontSize: 16,
         ),
-        onExpansionChanged: (value) => setState(() => _isExpanded = value),
+        onExpansionChanged: (value) => setState(() => isExpanded = value),
         initiallyExpanded: false,
         children: [
           Column(

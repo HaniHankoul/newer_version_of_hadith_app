@@ -11,7 +11,6 @@ class QuestionsCubit extends Cubit<QuestionsStates> {
       final response = await QuestionsRepo().getQuestions();
       if (isClosed) return;
       emit(QuestionsSuccessState(response));
-      print('QuestionsCubit: Questions fetched successfully: } questions');
     } catch (e) {
       if (isClosed) return;
       emit(QuestionsErrorState(e.toString()));

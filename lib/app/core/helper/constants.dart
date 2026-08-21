@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:toastification/toastification.dart';
 
-import '../../features/questions/logic/questions_cubit.dart';
 
 class Constants {
   final String appName = "Hadith App";

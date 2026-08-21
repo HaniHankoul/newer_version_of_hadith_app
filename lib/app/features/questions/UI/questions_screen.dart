@@ -8,6 +8,7 @@ import 'package:hadith_app/app/core/widgets/universal_button.dart';
 import 'package:hadith_app/app/features/questions/UI/widgets/question_header_section.dart';
 import 'package:hadith_app/app/features/questions/logic/questions_cubit.dart';
 import 'package:hadith_app/app/features/questions/logic/questions_states.dart';
+import '../../../core/widgets/loading_card.dart';
 import 'widgets/dialog_body.dart';
 import 'widgets/question_card.dart';
 
@@ -19,7 +20,7 @@ class QuestionsScreen extends StatelessWidget {
     return BlocBuilder<QuestionsCubit, QuestionsStates>(
       builder: (context, state) {
         if (state is QuestionsLoadingState) {
-          return Center(child: CircularProgressIndicator());
+          return LoadingCard();
         } else if (state is QuestionsErrorState) {
           return Center(child: Text('Error: ${state.errorMessage}'));
         } else if (state is QuestionsSuccessState) {

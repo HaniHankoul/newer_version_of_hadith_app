@@ -24,7 +24,6 @@ class LoginCubit extends Cubit<LoginStates> {
         tokenType: login.tokenType,
       );
       emit(LoginSuccess(login));
-      print("success ${login.user.email} ${login.user.name} ${login.user.id}");
     } catch (e) {
       emit(LoginError(e.toString()));
     }
