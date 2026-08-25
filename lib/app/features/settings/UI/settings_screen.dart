@@ -5,10 +5,13 @@ import 'package:go_router/go_router.dart';
 import '../../../core/helper/shared/shared_init.dart';
 import '../../../core/widgets/drawer/drawer_button.dart';
 import '../../../core/widgets/loading_card.dart';
+import '../../../core/widgets/universal_container.dart';
 import '../../home/Logic/access_token_bloc/acces_states.dart';
 import '../../home/Logic/access_token_bloc/access_bloc.dart';
 import '../logic/setting_cubit.dart';
 import '../logic/setting_states.dart';
+import 'widgets/settings_tile.dart';
+import 'widgets/theme_card.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -26,23 +29,27 @@ class SettingsScreen extends StatelessWidget {
           children: [
             BlocBuilder<AccessBloc, AccessState>(
               builder: (context, state) {
-                if (state is AccessSuccess && state.token != null) {
-                  return CustomDrawerButton(
-                    onTap: () {
-                      AuthStorage.clearTokens();
-                      context.go('/login');
-                    },
-                    title: 'تسجيل الخروج ',
-                    icon: Icons.door_back_door,
-                    color: Colors.red,
-                  );
-                }
-                return CustomDrawerButton(
-                  onTap: () {
-                    context.push('/login');
-                  },
-                  title: 'تسجيل دخول',
-                  icon: Icons.door_back_door,
+                return Column(
+                  children: [
+                    ThemeCard(),
+                    state is AccessSuccess && state.token != null
+                        ? SettingsTile(
+                            onTap: () {
+                              AuthStorage.clearTokens();
+                              context.go('/login');
+                            },
+                            title: 'تسجيل خروج',
+                            icon: Icons.logout,
+                            color: Colors.red,
+                          )
+                        : CustomDrawerButton(
+                            onTap: () {
+                              context.push('/login');
+                            },
+                            title: 'تسجيل دخول',
+                            icon: Icons.door_back_door,
+                          ),
+                  ],
                 );
               },
             ),

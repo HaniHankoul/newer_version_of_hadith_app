@@ -32,13 +32,21 @@ const darkSurface = Color(0xFF393F60); // Deep Blue
 const darkText = Color(0xFFE0E6FF); // Soft Blue-Gray
 
 class AppColors {
+  static Color _primary = const Color(0xffC59653);
+  static Color _secondary = const Color(0xFFFAF1E6);
+
+  static void updateTheme({required Color primary, required Color secondary}) {
+    _primary = primary;
+    _secondary = secondary;
+  }
+
   // App theme colors
-  static const Color primary = Color(0xffC59653);
-  static const Color primaryLight = Color(0xFFFAF1E6);
-  static const Color primaryRich = Color(0xFFF9BC5D);
-  static const Color secondary = Color(0xffFFFFFF);
-  static const Color accent = Color(0xFFFFF1E1);
-  static const Color highlighted = Color(0xFFEBF6FA);
+  static Color get primary => _primary;
+  static Color get primaryLight => _secondary;
+  static Color get primaryRich => _primary;
+  static Color get secondary => _secondary;
+  static Color get accent => _secondary;
+  static Color get highlighted => _secondary;
   // Text colors
   static const Color textPrimary = Color(0xFF333333);
   static const Color textPrimaryDark = Color(0xff795C2C);
@@ -46,9 +54,9 @@ class AppColors {
   static const Color textWhite = Colors.white;
 
   // Background colors
-  static const Color light = Color(0xFFFAF1E6);
+  static Color get light => _secondary;
   static const Color dark = Color(0xFF272727);
-  static const Color primaryBackground = Color(0xFFFAF1E6);
+  static Color get primaryBackground => _secondary;
 
   // Background Container colors
   static const Color lightContainer = Color(0xFFF6F6F6);

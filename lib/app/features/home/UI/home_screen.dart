@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
               ),
               elevation: 0,
               centerTitle: true,
-              backgroundColor: Color(0xffFCF7F5),
+              backgroundColor: AppColors.primaryBackground,
               shape: RoundedRectangleBorder(),
             ),
           ),

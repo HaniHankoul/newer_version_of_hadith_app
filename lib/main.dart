@@ -5,6 +5,8 @@ import 'package:toastification/toastification.dart';
 
 import 'app/core/navigation/logic/navigation_cubit.dart';
 import 'app/core/routing/app_route.dart';
+import 'app/core/theme/logic/theme_cubit.dart';
+import 'app/core/theme/logic/theme_state.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,12 +22,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NavigationCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => NavigationCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
+      ],
       child: ToastificationWrapper(
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: router,
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerConfig: router,
+            );
+          },
         ),
       ),
     );
