@@ -19,4 +19,9 @@ class ThemeCubit extends Cubit<ThemeState> {
     AppColors.updateTheme(primary: state.primary, secondary: color);
     emit(state.copyWith(secondary: color));
   }
+
+  void applyTheme({required Color primary, required Color secondary}) {
+    AppColors.updateTheme(primary: primary, secondary: secondary);
+    emit(ThemeState(primary: primary, secondary: secondary));
+  }
 }

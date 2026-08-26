@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/core/navigation/logic/navigation_cubit.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/theme/logic/theme_cubit.dart';
@@ -146,20 +148,28 @@ class _ThemePickerSheet extends StatelessWidget {
                 onSelected: context.read<ThemeCubit>().selectSecondary,
               ),
               const SizedBox(height: 24),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: state.secondary,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  'هذا مثال على ألوان النص الحالية',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: state.primary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Cairo',
+              InkWell(
+                onTap: () {
+                  context.read<NavigationCubit>().navigate(
+                    NavigationState.home,
+                  );
+                  context.pop();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: state.secondary,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    'تأكيد',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: state.primary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Cairo',
+                    ),
                   ),
                 ),
               ),

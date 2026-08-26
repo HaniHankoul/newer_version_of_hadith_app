@@ -16,6 +16,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.3.0
   go_router: ^17.3.0
+  hugeicons: ^1.1.7
   lottie: ^3.3.3
   overlay_support: ^2.1.0
   reactive_forms: ^18.2.2

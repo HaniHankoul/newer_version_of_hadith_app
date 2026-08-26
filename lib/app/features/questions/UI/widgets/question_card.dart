@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith_app/app/core/widgets/universal_container.dart';
-import 'package:hadith_app/app/features/questions/data/models/questions_model_response.dart';
-import 'package:hadith_app/app/features/questions/data/repo/questions_repo.dart';
-import 'package:hadith_app/app/features/questions/logic/questions_cubit.dart';
-
 import '../../../../core/app_theme.dart';
+import '../../../../core/helper/constants.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/universal_button.dart';
+import '../../../../core/widgets/universal_container.dart';
+import '../../data/models/questions_model_response.dart';
+import '../../data/repo/questions_repo.dart';
+import '../../logic/questions_cubit.dart';
 
 class QuestionCard extends StatelessWidget {
   const QuestionCard({super.key, required this.question, required this.index});
@@ -33,16 +33,31 @@ class QuestionCard extends StatelessWidget {
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: AppColors.primaryLight,
-        title: const Text('حذف السؤال؟'),
-        content: const Text('هل أنت متأكد من حذف هذا السؤال؟'),
+        title: CustomText(
+          text: 'تأكيد الحذف',
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+        ),
+        content: CustomText(
+          text: 'هل أنت متأكد من حذف هذا السؤال؟',
+          fontSize: 13,
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('إلغاء'),
+            child: CustomText(
+              text: 'إلغاء',
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('حذف'),
+          UniversalButton(
+            widthPortion: .2,
+            onTap: () => Navigator.pop(dialogContext, true),
+            title: 'حذف',
+            color: AppColors.primary,
+            textColor: Colors.black,
+            borderColor: AppColors.primary,
           ),
         ],
       ),
@@ -57,18 +72,11 @@ class QuestionCard extends StatelessWidget {
 
       context.read<QuestionsCubit>().getQuestions();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تم حذف السؤال بنجاح'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      Constants().successBar('تم حذف السؤال');
     } catch (e) {
       if (!context.mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
-      );
+      Constants().errorBar('حدث خطأ');
     }
   }
 

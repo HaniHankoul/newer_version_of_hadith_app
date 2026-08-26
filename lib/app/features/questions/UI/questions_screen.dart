@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith_app/app/core/app_theme.dart';
-import 'package:hadith_app/app/core/helper/general_sizes.dart';
-import 'package:hadith_app/app/core/widgets/custom_text.dart';
-import 'package:hadith_app/app/core/widgets/universal_button.dart';
-import 'package:hadith_app/app/features/questions/UI/widgets/question_header_section.dart';
-import 'package:hadith_app/app/features/questions/logic/questions_cubit.dart';
-import 'package:hadith_app/app/features/questions/logic/questions_states.dart';
+import '../../../core/helper/general_sizes.dart';
+import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/loading_card.dart';
-import 'widgets/dialog_body.dart';
+import '../logic/questions_cubit.dart';
+import '../logic/questions_states.dart';
 import 'widgets/question_card.dart';
+import 'widgets/question_header_section.dart';
 
 class QuestionsScreen extends StatelessWidget {
   const QuestionsScreen({super.key});
@@ -49,23 +46,6 @@ class QuestionsScreen extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-              UniversalButton(
-                widthPortion: 0.65,
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => BlocProvider(
-                      create: (context) => QuestionsCubit(),
-                      child: DialogBody(),
-                    ),
-                  );
-                },
-                title: 'اطرح سؤالك هنا',
-                color: AppColors.primaryRich,
-                textColor: Colors.black,
-                borderColor: AppColors.primaryRich,
-                icon: Icons.view_list_outlined,
               ),
             ],
           );

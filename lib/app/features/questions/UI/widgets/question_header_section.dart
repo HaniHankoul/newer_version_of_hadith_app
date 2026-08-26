@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/widgets/universal_container.dart';
 import 'package:hadith_app/app/features/questions/data/models/questions_model_response.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
+import '../../../../core/widgets/universal_button.dart';
+import '../../logic/questions_cubit.dart';
+import 'dialog_body.dart';
 
 class QuestionHeaderSection extends StatelessWidget {
   const QuestionHeaderSection({super.key, required this.state});
@@ -27,7 +31,24 @@ class QuestionHeaderSection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomText(text: 'حالة الاسئلة', fontWeight: FontWeight.w700),
+                  UniversalButton(
+                    widthPortion: 0.3,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => BlocProvider(
+                          create: (context) => QuestionsCubit(),
+                          child: DialogBody(),
+                        ),
+                      );
+                    },
+                    title: 'اطرح سؤالك ',
+                    color: AppColors.primaryRich,
+                    textColor: Colors.black,
+                    borderColor: AppColors.primaryRich,
+                  ),
+                  Spacer(),
+                  CustomText(text: ' الاسئلة', fontWeight: FontWeight.w700),
                   horizontalMediumSpacing(),
                   CircleAvatar(
                     backgroundColor: AppColors.primary,
