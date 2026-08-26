@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
+import '../../../core/widgets/error_card.dart';
 import '../../../core/widgets/loading_card.dart';
 import '../logic/questions_cubit.dart';
 import '../logic/questions_states.dart';
@@ -19,7 +20,7 @@ class QuestionsScreen extends StatelessWidget {
         if (state is QuestionsLoadingState) {
           return LoadingCard();
         } else if (state is QuestionsErrorState) {
-          return Center(child: Text('Error: ${state.errorMessage}'));
+          return ErrorCard(message: state.errorMessage);
         } else if (state is QuestionsSuccessState) {
           return Column(
             children: [

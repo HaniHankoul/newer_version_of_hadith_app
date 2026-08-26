@@ -9,6 +9,7 @@ import 'package:hadith_app/app/features/profile/logic/profile_cubit_state.dart';
 
 import '../../../core/app_theme.dart';
 import '../../../core/helper/general_sizes.dart';
+import '../../../core/widgets/error_card.dart';
 import '../../../core/widgets/loading_card.dart';
 import '../../../core/widgets/universal_button.dart';
 import '../../../core/widgets/universal_container.dart';
@@ -22,6 +23,9 @@ class ProfileScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is ProfileCubitLoading) {
           return LoadingCard();
+        }
+        if (state is ProfileCubitError) {
+          return ErrorCard(message: 'عذرا حدث خطا ما');
         }
         if (state is ProfileCubitSuccess) {
           return Padding(

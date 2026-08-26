@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/widgets/custom_text_field.dart';
+import 'package:hugeicons/hugeicons.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../Logic/search_bloc/search_cubit.dart';
@@ -28,7 +29,7 @@ class HomeBody extends StatelessWidget {
                       context.read<SearchCubit>().search(value);
                     },
                     hintText: 'ابحث عن حديث ',
-                    icon: Icons.search,
+                    icon: HugeIcons.strokeRoundedSearch01,
                   ),
                 ),
                 BlocBuilder<SearchCubit, SearchCubitState>(
@@ -62,26 +63,27 @@ Widget body(BuildContext context, SearchCubitState state) {
                 [
                       ContainerElement(
                         onTap: () {},
-                        icon: Icons.people,
+                        icon: HugeIcons.strokeRoundedAlert01,
                         title: "احاديث منتشرة لا تصح",
                       ),
                       ContainerElement(
                         onTap: () {},
-                        icon: Icons.people,
+                        icon: HugeIcons.strokeRoundedBook01,
+
                         title: "الكتب و المصادر",
                       ),
                       ContainerElement(
                         onTap: () {
                           context.push('/tellers');
                         },
-                        icon: Icons.people,
+                        icon: HugeIcons.strokeRoundedUser,
                         title: "تراجم الرواة",
                       ),
                       ContainerElement(
                         onTap: () {
                           context.push('/speakers');
                         },
-                        icon: Icons.person,
+                        icon: HugeIcons.strokeRoundedBook04,
                         title: "تراجم المحدثين",
                       ),
                     ]

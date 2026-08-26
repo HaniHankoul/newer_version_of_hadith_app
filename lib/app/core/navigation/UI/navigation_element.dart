@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../app_theme.dart';
 import '../../helper/general_sizes.dart';
@@ -11,7 +12,7 @@ class NavigationElements extends StatelessWidget {
   NavigationState index;
   NavigationState state;
   String title;
-  IconData icon;
+  List<List<dynamic>> icon;
   NavigationElements({
     required this.index,
     required this.state,
@@ -26,26 +27,25 @@ class NavigationElements extends StatelessWidget {
       onTap: () {
         context.read<NavigationCubit>().navigate(index);
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: state == index ? 80 : 60,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: state == index ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(borderRadiusL + 6),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: Column(
             children: [
-              CircleAvatar(
-                backgroundColor: state == index ? AppColors.white : transparent,
-                radius: 15,
-                child: Icon(
-                  icon,
-                  color: state == index ? AppColors.primary : AppColors.black,
-                ),
+              HugeIcon(
+                icon: icon,
+                size: 23,
+                color: state == index ? AppColors.white : AppColors.black,
               ),
               CustomText(
                 text: title,
-                color: state == index ? AppColors.primary : AppColors.black,
+                color: state == index ? AppColors.white : AppColors.black,
                 fontSize: 15,
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/core/widgets/error_card.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../../../core/app_theme.dart';
@@ -24,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
         if (state is SettingLoading) {
           return LoadingCard();
         } else if (state is SettingError) {
-          return Center(child: Text(state.errorMessage));
+          return ErrorCard(message: state.errorMessage);
         }
         return Column(
           children: [
@@ -49,7 +50,7 @@ class SettingsScreen extends StatelessWidget {
                           showDragHandle: true,
                           backgroundColor: AppColors.secondary,
                           builder: (context) {
-                            return Container(
+                            return SizedBox(
                               height: 200,
                               child: Center(
                                 child: Text('Content for bottom sheet'),

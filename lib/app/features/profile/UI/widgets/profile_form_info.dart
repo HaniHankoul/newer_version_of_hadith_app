@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith_app/app/features/profile/logic/profile_cubit_state.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
@@ -28,7 +29,7 @@ class ProfileFormInfo extends StatelessWidget {
           ),
           child: CustomTextField(
             hintText: state.profileResponse?.name ?? '',
-            icon: Icons.person,
+            icon: HugeIcons.strokeRoundedUser02,
           ),
         ),
         verticalSmallSpacing(),
@@ -47,7 +48,7 @@ class ProfileFormInfo extends StatelessWidget {
           ),
           child: CustomTextField(
             hintText: state.profileResponse?.email ?? '',
-            icon: Icons.mail,
+            icon: HugeIcons.strokeRoundedMail01,
           ),
         ),
         verticalSmallSpacing(),
@@ -69,7 +70,7 @@ class ProfileFormInfo extends StatelessWidget {
                 '${state.profileResponse!.birthDate?.year.toString()}'
                 '-${state.profileResponse!.birthDate?.month.toString().padLeft(2, '0')}'
                 '-${state.profileResponse!.birthDate?.day.toString().padLeft(2, '0')}',
-            icon: Icons.date_range,
+            icon: HugeIcons.strokeRoundedDateTime,
           ),
         ),
         verticalMediumSpacing(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../app_theme.dart';
 import '../../helper/general_sizes.dart';
@@ -102,7 +103,7 @@ class CustomDrawer extends StatelessWidget {
                         context.push('/advancedSearch');
                       },
                       title: 'البحث المتقدم ',
-                      icon: Icons.search,
+                      icon: HugeIcons.strokeRoundedSearch02,
                     ),
                     CustomDrawerButton(
                       onTap: () {
@@ -112,7 +113,7 @@ class CustomDrawer extends StatelessWidget {
                         context.pop(context);
                       },
                       title: 'قائمة المفضلة ',
-                      icon: Icons.bookmark,
+                      icon: HugeIcons.strokeRoundedFavourite,
                     ),
                     CustomDrawerButton(
                       onTap: () {
@@ -122,19 +123,19 @@ class CustomDrawer extends StatelessWidget {
                         context.pop(context);
                       },
                       title: 'قائمة الاسئلة ',
-                      icon: Icons.question_answer_outlined,
+                      icon: HugeIcons.strokeRoundedUserQuestion02,
                     ),
                     CustomDrawerButton(
                       onTap: () {
                         context.push('/hadithDetail', extra: 'حديث اليوم');
                       },
                       title: 'حديث اليوم ',
-                      icon: Icons.menu_book_sharp,
+                      icon: HugeIcons.strokeRoundedBookBookmark01,
                     ),
                     CustomDrawerButton(
                       onTap: () {},
                       title: 'طلب الترقية ',
-                      icon: Icons.badge_outlined,
+                      icon: HugeIcons.strokeRoundedFileQuestionMark,
                     ),
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../logic/navigation_cubit.dart';
 import 'navigation_element.dart';
@@ -33,31 +34,31 @@ class NavigationPanel extends StatelessWidget {
                   index: NavigationState.profile,
                   state: state,
                   title: 'ملفي',
-                  icon: Icons.person,
+                  icon: HugeIcons.strokeRoundedUserCircle,
                 ),
                 NavigationElements(
                   index: NavigationState.favourites,
                   state: state,
                   title: 'المفضلة',
-                  icon: Icons.bookmark,
+                  icon: HugeIcons.strokeRoundedFavourite,
                 ),
                 NavigationElements(
                   index: NavigationState.home,
                   state: state,
                   title: 'الرئيسية',
-                  icon: Icons.home,
+                  icon: HugeIcons.strokeRoundedHome07,
                 ),
                 NavigationElements(
                   index: NavigationState.questions,
                   state: state,
                   title: 'الأسئلة',
-                  icon: Icons.question_answer,
+                  icon: HugeIcons.strokeRoundedChatQuestion01,
                 ),
                 NavigationElements(
                   index: NavigationState.settings,
                   state: state,
                   title: 'الإعدادات',
-                  icon: Icons.settings,
+                  icon: HugeIcons.strokeRoundedSetting07,
                 ),
               ],
             ),

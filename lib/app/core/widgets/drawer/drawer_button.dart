@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../app_theme.dart';
 import '../../helper/general_sizes.dart';
@@ -14,7 +15,7 @@ class CustomDrawerButton extends StatelessWidget {
   });
   final VoidCallback onTap;
   final String title;
-  final IconData icon;
+  final List<List<dynamic>> icon;
   final Color? color;
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class CustomDrawerButton extends StatelessWidget {
           child: Row(
             textDirection: TextDirection.rtl,
             children: [
-              Icon(icon, color: color ?? AppColors.primary),
+              HugeIcon(icon: icon, size: 20, color: color ?? AppColors.primary),
               horizontalMediumSpacing(),
               CustomText(
                 text: title,

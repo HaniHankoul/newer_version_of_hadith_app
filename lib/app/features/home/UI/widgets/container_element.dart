@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/general_sizes.dart';
@@ -12,7 +13,7 @@ class ContainerElement extends StatelessWidget {
     required this.onTap,
   });
   final VoidCallback onTap;
-  final IconData icon;
+  final List<List<dynamic>> icon;
   final String title;
 
   @override
@@ -37,7 +38,7 @@ class ContainerElement extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               backgroundColor: AppColors.primaryLight.withAlpha(500),
-              child: Icon(icon, size: 28, color: AppColors.primary),
+              child: HugeIcon(icon: icon, size: 30, color: AppColors.primary),
             ),
             CustomText(text: title, fontSize: 15, fontWeight: FontWeight.w700),
           ],

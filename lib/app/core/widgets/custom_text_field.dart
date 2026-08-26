@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../app_theme.dart';
 
@@ -11,7 +12,7 @@ class CustomTextField extends StatelessWidget {
   });
   final Function(String)? onFieldSubmitted;
   final String hintText;
-  final IconData icon;
+  final List<List<dynamic>> icon;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,12 @@ class CustomTextField extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           hintText: hintText,
           hintStyle: TextStyle(color: AppColors.primary, fontFamily: "cairo"),
-          prefixIcon: Icon(icon, color: AppColors.primary),
+          prefixIcon: SizedBox(
+            width: 40,
+            height: 25,
+            child: HugeIcon(icon: icon, size: 20, color: AppColors.primary),
+          ),
+          prefixIconConstraints: BoxConstraints(maxHeight: 30, maxWidth: 50),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: AppColors.primary),
