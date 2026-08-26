@@ -7,7 +7,8 @@ import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/drawer/custom_drawer.dart';
 import '../../favourite/UI/favourite_screen.dart';
 import '../../profile/UI/profile_screen.dart';
-import '../../profile/logic/profile_cubit.dart';
+import '../../profile/logic/avatar/avatar_cubit.dart';
+import '../../profile/logic/profile/profile_cubit.dart';
 import '../../questions/UI/questions_screen.dart';
 import '../../questions/logic/questions_cubit.dart';
 import '../../settings/UI/settings_screen.dart';
@@ -75,8 +76,11 @@ Widget body(NavigationState state) {
       );
 
     case NavigationState.profile:
-      return BlocProvider(
-        create: (context) => ProfileCubit()..updateProfile(),
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => ProfileCubit()..updateProfile()),
+          BlocProvider(create: (context) => AvatarCubit()),
+        ],
         child: ProfileScreen(),
       );
     case NavigationState.questions:

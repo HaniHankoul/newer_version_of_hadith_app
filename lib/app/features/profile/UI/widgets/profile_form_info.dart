@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith_app/app/features/profile/logic/profile_cubit_state.dart';
+import 'package:hadith_app/app/features/profile/logic/profile/profile_cubit_state.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../../../../core/helper/general_sizes.dart';

@@ -37,7 +37,7 @@ class ThemeCard extends StatelessWidget {
         return GestureDetector(
           onTap: () => _showThemeSheet(context),
           child: UniversalContainer(
-            heightPortion: .18,
+            heightPortion: .25,
             widthPortion: .9,
             child: Padding(
               padding: const EdgeInsets.all(16),

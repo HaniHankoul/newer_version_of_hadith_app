@@ -57,7 +57,7 @@ class NavigationPanel extends StatelessWidget {
                 NavigationElements(
                   index: NavigationState.settings,
                   state: state,
-                  title: 'الإعدادات',
+                  title: 'إعدادات',
                   icon: HugeIcons.strokeRoundedSetting07,
                 ),
               ],

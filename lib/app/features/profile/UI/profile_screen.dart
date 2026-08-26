@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/profile/UI/widgets/profile_form_info.dart';
 import 'package:hadith_app/app/features/profile/UI/widgets/profile_header.dart';
-import 'package:hadith_app/app/features/profile/logic/profile_cubit.dart';
-import 'package:hadith_app/app/features/profile/logic/profile_cubit_state.dart';
+import 'package:hadith_app/app/features/profile/logic/profile/profile_cubit.dart';
+import 'package:hadith_app/app/features/profile/logic/profile/profile_cubit_state.dart';
 
 import '../../../core/app_theme.dart';
 import '../../../core/helper/general_sizes.dart';
@@ -41,7 +41,9 @@ class ProfileScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                ProfileHeader(),
+                                ProfileHeader(
+                                  avatarUrl: state.profileResponse?.avatarUrl,
+                                ),
                                 verticalLargeSpacing(),
                                 ProfileFormInfo(state: state),
                               ],

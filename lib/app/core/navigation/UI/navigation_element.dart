@@ -29,10 +29,10 @@ class NavigationElements extends StatelessWidget {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        width: state == index ? 80 : 60,
+        width: state == index ? 70 : 55,
         decoration: BoxDecoration(
           color: state == index ? AppColors.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(borderRadiusL + 6),
+          borderRadius: BorderRadius.circular(borderRadiusL),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),
