@@ -8,6 +8,7 @@ import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../Logic/search_bloc/search_cubit.dart';
 import '../Logic/search_bloc/search_cubit_state.dart';
+import '../data/models/search_query_model.dart';
 import 'widgets/container_element.dart';
 import 'widgets/todays_hadith_header.dart';
 
@@ -26,7 +27,16 @@ class HomeBody extends StatelessWidget {
                   ),
                   child: CustomTextField(
                     onFieldSubmitted: (value) {
-                      context.read<SearchCubit>().search(value);
+                      context.read<SearchCubit>().search(
+                        SearchBodyModel(
+                          query: value,
+                          sort: 'RELEVANCE',
+                          mode: 'EXACT',
+                          page: 1,
+                          size: 10,
+                          includeExplanation: false,
+                        ),
+                      );
                     },
                     hintText: 'ابحث عن حديث ',
                     icon: HugeIcons.strokeRoundedSearch01,
@@ -100,7 +110,7 @@ Widget body(BuildContext context, SearchCubitState state) {
     case SearchCubitLoading():
       return CircularProgressIndicator();
     case SearchCubitSuccess():
-      return CustomText(text: 'sad');
+      return CustomText(text: state.searchModel.toString());
     case SearchCubitError():
       return CustomText(text: state.errorMessage);
     default:
