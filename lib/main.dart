@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'app/core/navigation/logic/navigation_cubit.dart';
 import 'app/core/routing/app_route.dart';
@@ -14,6 +16,8 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  await initializeDateFormatting('ar');
   runApp(const MainApp());
 }
 
@@ -33,6 +37,15 @@ class MainApp extends StatelessWidget {
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
               routerConfig: router,
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('ar', 'SY'),
+                Locale('en', 'US'),
+              ],
             );
           },
         ),

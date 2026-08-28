@@ -103,7 +103,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      const SignupFormBody(),
+                       SignupFormBody(),
                       verticalLargeSpacing(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

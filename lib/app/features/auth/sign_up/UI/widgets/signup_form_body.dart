@@ -10,7 +10,7 @@ import '../../data/models/signup_model.dart';
 import '../../logic/signup_cubit.dart';
 
 class SignupFormBody extends StatelessWidget {
-  const SignupFormBody({super.key});
+   SignupFormBody({super.key});
 
   FormGroup get _signupForm => FormGroup({
     'username': FormControl<String>(
@@ -65,6 +65,39 @@ class SignupFormBody extends StatelessWidget {
     );
   }
 
+  Future<void> _selectDate(BuildContext context, FormControl<String> control) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      locale: const Locale('ar', 'SY'),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF2A4A5C),
+              onPrimary: Colors.white,
+              onSurface: Color(0xFF2A4A5C),
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: const Color(0xFF2A4A5C),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      final formattedDate = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+      control.value = formattedDate;
+      control.markAsTouched();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -77,349 +110,373 @@ class SignupFormBody extends StatelessWidget {
           widthPortion: 0.8,
           child: ReactiveForm(
             formGroup: _signupForm,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                verticalMediumSpacing(),
+            child: Builder(
+              builder: (formContext) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    verticalMediumSpacing(),
 
-                Padding(
-                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
-                  child: CustomText(
-                    text: 'اسم المستخدم',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.medium,
-                    vertical: GeneralSizes.small,
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
-                      formControlName: 'username',
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'اكتب اسمك',
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                          fontFamily: "cairo",
-                        ),
-                        prefixIcon: Icon(
-                          Icons.person,
-                          color: AppColors.primary,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.primaryLight,
+                    // اسم المستخدم
+                    Padding(
+                      padding: const EdgeInsets.only(right: GeneralSizes.medium),
+                      child: CustomText(
+                        text: 'اسم المستخدم',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                       ),
-                      validationMessages: {
-                        ValidationMessage.required: (_) =>
-                            'الرجاء إدخال اسم المستخدم',
-                        ValidationMessage.minLength: (_) =>
-                            'اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
-                      },
                     ),
-                  ),
-                ),
-                verticalSmallSpacing(),
-
-                Padding(
-                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
-                  child: CustomText(
-                    text: 'البريد الالكتروني',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.medium,
-                    vertical: GeneralSizes.small,
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
-                      formControlName: 'email',
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'اكتب بريدك',
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                          fontFamily: "cairo",
-                        ),
-                        prefixIcon: Icon(Icons.email, color: AppColors.primary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.primaryLight,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GeneralSizes.medium,
+                        vertical: GeneralSizes.small,
                       ),
-                      validationMessages: {
-                        ValidationMessage.required: (_) =>
-                            'الرجاء إدخال البريد الإلكتروني',
-                        ValidationMessage.email: (_) =>
-                            'الرجاء إدخال بريد إلكتروني صحيح',
-                      },
-                    ),
-                  ),
-                ),
-                verticalSmallSpacing(),
-                Padding(
-                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
-                  child: CustomText(
-                    text: 'كلمة المرور',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.medium,
-                    vertical: GeneralSizes.small,
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
-                      formControlName: 'password',
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'اكتب كلمة المرور',
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                          fontFamily: "cairo",
-                        ),
-                        prefixIcon: Icon(
-                          Icons.password,
-                          color: AppColors.primary,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.primaryLight,
-                      ),
-                      validationMessages: {
-                        ValidationMessage.required: (_) =>
-                            'الرجاء إدخال كلمة المرور',
-                        ValidationMessage.minLength: (_) =>
-                            'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
-                      },
-                    ),
-                  ),
-                ),
-                verticalSmallSpacing(),
-
-                Padding(
-                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
-                  child: CustomText(
-                    text: 'الجنس',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.medium,
-                    vertical: GeneralSizes.small,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary),
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.primaryLight,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ReactiveRadioListTile<String>(
-                            formControlName: 'gender',
-                            value: 'male',
-                            title: const Text(
-                              'ذكر',
-                              style: TextStyle(
-                                fontFamily: "cairo",
-                                fontSize: 16,
-                              ),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ReactiveTextField(
+                          formControlName: 'username',
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintText: 'اكتب اسمك',
+                            hintStyle: TextStyle(
+                              color: AppColors.primary,
+                              fontFamily: "cairo",
                             ),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            activeColor: AppColors.primary,
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: AppColors.primary,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            filled: true,
+                            fillColor: AppColors.primaryLight,
                           ),
+                          validationMessages: {
+                            ValidationMessage.required: (_) =>
+                                'الرجاء إدخال اسم المستخدم',
+                            ValidationMessage.minLength: (_) =>
+                                'اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
+                          },
                         ),
-                        Expanded(
-                          child: ReactiveRadioListTile<String>(
-                            formControlName: 'gender',
-                            value: 'female',
-                            title: const Text(
-                              'أنثى',
-                              style: TextStyle(
-                                fontFamily: "cairo",
-                                fontSize: 16,
+                      ),
+                    ),
+                    verticalSmallSpacing(),
+
+                    // البريد الالكتروني
+                    Padding(
+                      padding: const EdgeInsets.only(right: GeneralSizes.medium),
+                      child: CustomText(
+                        text: 'البريد الالكتروني',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GeneralSizes.medium,
+                        vertical: GeneralSizes.small,
+                      ),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ReactiveTextField(
+                          formControlName: 'email',
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintText: 'اكتب بريدك',
+                            hintStyle: TextStyle(
+                              color: AppColors.primary,
+                              fontFamily: "cairo",
+                            ),
+                            prefixIcon: Icon(Icons.email, color: AppColors.primary),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            filled: true,
+                            fillColor: AppColors.primaryLight,
+                          ),
+                          validationMessages: {
+                            ValidationMessage.required: (_) =>
+                                'الرجاء إدخال البريد الإلكتروني',
+                            ValidationMessage.email: (_) =>
+                                'الرجاء إدخال بريد إلكتروني صحيح',
+                          },
+                        ),
+                      ),
+                    ),
+                    verticalSmallSpacing(),
+
+                    // كلمة المرور
+                    Padding(
+                      padding: const EdgeInsets.only(right: GeneralSizes.medium),
+                      child: CustomText(
+                        text: 'كلمة المرور',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GeneralSizes.medium,
+                        vertical: GeneralSizes.small,
+                      ),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ReactiveTextField(
+                          formControlName: 'password',
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintText: 'اكتب كلمة المرور',
+                            hintStyle: TextStyle(
+                              color: AppColors.primary,
+                              fontFamily: "cairo",
+                            ),
+                            prefixIcon: Icon(
+                              Icons.password,
+                              color: AppColors.primary,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.primary),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            filled: true,
+                            fillColor: AppColors.primaryLight,
+                          ),
+                          validationMessages: {
+                            ValidationMessage.required: (_) =>
+                                'الرجاء إدخال كلمة المرور',
+                            ValidationMessage.minLength: (_) =>
+                                'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
+                          },
+                        ),
+                      ),
+                    ),
+                    verticalSmallSpacing(),
+
+                    // الجنس
+                    Padding(
+                      padding: const EdgeInsets.only(right: GeneralSizes.medium),
+                      child: CustomText(
+                        text: 'الجنس',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GeneralSizes.medium,
+                        vertical: GeneralSizes.small,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.primary),
+                          borderRadius: BorderRadius.circular(12),
+                          color: AppColors.primaryLight,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ReactiveRadioListTile<String>(
+                                formControlName: 'gender',
+                                value: 'male',
+                                title: const Text(
+                                  'ذكر',
+                                  style: TextStyle(
+                                    fontFamily: "cairo",
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                controlAffinity: ListTileControlAffinity.leading,
+                                activeColor: AppColors.primary,
                               ),
                             ),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            activeColor: AppColors.primary,
-                          ),
+                            Expanded(
+                              child: ReactiveRadioListTile<String>(
+                                formControlName: 'gender',
+                                value: 'female',
+                                title: const Text(
+                                  'أنثى',
+                                  style: TextStyle(
+                                    fontFamily: "cairo",
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                controlAffinity: ListTileControlAffinity.leading,
+                                activeColor: AppColors.primary,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                verticalSmallSpacing(),
-
-                Padding(
-                  padding: const EdgeInsets.only(right: GeneralSizes.medium),
-                  child: CustomText(
-                    text: 'تاريخ الميلاد',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.medium,
-                    vertical: GeneralSizes.small,
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
-                      formControlName: 'birthdate',
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'مثال: 1990-01-01',
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                          fontFamily: "cairo",
-                        ),
-                        prefixIcon: Icon(
-                          Icons.date_range,
-                          color: AppColors.primary,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.primaryLight,
                       ),
-                      validationMessages: {
-                        ValidationMessage.required: (_) =>
-                            'الرجاء إدخال تاريخ الميلاد',
+                    ),
+                    verticalSmallSpacing(),
+
+                    // تاريخ الميلاد
+                    Padding(
+                      padding: const EdgeInsets.only(right: GeneralSizes.medium),
+                      child: CustomText(
+                        text: 'تاريخ الميلاد',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GeneralSizes.medium,
+                        vertical: GeneralSizes.small,
+                      ),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ReactiveFormConsumer(
+                          builder: (context, formGroup, child) {
+                            final birthdateControl = formGroup.control('birthdate') as FormControl<String>;
+                            return GestureDetector(
+                              onTap: () => _selectDate(context, birthdateControl),
+                              child: AbsorbPointer(
+                                child: ReactiveTextField(
+                                  formControlName: 'birthdate',
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    hintText: 'اختر تاريخ الميلاد',
+                                    hintStyle: TextStyle(
+                                      color: AppColors.primary,
+                                      fontFamily: "cairo",
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: AppColors.primary,
+                                    ),
+                                    suffixIcon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: AppColors.primary,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(color: AppColors.primary),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(color: AppColors.primary),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(color: AppColors.primary),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(color: Colors.red),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(color: Colors.red),
+                                    ),
+                                    filled: true,
+                                    fillColor: AppColors.primaryLight,
+                                  ),
+                                  validationMessages: {
+                                    ValidationMessage.required: (_) =>
+                                        'الرجاء اختيار تاريخ الميلاد',
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    verticalSmallSpacing(),
+
+                    verticalSmallSpacing(),
+
+                    // زر إنشاء الحساب
+                    ReactiveFormConsumer(
+                      builder: (context, form, child) {
+                        return Center(
+                          child: GestureDetector(
+                            onTap: form.valid ? () => _submit(form, context) : null,
+                            child: Opacity(
+                              opacity: form.valid ? 1.0 : 0.6,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.65,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColors.primary),
+                                  borderRadius: BorderRadius.circular(
+                                    borderRadiusS,
+                                  ),
+                                  color: AppColors.primaryRich,
+                                ),
+                                child: Center(
+                                  child: CustomText(
+                                    text: 'انشاء الحساب',
+                                    color: AppColors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
                       },
                     ),
-                  ),
-                ),
-                verticalSmallSpacing(),
-
-                verticalSmallSpacing(),
-
-                ReactiveFormConsumer(
-                  builder: (context, form, child) {
-                    return Center(
-                      child: GestureDetector(
-                        onTap: form.valid ? () => _submit(form, context) : null,
-                        child: Opacity(
-                          opacity: form.valid ? 1.0 : 0.6,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.65,
-                            height: 45,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primary),
-                              borderRadius: BorderRadius.circular(
-                                borderRadiusS,
-                              ),
-                              color: AppColors.primaryRich,
-                            ),
-                            child: Center(
-                              child: CustomText(
-                                text: 'انشاء الحساب',
-                                color: AppColors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                verticalMediumSpacing(),
-              ],
+                    verticalMediumSpacing(),
+                  ],
+                );
+              },
             ),
           ),
         ),
