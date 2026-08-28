@@ -6,6 +6,7 @@ import '../../../core/navigation/logic/navigation_cubit.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/drawer/custom_drawer.dart';
 import '../../favourite/UI/favourite_screen.dart';
+import '../../favourite/logic/favorite_cubit.dart';
 import '../../profile/UI/profile_screen.dart';
 import '../../profile/logic/avatar/avatar_cubit.dart';
 import '../../profile/logic/profile/profile_cubit.dart';
@@ -89,7 +90,10 @@ Widget body(NavigationState state) {
         child: QuestionsScreen(),
       );
     case NavigationState.favourites:
-      return FavouriteScreen();
+      return BlocProvider(
+        create: (context) => FavoriteCubit()..showFavorite(),
+        child: const FavouriteScreen(),
+      );
   }
 }
 
