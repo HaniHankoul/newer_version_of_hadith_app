@@ -10,7 +10,7 @@ class SearchCubit extends Cubit<SearchCubitState> {
   void search(SearchBodyModel query) async {
     emit(SearchCubitLoading());
     try {
-      final response = await SearchApiService().search(
+      final response = await SearchApiService().getFilters(
         SearchBodyModel(
           query: query.query,
           sort: 'RELEVANCE',

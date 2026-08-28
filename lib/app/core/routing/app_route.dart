@@ -46,7 +46,7 @@ final router = GoRouter(
     GoRoute(
       path: '/advancedSearch',
       builder: (context, state) => BlocProvider(
-        create: (context) => AdvancedSearchCubit(),
+        create: (context) => AdvancedSearchCubit()..loadFilters(),
         child: const AdvancedSearchScreen(),
       ),
     ),
