@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
       validators: [Validators.required, Validators.email],
     ),
     'password': FormControl<String>(
-      validators: [Validators.required, Validators.minLength(6)],
+      validators: [Validators.required, Validators.minLength(8)],
     ),
   });
 

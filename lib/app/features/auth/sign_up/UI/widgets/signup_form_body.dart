@@ -22,7 +22,7 @@ class SignupFormBody extends StatelessWidget {
     'gender': FormControl<String>(validators: [Validators.required]),
     'birthdate': FormControl<String>(validators: [Validators.required]),
     'password': FormControl<String>(
-      validators: [Validators.required, Validators.minLength(6)],
+      validators: [Validators.required, Validators.minLength(8)],
     ),
   });
 
