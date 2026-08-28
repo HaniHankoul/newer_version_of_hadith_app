@@ -25,7 +25,14 @@ class LoginCubit extends Cubit<LoginStates> {
       );
       emit(LoginSuccess(login));
     } catch (e) {
-      emit(LoginError(e.toString()));
+      final error = e.toString();
+      emit(
+        LoginError(
+          error.startsWith('Exception: ')
+              ? error.substring('Exception: '.length)
+              : error,
+        ),
+      );
     }
   }
 }

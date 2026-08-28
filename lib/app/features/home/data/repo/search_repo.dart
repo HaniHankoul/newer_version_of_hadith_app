@@ -13,7 +13,7 @@ class SearchApiService {
     ),
   );
 
-  Future<SearchResponseModel> search(SearchBodyModel body) async {
+  Future<SearchResponseModel> getFilters(SearchBodyModel body) async {
     try {
       final response = await dio.post("/ahadith/search", data: body.toJson());
       print("search response: ${response.data}");
