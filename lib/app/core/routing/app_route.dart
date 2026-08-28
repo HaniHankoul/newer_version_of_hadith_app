@@ -4,6 +4,7 @@ import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
 import '../../features/favourite/UI/favourite_screen.dart';
 import '../../features/home/UI/home_screen.dart';
+import '../../features/home/data/models/search_model.dart';
 import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
 import '../../features/translators/speakers/UI/speakers_screen.dart';
@@ -39,8 +40,11 @@ final router = GoRouter(
     GoRoute(
       path: '/hadithDetail',
       builder: (context, state) {
-        final title = state.extra as String;
-        return DetailScreen(title: title);
+        final data = state.extra as Map<String, dynamic>;
+
+        final title = data['title'] as String;
+        final item = data['item'] as Item;
+        return DetailScreen(title: title, item: item);
       },
     ),
     GoRoute(

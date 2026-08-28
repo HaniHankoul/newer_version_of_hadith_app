@@ -9,6 +9,7 @@ import '../../../../core/helper/assets.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_appbar.dart';
 import '../../../../core/widgets/custom_text.dart';
+import '../../../../core/widgets/hadith_card.dart';
 import '../logic/advanced_search_cubit.dart';
 import '../logic/advanced_search_states.dart';
 import 'widgets/filtering_section.dart';
@@ -94,19 +95,8 @@ class AdvancedSearchScreen extends StatelessWidget {
                       }
                       return Column(
                         children: [
-                          ...items.map<Card>((item) {
-                            return Card(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.all(
-                                  GeneralSizes.small,
-                                ),
-                                child: CustomText(
-                                  text: item.text ?? '',
-                                  fontSize: 15,
-                                ),
-                              ),
-                            );
+                          ...items.map<Widget>((item) {
+                            return HadithCard(items: item);
                           }),
                           if (state is AdvancedSearchLoadingMore)
                             const Padding(
