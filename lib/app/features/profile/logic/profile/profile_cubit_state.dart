@@ -6,6 +6,12 @@ class ProfileCubitInitial extends ProfileCubitState {}
 
 class ProfileCubitLoading extends ProfileCubitState {}
 
+class ProfileCubitUpdating extends ProfileCubitState {
+  final ProfileResponse profileResponse;
+
+  ProfileCubitUpdating(this.profileResponse);
+}
+
 class ProfileCubitSuccess extends ProfileCubitState {
   final ProfileResponse? profileResponse;
   ProfileCubitSuccess({this.profileResponse});

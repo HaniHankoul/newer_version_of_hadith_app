@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/upgrade_request/UI/widgets/send_bottom_sheet.dart';
 import '../data/models/upgrade_model_response.dart';
 import '../logic/upgrade_cubit.dart';
@@ -44,6 +45,10 @@ class UpgradeRequestScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    ?state is UpgradeCurrentLoaded
+                        ? CustomText(text: state.request.status.toString())
+                        : null,
+                    const SizedBox(height: 22),
                     InfoHeader(),
                     const SizedBox(height: 22),
                     StalledRequests(

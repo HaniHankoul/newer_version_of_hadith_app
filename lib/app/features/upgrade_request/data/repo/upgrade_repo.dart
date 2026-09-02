@@ -7,7 +7,7 @@ class UpgradeRepo {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.jamilhelal.me/api/v1',
-      connectTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 30),
     ),
   );
@@ -20,6 +20,33 @@ class UpgradeRepo {
       );
 
       if (response.statusCode == 200) return _parseList(response.data);
+      throw Exception(
+        _messageFrom(response.data) ?? 'Failed to fetch upgrade requests',
+      );
+    } on DioException catch (e) {
+      throw Exception(
+        _messageFrom(e.response?.data) ??
+            e.message ??
+            'Upgrade requests request failed',
+      );
+    }
+  }
+
+  Future<UpgradeModelResponse> getCurrentUpgradeRequests() async {
+    try {
+      final response = await _dio.get(
+        '/me/upgrade-requests/current',
+        options: Options(headers: {'Authorization': 'Bearer ${await _token}'}),
+      );
+
+      if (response.statusCode == 200) {
+        final payload = response.data is Map && response.data['data'] is Map
+            ? response.data['data']
+            : response.data;
+        return UpgradeModelResponse.fromJson(
+          Map<String, dynamic>.from(payload as Map),
+        );
+      }
       throw Exception(
         _messageFrom(response.data) ?? 'Failed to fetch upgrade requests',
       );

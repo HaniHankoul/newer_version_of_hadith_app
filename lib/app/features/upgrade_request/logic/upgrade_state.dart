@@ -12,6 +12,12 @@ class UpgradeLoaded extends UpgradeState {
   UpgradeLoaded(this.requests);
 }
 
+class UpgradeCurrentLoaded extends UpgradeState {
+  final UpgradeModelResponse request;
+
+  UpgradeCurrentLoaded({required this.request});
+}
+
 class UpgradeSubmitting extends UpgradeState {
   final List<UpgradeModelResponse> requests;
 

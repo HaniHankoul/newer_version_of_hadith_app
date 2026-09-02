@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/profile/UI/widgets/profile_form_info.dart';
 import 'package:hadith_app/app/features/profile/UI/widgets/profile_header.dart';
+import 'package:hadith_app/app/features/profile/data/models/profile_response_model.dart';
 import 'package:hadith_app/app/features/profile/logic/profile/profile_cubit.dart';
 import 'package:hadith_app/app/features/profile/logic/profile/profile_cubit_state.dart';
 
@@ -14,8 +15,51 @@ import '../../../core/widgets/loading_card.dart';
 import '../../../core/widgets/universal_button.dart';
 import '../../../core/widgets/universal_container.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final nameController = TextEditingController();
+  final genderController = TextEditingController();
+  final birthDateController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    genderController.dispose();
+    birthDateController.dispose();
+    super.dispose();
+  }
+
+  void _setControllers(ProfileResponse profile) {
+    if (nameController.text.isEmpty) nameController.text = profile.name ?? '';
+    if (genderController.text.isEmpty) {
+      genderController.text = profile.gender ?? '';
+    }
+    if (birthDateController.text.isEmpty && profile.birthDate != null) {
+      final date = profile.birthDate!;
+      birthDateController.text =
+          '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    }
+  }
+
+  Future<void> _pickBirthDate() async {
+    final selected = await showDatePicker(
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      initialDate:
+          DateTime.tryParse(birthDateController.text) ?? DateTime(2000),
+    );
+    if (selected != null) {
+      birthDateController.text =
+          '${selected.year.toString().padLeft(4, '0')}-${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +71,11 @@ class ProfileScreen extends StatelessWidget {
         if (state is ProfileCubitError) {
           return ErrorCard(message: 'عذرا حدث خطا ما');
         }
-        if (state is ProfileCubitSuccess) {
+        if (state is ProfileCubitSuccess || state is ProfileCubitUpdating) {
+          final profile = state is ProfileCubitSuccess
+              ? state.profileResponse
+              : (state as ProfileCubitUpdating).profileResponse;
+          if (profile != null) _setControllers(profile);
           return Padding(
             padding: const EdgeInsets.only(top: GeneralSizes.large + 8),
             child: SizedBox(
@@ -41,11 +89,17 @@ class ProfileScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                ProfileHeader(
-                                  avatarUrl: state.profileResponse?.avatarUrl,
-                                ),
+                                ProfileHeader(avatarUrl: profile?.avatarUrl),
                                 verticalLargeSpacing(),
-                                ProfileFormInfo(state: state),
+                                ProfileFormInfo(
+                                  state: ProfileCubitSuccess(
+                                    profileResponse: profile,
+                                  ),
+                                  nameController: nameController,
+                                  genderController: genderController,
+                                  birthDateController: birthDateController,
+                                  onBirthDateTap: _pickBirthDate,
+                                ),
                               ],
                             ),
                           ),
@@ -55,13 +109,22 @@ class ProfileScreen extends StatelessWidget {
                               horizontal: GeneralSizes.large,
                             ),
                             child: UniversalButton(
-                              onTap: () {},
+                              onTap: () {
+                                if (profile != null) {
+                                  context.read<ProfileCubit>().updateProfile(
+                                    name: nameController.text,
+                                    gender: genderController.text,
+                                    birthDate: birthDateController.text,
+                                  );
+                                }
+                              },
                               height: 45,
                               title: 'حفظ التغييرات في الملف الشخصي',
                               color: AppColors.primaryRich,
                               textColor: Colors.black,
                               borderColor: AppColors.primaryRich,
                               icon: Icons.person_3_outlined,
+                              isLoading: state is ProfileCubitUpdating,
                             ),
                           ),
                         ]

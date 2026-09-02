@@ -79,7 +79,7 @@ Widget body(NavigationState state) {
     case NavigationState.profile:
       return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => ProfileCubit()..updateProfile()),
+          BlocProvider(create: (context) => ProfileCubit()..loadProfile()),
           BlocProvider(create: (context) => AvatarCubit()),
         ],
         child: ProfileScreen(),

@@ -7,8 +7,19 @@ import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 
 class ProfileFormInfo extends StatelessWidget {
-  const ProfileFormInfo({super.key, required this.state});
+  const ProfileFormInfo({
+    super.key,
+    required this.state,
+    required this.nameController,
+    required this.genderController,
+    required this.birthDateController,
+    required this.onBirthDateTap,
+  });
   final ProfileCubitSuccess state;
+  final TextEditingController nameController;
+  final TextEditingController genderController;
+  final TextEditingController birthDateController;
+  final VoidCallback onBirthDateTap;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,6 +39,7 @@ class ProfileFormInfo extends StatelessWidget {
             vertical: GeneralSizes.small,
           ),
           child: CustomTextField(
+            controller: nameController,
             hintText: state.profileResponse?.name ?? '',
             icon: HugeIcons.strokeRoundedUser02,
           ),
@@ -47,8 +59,9 @@ class ProfileFormInfo extends StatelessWidget {
             vertical: GeneralSizes.small,
           ),
           child: CustomTextField(
+            controller: genderController,
             hintText: state.profileResponse?.email ?? '',
-            icon: HugeIcons.strokeRoundedMail01,
+            icon: HugeIcons.strokeRoundedUser02,
           ),
         ),
         verticalSmallSpacing(),
@@ -66,11 +79,10 @@ class ProfileFormInfo extends StatelessWidget {
             vertical: GeneralSizes.small,
           ),
           child: CustomTextField(
-            hintText:
-                '${state.profileResponse!.birthDate?.year.toString()}'
-                '-${state.profileResponse!.birthDate?.month.toString().padLeft(2, '0')}'
-                '-${state.profileResponse!.birthDate?.day.toString().padLeft(2, '0')}',
+            controller: birthDateController,
+            hintText: 'YYYY-MM-DD',
             icon: HugeIcons.strokeRoundedDateTime,
+            onFieldSubmitted: (_) => onBirthDateTap(),
           ),
         ),
         verticalMediumSpacing(),

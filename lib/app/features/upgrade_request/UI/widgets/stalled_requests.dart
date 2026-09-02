@@ -53,63 +53,6 @@ class StalledRequests extends StatelessWidget {
             )
           else
             ...requests.map(_requestCard),
-          /* Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.primaryLight,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.schedule_rounded, color: AppColors.warning),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'لديك طلب قيد المراجعة',
-                        style: TextStyle(
-                          fontFamily: 'cairo',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimaryDark,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'تم إرسال الملف في 12/09/2026 — جارٍ مراجعة البيانات',
-                        style: TextStyle(
-                          fontFamily: 'cairo',
-                          fontSize: 13,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ), */
-          // Container(
-          //   width: double.infinity,
-          //   padding: const EdgeInsets.all(14),
-          //   decoration: BoxDecoration(
-          //     color: AppColors.softGrey,
-          //     borderRadius: BorderRadius.circular(14),
-          //   ),
-          //   child: Text(
-          //     'لا توجد طلبات معلقة حالياً',
-          //     textDirection: TextDirection.rtl,
-          //     style: TextStyle(
-          //       fontFamily: 'cairo',
-          //       fontSize: 15,
-          //       color: AppColors.textSecondary,
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -144,7 +87,17 @@ class StalledRequests extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${request.status ?? 'قيد المراجعة'}${request.notes == null || request.notes!.isEmpty ? '' : ' - ${request.notes}'}',
+                  request.status ?? 'قيد المراجعة',
+                  style: TextStyle(
+                    fontFamily: 'cairo',
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                Text(
+                  request.notes == null || request.notes!.isEmpty
+                      ? ''
+                      : ' - ${request.notes}',
                   style: TextStyle(
                     fontFamily: 'cairo',
                     fontSize: 13,
