@@ -133,7 +133,9 @@ class CustomDrawer extends StatelessWidget {
                       icon: HugeIcons.strokeRoundedBookBookmark01,
                     ),
                     CustomDrawerButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.push('/upgradeRequestScreen');
+                      },
                       title: 'طلب الترقية ',
                       icon: HugeIcons.strokeRoundedFileQuestionMark,
                     ),

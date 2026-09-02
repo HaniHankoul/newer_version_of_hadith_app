@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/features/upgrade_request/UI/upgrade_request_screen.dart';
 import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
 import '../../features/favourite/UI/favourite_screen.dart';
@@ -71,6 +72,12 @@ final router = GoRouter(
         create: (context) => FavoriteCubit()..showFavorite(),
         child: const FavouriteScreen(),
       ),
+    ),
+    GoRoute(
+      path: '/upgradeRequestScreen',
+      builder: (context, state) {
+        return UpgradeRequestScreen();
+      },
     ),
   ],
 );
