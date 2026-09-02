@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith_app/app/features/upgrade_request/UI/upgrade_request_screen.dart';
 import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
 import '../../features/favourite/UI/favourite_screen.dart';
@@ -12,6 +11,8 @@ import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
 import '../../features/translators/speakers/UI/speakers_screen.dart';
 import '../../features/translators/tellers/UI/tellers_screen.dart';
+import '../../features/upgrade_request/UI/upgrade_request_screen.dart';
+import '../../features/upgrade_request/logic/upgrade_cubit.dart';
 import '../navigation/logic/navigation_cubit.dart';
 import '../widgets/detail_screen.dart';
 
@@ -76,7 +77,10 @@ final router = GoRouter(
     GoRoute(
       path: '/upgradeRequestScreen',
       builder: (context, state) {
-        return UpgradeRequestScreen();
+        return BlocProvider(
+          create: (context) => UpgradeCubit(),
+          child: UpgradeRequestScreen(),
+        );
       },
     ),
   ],
