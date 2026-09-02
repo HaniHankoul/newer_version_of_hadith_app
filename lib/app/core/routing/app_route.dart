@@ -78,7 +78,7 @@ final router = GoRouter(
       path: '/upgradeRequestScreen',
       builder: (context, state) {
         return BlocProvider(
-          create: (context) => UpgradeCubit(),
+          create: (context) => UpgradeCubit()..loadRequests(),
           child: UpgradeRequestScreen(),
         );
       },
