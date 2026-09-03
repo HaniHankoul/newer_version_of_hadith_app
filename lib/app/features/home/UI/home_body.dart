@@ -79,7 +79,9 @@ Widget body(BuildContext context, SearchCubitState state) {
                         title: "احاديث منتشرة لا تصح",
                       ),
                       ContainerElement(
-                        onTap: () {},
+                        onTap: () {
+                          context.push('/books');
+                        },
                         icon: HugeIcons.strokeRoundedBook01,
 
                         title: "الكتب و المصادر",

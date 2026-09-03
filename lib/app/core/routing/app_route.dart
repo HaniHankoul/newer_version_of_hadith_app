@@ -4,6 +4,11 @@ import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
 import '../../features/fake_hadith/UI/fake_hadith_screen.dart';
 import '../../features/fake_hadith/logic/fake_hadtith_cubit.dart';
+import '../../features/books_resource/UI/books_screen.dart';
+import '../../features/books_resource/UI/book_details_screen.dart';
+import '../../features/books_resource/data/models/book_model.dart';
+import '../../features/books_resource/logic/book_details_cubit.dart';
+import '../../features/books_resource/logic/book_cubit.dart';
 import '../../features/favourite/UI/favourite_screen.dart';
 import '../../features/favourite/data/models/favorite_model.dart' as favorite;
 import '../../features/favourite/logic/favorite_cubit.dart';
@@ -42,6 +47,24 @@ final router = GoRouter(
     GoRoute(
       path: '/tellers',
       builder: (context, state) => const TellersScreen(),
+    ),
+    GoRoute(
+      path: '/books',
+      builder: (context, state) => BlocProvider(
+        create: (context) => BookCubit()..fetchBooks(),
+        child: const BooksScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/bookDetails',
+      builder: (context, state) {
+        final book = state.extra as BookModel;
+        return BlocProvider(
+          create: (context) =>
+              BookDetailsCubit(bookId: book.id!)..fetchBookHadiths(),
+          child: BookDetailsScreen(book: book),
+        );
+      },
     ),
     GoRoute(
       path: '/hadithDetail',

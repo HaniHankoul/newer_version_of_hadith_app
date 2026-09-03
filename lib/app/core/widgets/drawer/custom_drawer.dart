@@ -107,6 +107,13 @@ class CustomDrawer extends StatelessWidget {
                     ),
                     CustomDrawerButton(
                       onTap: () {
+                        context.push('/books');
+                      },
+                      title: 'الكتب و المصادر ',
+                      icon: HugeIcons.strokeRoundedBookOpen01,
+                    ),
+                    CustomDrawerButton(
+                      onTap: () {
                         context.read<NavigationCubit>().navigate(
                           NavigationState.favourites,
                         );
