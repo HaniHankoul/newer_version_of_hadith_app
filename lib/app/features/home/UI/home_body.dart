@@ -72,7 +72,9 @@ Widget body(BuildContext context, SearchCubitState state) {
             children:
                 [
                       ContainerElement(
-                        onTap: () {},
+                        onTap: () {
+                          context.push('/fakeHadith');
+                        },
                         icon: HugeIcons.strokeRoundedAlert01,
                         title: "احاديث منتشرة لا تصح",
                       ),

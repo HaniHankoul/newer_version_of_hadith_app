@@ -7,11 +7,13 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     this.onFieldSubmitted,
+    this.onTap,
     this.controller,
     required this.hintText,
     required this.icon,
   });
   final Function(String)? onFieldSubmitted;
+  final VoidCallback? onTap;
   final TextEditingController? controller;
   final String hintText;
   final List<List<dynamic>> icon;
@@ -22,6 +24,7 @@ class CustomTextField extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: TextFormField(
         controller: controller,
+        onTap: onTap,
         onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,

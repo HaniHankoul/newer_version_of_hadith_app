@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
+import '../../features/fake_hadith/UI/fake_hadith_screen.dart';
+import '../../features/fake_hadith/logic/fake_hadtith_cubit.dart';
 import '../../features/favourite/UI/favourite_screen.dart';
 import '../../features/favourite/data/models/favorite_model.dart' as favorite;
 import '../../features/favourite/logic/favorite_cubit.dart';
@@ -80,6 +82,15 @@ final router = GoRouter(
         return BlocProvider(
           create: (context) => UpgradeCubit()..loadRequests(),
           child: UpgradeRequestScreen(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/fakeHadith',
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) => FakeHadtithCubit()..loadFakeHadith(),
+          child: FakeHadithScreen(),
         );
       },
     ),

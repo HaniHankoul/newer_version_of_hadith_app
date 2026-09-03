@@ -60,7 +60,7 @@ class ProfileFormInfo extends StatelessWidget {
           ),
           child: CustomTextField(
             controller: genderController,
-            hintText: state.profileResponse?.email ?? '',
+            hintText: 'أدخل الجنس',
             icon: HugeIcons.strokeRoundedUser02,
           ),
         ),
@@ -82,6 +82,7 @@ class ProfileFormInfo extends StatelessWidget {
             controller: birthDateController,
             hintText: 'YYYY-MM-DD',
             icon: HugeIcons.strokeRoundedDateTime,
+            onTap: onBirthDateTap,
             onFieldSubmitted: (_) => onBirthDateTap(),
           ),
         ),
