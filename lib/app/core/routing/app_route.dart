@@ -16,7 +16,8 @@ import '../../features/home/UI/home_screen.dart';
 import '../../features/home/data/models/search_model.dart';
 import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
-import '../../features/translators/speakers/UI/speakers_screen.dart';
+import '../../features/translators/muhaddith/UI/muhaddiths_screen.dart';
+import '../../features/translators/muhaddith/logic/muhaddith_cubit.dart';
 import '../../features/translators/tellers/UI/rawi_screen.dart';
 import '../../features/translators/tellers/logic/rawi_cubit.dart';
 import '../../features/upgrade_request/UI/upgrade_request_screen.dart';
@@ -43,7 +44,10 @@ final router = GoRouter(
     GoRoute(path: '/signUp', builder: (context, state) => const SignupScreen()),
     GoRoute(
       path: '/muhaddiths',
-      builder: (context, state) => const MuhaddithsScreen(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => MuhaddithCubit()..fetchMuhaddiths(),
+        child: const MuhaddithsScreen(),
+      ),
     ),
     GoRoute(
       path: '/rawi',
