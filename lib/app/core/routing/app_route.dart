@@ -17,7 +17,8 @@ import '../../features/home/data/models/search_model.dart';
 import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
 import '../../features/translators/speakers/UI/speakers_screen.dart';
-import '../../features/translators/tellers/UI/tellers_screen.dart';
+import '../../features/translators/tellers/UI/rawi_screen.dart';
+import '../../features/translators/tellers/logic/rawi_cubit.dart';
 import '../../features/upgrade_request/UI/upgrade_request_screen.dart';
 import '../../features/upgrade_request/logic/upgrade_cubit.dart';
 import '../navigation/logic/navigation_cubit.dart';
@@ -41,12 +42,15 @@ final router = GoRouter(
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(path: '/signUp', builder: (context, state) => const SignupScreen()),
     GoRoute(
-      path: '/speakers',
-      builder: (context, state) => const SpeakersScreen(),
+      path: '/muhaddiths',
+      builder: (context, state) => const MuhaddithsScreen(),
     ),
     GoRoute(
-      path: '/tellers',
-      builder: (context, state) => const TellersScreen(),
+      path: '/rawi',
+      builder: (context, state) => BlocProvider(
+        create: (context) => RawiCubit()..fetchRawis(),
+        child: const RawiScreen(),
+      ),
     ),
     GoRoute(
       path: '/books',

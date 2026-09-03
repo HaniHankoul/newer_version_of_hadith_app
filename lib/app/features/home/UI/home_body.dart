@@ -88,14 +88,14 @@ Widget body(BuildContext context, SearchCubitState state) {
                       ),
                       ContainerElement(
                         onTap: () {
-                          context.push('/tellers');
+                          context.push('/rawi');
                         },
                         icon: HugeIcons.strokeRoundedUser,
                         title: "تراجم الرواة",
                       ),
                       ContainerElement(
                         onTap: () {
-                          context.push('/speakers');
+                          context.push('/muhaddiths');
                         },
                         icon: HugeIcons.strokeRoundedBook04,
                         title: "تراجم المحدثين",

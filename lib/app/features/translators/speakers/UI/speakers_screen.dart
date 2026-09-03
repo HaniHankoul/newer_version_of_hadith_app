@@ -5,8 +5,8 @@ import 'package:hadith_app/app/core/widgets/translators_card.dart';
 
 import '../../../../core/app_theme.dart';
 
-class SpeakersScreen extends StatelessWidget {
-  const SpeakersScreen({super.key});
+class MuhaddithsScreen extends StatelessWidget {
+  const MuhaddithsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
