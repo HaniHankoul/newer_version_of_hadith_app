@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>تحتاج إلى الكاميرا لتعيين صورة الملف الشخصي.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>يحتاج التطبيق إلى الميكروفون لتحويل صوتك إلى نص.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>تحتاج إلى الصور لاختيار صورة الملف الشخصي.</string>
 	<key>UIApplicationSceneManifest</key>

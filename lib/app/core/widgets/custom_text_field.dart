@@ -9,12 +9,14 @@ class CustomTextField extends StatelessWidget {
     this.onFieldSubmitted,
     this.onTap,
     this.controller,
+    this.suffixIcon,
     required this.hintText,
     required this.icon,
   });
   final Function(String)? onFieldSubmitted;
   final VoidCallback? onTap;
   final TextEditingController? controller;
+  final Widget? suffixIcon;
   final String hintText;
   final List<List<dynamic>> icon;
 
@@ -36,6 +38,7 @@ class CustomTextField extends StatelessWidget {
             child: HugeIcon(icon: icon, size: 20, color: AppColors.primary),
           ),
           prefixIconConstraints: BoxConstraints(maxHeight: 30, maxWidth: 50),
+          suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: AppColors.primary),
