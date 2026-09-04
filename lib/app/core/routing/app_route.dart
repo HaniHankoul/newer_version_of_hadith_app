@@ -14,6 +14,7 @@ import '../../features/favourite/data/models/favorite_model.dart' as favorite;
 import '../../features/favourite/logic/favorite_cubit.dart';
 import '../../features/home/UI/home_screen.dart';
 import '../../features/home/data/models/search_model.dart';
+import '../../features/hadith_detail/logic/hadith_detail_cubit.dart';
 import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
 import '../../features/translators/muhaddith/UI/muhaddiths_screen.dart';
@@ -77,18 +78,21 @@ final router = GoRouter(
     GoRoute(
       path: '/hadithDetail',
       builder: (context, state) {
-        final data = state.extra as Map<String, dynamic>;
-
-        final title = data['title'] as String;
-        final item =
-            data['item'] as Item? ??
-            _toSearchItem(data['favoriteItem'] as favorite.Item);
+        final extra = state.extra;
+        final hadithId = extra is String
+            ? extra
+            : extra is Map<String, dynamic>
+            ? extra['hadithId'] as String? ??
+                  (extra['favoriteItem'] as favorite.Item?)?.id
+            : extra is favorite.Item
+            ? extra.id
+            : null;
         return BlocProvider(
-          create: (context) => FavoriteCubit(),
-          child: DetailScreen(
-            title: title,
-            item: item,
-            isFavorite: data['favoriteItem'] != null,
+          create: (context) =>
+              HadithDetailCubit(hadithId: hadithId ?? '')..fetchHadithDetail(),
+          child: BlocProvider(
+            create: (context) => FavoriteCubit(),
+            child: DetailScreen(hadithId: hadithId),
           ),
         );
       },

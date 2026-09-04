@@ -9,6 +9,7 @@ import '../../../../core/app_theme.dart';
 import '../../../../core/helper/assets.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
+import '../../../../core/widgets/loading_entire_screen.dart';
 import '../../../../core/widgets/universal_button.dart';
 import '../data/models/login_model.dart';
 import '../logic/login_cubit.dart';
@@ -143,7 +144,6 @@ class LoginScreen extends StatelessWidget {
                               color: AppColors.primaryRich,
                               textColor: AppColors.black,
                               borderColor: AppColors.primaryRich,
-                              isLoading: isLoading,
                             ),
                           ],
                         ),
@@ -151,6 +151,7 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (isLoading) const LoadingEntireScreen(),
                 ],
               ),
             ),

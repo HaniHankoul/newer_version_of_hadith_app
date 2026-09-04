@@ -15,10 +15,9 @@ class HadithCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: InkWell(
         onTap: () {
-          context.push(
-            '/hadithDetail',
-            extra: {'title': 'تفاصيل الحديث', 'item': items},
-          );
+          if (items.id != null) {
+            context.push('/hadithDetail', extra: items.id);
+          }
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.9,
