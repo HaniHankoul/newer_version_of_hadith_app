@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../../../core/helper/shared/shared_init.dart';
 import '../models/search_model.dart';
 import '../models/search_query_model.dart';
 
@@ -15,7 +16,18 @@ class SearchApiService {
 
   Future<SearchResponseModel> getFilters(SearchBodyModel body) async {
     try {
-      final response = await dio.post("/ahadith/search", data: body.toJson());
+      final token = await AuthStorage.getAccessToken();
+      final response = await dio.post(
+        "/ahadith/search",
+        data: body.toJson(),
+        options: Options(
+          headers: {
+            "Accept": "application/json",
+            if (token != null && token.isNotEmpty)
+              "Authorization": "Bearer $token",
+          },
+        ),
+      );
       print("search response: ${response.data}");
       return SearchResponseModel.fromJson(response.data);
     } on DioException catch (e) {

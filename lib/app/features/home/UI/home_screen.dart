@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_theme.dart';
 import '../../../core/navigation/UI/navigation_panel.dart';
 import '../../../core/navigation/logic/navigation_cubit.dart';
+import '../../../core/search_history/logic/search_history_cubit.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/drawer/custom_drawer.dart';
 import '../../favourite/UI/favourite_screen.dart';
@@ -64,6 +65,7 @@ Widget body(NavigationState state) {
         providers: [
           BlocProvider(create: (context) => AccessBloc()..getAccessToken()),
           BlocProvider(create: (context) => SearchCubit()),
+          BlocProvider(create: (context) => SearchHistoryCubit()),
         ],
         child: HomeBody(),
       );

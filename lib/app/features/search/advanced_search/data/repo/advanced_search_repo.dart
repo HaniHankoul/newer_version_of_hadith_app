@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:xml/xml.dart';
 
+import '../../../../../core/helper/shared/shared_init.dart';
 import '../../../../home/data/models/search_model.dart';
 import '../../../../home/data/models/search_query_model.dart';
 
@@ -48,10 +49,17 @@ class AdvancedSearchApiService {
 
   Future<SearchResponseModel> search(SearchBodyModel body) async {
     try {
+      final token = await AuthStorage.getAccessToken();
       final response = await dio.post(
         '/ahadith/search',
         data: body.toJson(),
-        options: Options(headers: {'Accept': 'application/json'}),
+        options: Options(
+          headers: {
+            'Accept': 'application/json',
+            if (token != null && token.isNotEmpty)
+              'Authorization': 'Bearer $token',
+          },
+        ),
       );
       if (response.data is! Map) {
         throw const FormatException('Unsupported search response');

@@ -1,4 +1,4 @@
-import '../../../core/models/hadith_detail_model.dart';
+import '../../models/hadith_detail_model.dart';
 
 abstract class HadithDetailCubitState {}
 

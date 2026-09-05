@@ -6,6 +6,8 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../../../core/app_theme.dart';
 import '../../../core/helper/general_sizes.dart';
+import '../../../core/search_history/UI/search_history_list.dart';
+import '../../../core/search_history/logic/search_history_cubit.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../../../core/widgets/loading_card.dart';
@@ -56,7 +58,14 @@ class _HomeBodyState extends State<HomeBody> {
     _speechToText.stop();
     _searchController.clear();
     context.read<SearchCubit>().reset();
+    context.read<SearchHistoryCubit>().clear();
     FocusScope.of(context).unfocus();
+  }
+
+  void _showSearchHistory() {
+    context.read<SearchHistoryCubit>().loadHistory(
+      keyword: _searchController.text,
+    );
   }
 
   Future<void> _toggleVoiceInput() async {
@@ -95,60 +104,89 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children:
-          [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GeneralSizes.large,
-                    vertical: GeneralSizes.medium,
-                  ),
-                  child: CustomTextField(
-                    controller: _searchController,
-                    onFieldSubmitted: (value) {
-                      context.read<SearchCubit>().search(
-                        SearchBodyModel(
-                          query: value,
-                          sort: 'RELEVANCE',
-                          mode: 'EXACT',
-                          page: 1,
-                          size: 10,
-                          includeExplanation: false,
-                        ),
-                      );
-                    },
-                    hintText: 'ابحث عن حديث ',
-                    icon: HugeIcons.strokeRoundedSearch01,
-                    suffixIcon: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          tooltip: 'البحث الصوتي',
-                          onPressed: _toggleVoiceInput,
-                          icon: Icon(
-                            _isListening ? Icons.mic : Icons.mic_none,
-                            color: AppColors.primary,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Column(
+          children:
+              [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GeneralSizes.large,
+                        vertical: GeneralSizes.medium,
+                      ),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          CustomTextField(
+                            controller: _searchController,
+                            onTap: _showSearchHistory,
+                            onFieldSubmitted: (value) {
+                              context.read<SearchHistoryCubit>().clear();
+                              context.read<SearchCubit>().search(
+                                SearchBodyModel(
+                                  query: value,
+                                  sort: 'RELEVANCE',
+                                  mode: 'EXACT',
+                                  page: 1,
+                                  size: 10,
+                                  includeExplanation: false,
+                                ),
+                              );
+                            },
+                            hintText: 'ابحث عن حديث ',
+                            icon: HugeIcons.strokeRoundedSearch01,
+                            suffixIcon: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  tooltip: 'البحث الصوتي',
+                                  onPressed: _toggleVoiceInput,
+                                  icon: Icon(
+                                    _isListening ? Icons.mic : Icons.mic_none,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                                if (_searchController.text.isNotEmpty)
+                                  IconButton(
+                                    tooltip: 'إلغاء البحث',
+                                    onPressed: _resetSearch,
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                        if (_searchController.text.isNotEmpty)
-                          IconButton(
-                            tooltip: 'إلغاء البحث',
-                            onPressed: _resetSearch,
-                            icon: Icon(Icons.close, color: AppColors.primary),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                BlocBuilder<SearchCubit, SearchCubitState>(
-                  builder: (context, state) {
-                    return body(context, state);
-                  },
-                ),
-              ]
-              .animate(interval: 150.ms)
-              .fade(duration: 250.ms)
-              .slide(begin: Offset(0, 0.3), duration: 200.ms),
+                    BlocBuilder<SearchCubit, SearchCubitState>(
+                      builder: (context, state) {
+                        return body(context, state);
+                      },
+                    ),
+                  ]
+                  .animate(interval: 150.ms)
+                  .fade(duration: 250.ms)
+                  .slide(begin: Offset(0, 0.3), duration: 200.ms),
+        ),
+        Positioned(
+          top: GeneralSizes.medium + 58,
+          left: GeneralSizes.large,
+          right: GeneralSizes.large,
+          child: SearchHistoryList(
+            onSelected: (value) {
+              _searchController.text = value;
+              _searchController.selection = TextSelection.collapsed(
+                offset: value.length,
+              );
+              context.read<SearchHistoryCubit>().clear();
+            },
+          ),
+        ),
+      ],
     );
   }
 }

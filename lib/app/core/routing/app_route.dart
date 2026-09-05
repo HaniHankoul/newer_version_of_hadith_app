@@ -14,7 +14,7 @@ import '../../features/favourite/data/models/favorite_model.dart' as favorite;
 import '../../features/favourite/logic/favorite_cubit.dart';
 import '../../features/home/UI/home_screen.dart';
 import '../../features/home/data/models/search_model.dart';
-import '../../features/hadith_detail/logic/hadith_detail_cubit.dart';
+import '../hadith_detail/logic/hadith_detail_cubit.dart';
 import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
 import '../../features/translators/muhaddith/UI/muhaddiths_screen.dart';
@@ -24,6 +24,7 @@ import '../../features/translators/tellers/logic/rawi_cubit.dart';
 import '../../features/upgrade_request/UI/upgrade_request_screen.dart';
 import '../../features/upgrade_request/logic/upgrade_cubit.dart';
 import '../navigation/logic/navigation_cubit.dart';
+import '../search_history/logic/search_history_cubit.dart';
 import '../widgets/detail_screen.dart';
 
 final router = GoRouter(
@@ -99,8 +100,13 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/advancedSearch',
-      builder: (context, state) => BlocProvider(
-        create: (context) => AdvancedSearchCubit()..loadFilters(),
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AdvancedSearchCubit()..loadFilters(),
+          ),
+          BlocProvider(create: (context) => SearchHistoryCubit()),
+        ],
         child: const AdvancedSearchScreen(),
       ),
     ),

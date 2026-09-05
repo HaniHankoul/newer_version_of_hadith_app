@@ -6,8 +6,8 @@ import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_appbar.dart';
 import 'package:hadith_app/app/core/widgets/universal_container.dart';
 
-import '../../features/hadith_detail/logic/hadith_detail_cubit.dart';
-import '../../features/hadith_detail/logic/hadith_detail_cubit_state.dart';
+import '../hadith_detail/logic/hadith_detail_cubit.dart';
+import '../hadith_detail/logic/hadith_detail_cubit_state.dart';
 import 'custom_text.dart';
 import 'universal_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

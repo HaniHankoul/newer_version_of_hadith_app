@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../../../../core/models/hadith_detail_model.dart';
+import '../../../models/hadith_detail_model.dart';
 
 class HadithDetailRepo {
   HadithDetailRepo({Dio? dio})
