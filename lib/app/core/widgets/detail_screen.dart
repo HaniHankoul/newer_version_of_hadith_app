@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_appbar.dart';
@@ -300,44 +302,78 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                   verticalLargeSpacing(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BlocBuilder<FavoriteCubit, FavoritCubitStates>(
-                        builder: (context, state) {
-                          final favorite = state is FavoriteCubitAddSuccess
-                              ? true
-                              : state is FavoriteCubitRemoveSuccess
-                              ? false
-                              : false; //isFavorite;
-                          final loading = state is FavoriteCubitAdding;
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BlocBuilder<FavoriteCubit, FavoritCubitStates>(
+                          builder: (context, state) {
+                            final favorite = state is FavoriteCubitAddSuccess
+                                ? true
+                                : state is FavoriteCubitRemoveSuccess
+                                ? false
+                                : state is FavoriteCubitSuccess &&
+                                      hadithId != null
+                                ? state.favoritModel.items?.any(
+                                        (item) => item.id == hadithId,
+                                      ) ??
+                                      false
+                                : false;
+                            final loading =
+                                state is FavoriteCubitAdding ||
+                                state is FavoriteCubitLoading;
 
-                          return UniversalButton(
-                            icon: favorite
-                                ? Icons.bookmark_remove_outlined
-                                : Icons.bookmark_added_sharp,
-                            title: favorite
-                                ? 'إزالة من المفضلة'
-                                : 'تعيين مفضلة',
-                            isLoading: loading,
-                            onTap: () {},
-                            color: AppColors.primary,
-                            textColor: AppColors.white,
-                            borderColor: AppColors.primary,
-                          );
-                        },
-                      ),
-                      horizontalLargeSpacing(),
-                      UniversalButton(
-                        widthPortion: .37,
-                        icon: Icons.copy,
-                        title: 'نسخ',
-                        onTap: () {},
-                        color: AppColors.white,
-                        textColor: AppColors.black,
-                        borderColor: AppColors.primary,
-                      ),
-                    ],
+                            return UniversalButton(
+                              icon: favorite
+                                  ? Icons.bookmark_remove_outlined
+                                  : Icons.bookmark_added_sharp,
+                              title: favorite
+                                  ? 'إزالة من المفضلة'
+                                  : 'تعيين مفضلة',
+                              isLoading: loading,
+                              onTap: () {
+                                if (hadithId == null || hadithId!.isEmpty) {
+                                  return;
+                                }
+                                if (favorite) {
+                                  context.read<FavoriteCubit>().removeFavorite(
+                                    hadithId!,
+                                  );
+                                } else {
+                                  context.read<FavoriteCubit>().addFavorite(
+                                    hadithId!,
+                                  );
+                                }
+                              },
+                              color: AppColors.primary,
+                              textColor: AppColors.white,
+                              borderColor: AppColors.primary,
+                            );
+                          },
+                        ),
+                        horizontalLargeSpacing(),
+                        UniversalButton(
+                          widthPortion: .37,
+                          icon: Icons.copy,
+                          title: 'نسخ',
+                          onTap: () => _copyHadith(context, hadith.text),
+                          color: AppColors.white,
+                          textColor: AppColors.black,
+                          borderColor: AppColors.primary,
+                        ),
+                        horizontalLargeSpacing(),
+                        UniversalButton(
+                          widthPortion: .37,
+                          icon: Icons.share_outlined,
+                          title: 'مشاركة',
+                          onTap: () => _shareHadith(context, hadith.text),
+                          color: AppColors.white,
+                          textColor: AppColors.black,
+                          borderColor: AppColors.primary,
+                        ),
+                      ],
+                    ),
                   ),
                   verticalLargeSpacing(),
                 ],
@@ -347,6 +383,34 @@ class DetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _copyHadith(BuildContext context, String? text) async {
+    final hadithText = text?.trim() ?? '';
+    if (hadithText.isEmpty) return;
+
+    await Clipboard.setData(ClipboardData(text: hadithText));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('تم نسخ نص الحديث')));
+  }
+
+  Future<void> _shareHadith(BuildContext context, String? text) async {
+    final hadithText = text?.trim() ?? '';
+    if (hadithText.isEmpty) return;
+
+    try {
+      await SharePlus.instance.share(ShareParams(text: hadithText));
+    } catch (e) {
+      await Clipboard.setData(ClipboardData(text: hadithText));
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('تعذر فتح المشاركة، تم نسخ نص الحديث بدلاً من ذلك'),
+        ),
+      );
+    }
   }
 
   // void _addFavorite(BuildContext context, String hadithId) {

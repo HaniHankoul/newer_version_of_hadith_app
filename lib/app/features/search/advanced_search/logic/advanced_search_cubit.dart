@@ -13,13 +13,42 @@ class AdvancedSearchCubit extends Cubit<AdvancedSearchStates> {
   final AdvancedSearchApiService _repository;
   FilterModel? filters;
   Map<String, List<String>> selectedFilters = {};
+  String _searchMode = 'FLEXIBLE';
   String _query = '';
-  int _page = 1;
+  int _page = 0;
   bool _hasNext = false;
   final List<Item> results = [];
 
+  String get searchMode => _searchMode;
+
+  void updateSearchMode(String mode) {
+    if (mode == 'EXACT' || mode == 'FLEXIBLE') {
+      _searchMode = mode;
+    }
+  }
+
   void updateSelectedFilters(Map<String, List<String>> values) {
-    selectedFilters = values;
+    selectedFilters = {
+      for (final entry in values.entries)
+        entry.key: List<String>.from(entry.value),
+    };
+  }
+
+  SearchBodyModel _buildSearchBody({required int page}) {
+    return SearchBodyModel(
+      query: _query,
+      sort: 'RELEVANCE',
+      mode: _searchMode,
+      page: page,
+      size: 10,
+      includeExplanation: false,
+      bookIds: selectedFilters['bookIds'] ?? const [],
+      muhaddithIds: selectedFilters['muhaddithIds'] ?? const [],
+      rawiIds: selectedFilters['rawiIds'] ?? const [],
+      rulingIds: selectedFilters['rulingIds'] ?? const [],
+      topicIds: selectedFilters['topicIds'] ?? const [],
+      types: selectedFilters['types'] ?? const [],
+    );
   }
 
   Future<void> loadFilters() async {
@@ -34,27 +63,12 @@ class AdvancedSearchCubit extends Cubit<AdvancedSearchStates> {
 
   Future<void> search(String query) async {
     _query = query;
-    _page = 1;
+    _page = 0;
     _hasNext = false;
     results.clear();
     emit(AdvancedSearchLoading());
     try {
-      final response = await _repository.search(
-        SearchBodyModel(
-          query: query,
-          sort: 'RELEVANCE',
-          mode: 'EXACT',
-          page: _page,
-          size: 10,
-          includeExplanation: false,
-          bookIds: selectedFilters['bookIds'] ?? [],
-          muhaddithIds: selectedFilters['muhaddithIds'] ?? [],
-          rawiIds: selectedFilters['rawiIds'] ?? [],
-          rulingIds: selectedFilters['rulingIds'] ?? [],
-          topicIds: selectedFilters['topicIds'] ?? [],
-          types: selectedFilters['types'] ?? [],
-        ),
-      );
+      final response = await _repository.search(_buildSearchBody(page: _page));
       results.addAll(response.items ?? []);
       _hasNext = response.pagination?.hasNext ?? false;
       if (!isClosed) emit(AdvancedSearchSuccess(response));
@@ -75,20 +89,7 @@ class AdvancedSearchCubit extends Cubit<AdvancedSearchStates> {
     emit(AdvancedSearchLoadingMore());
     try {
       final response = await _repository.search(
-        SearchBodyModel(
-          query: _query,
-          sort: 'RELEVANCE',
-          mode: 'EXACT',
-          page: nextPage,
-          size: 10,
-          includeExplanation: false,
-          bookIds: selectedFilters['bookIds'] ?? [],
-          muhaddithIds: selectedFilters['muhaddithIds'] ?? [],
-          rawiIds: selectedFilters['rawiIds'] ?? [],
-          rulingIds: selectedFilters['rulingIds'] ?? [],
-          topicIds: selectedFilters['topicIds'] ?? [],
-          types: selectedFilters['types'] ?? [],
-        ),
+        _buildSearchBody(page: nextPage),
       );
       _page = nextPage;
       _hasNext = response.pagination?.hasNext ?? false;

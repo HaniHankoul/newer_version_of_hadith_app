@@ -91,7 +91,7 @@ final router = GoRouter(
           create: (context) =>
               HadithDetailCubit(hadithId: hadithId ?? '')..fetchHadithDetail(),
           child: BlocProvider(
-            create: (context) => FavoriteCubit(),
+            create: (context) => FavoriteCubit()..showFavorite(),
             child: DetailScreen(hadithId: hadithId),
           ),
         );

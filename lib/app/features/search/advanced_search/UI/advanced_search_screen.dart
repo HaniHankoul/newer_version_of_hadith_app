@@ -13,6 +13,7 @@ import '../../../../core/widgets/hadith_card.dart';
 import '../logic/advanced_search_cubit.dart';
 import '../logic/advanced_search_states.dart';
 import 'widgets/filtering_section.dart';
+import 'widgets/search_mode_switcher.dart';
 
 class AdvancedSearchScreen extends StatelessWidget {
   const AdvancedSearchScreen({super.key});
@@ -44,6 +45,13 @@ class AdvancedSearchScreen extends StatelessWidget {
                   },
                   hintText: 'ابحث عن حديث',
                   icon: HugeIcons.strokeRoundedSearch01,
+                ),
+                verticalMediumSpacing(),
+                SearchModeSwitcher(
+                  selectedMode: context.read<AdvancedSearchCubit>().searchMode,
+                  onChanged: context
+                      .read<AdvancedSearchCubit>()
+                      .updateSearchMode,
                 ),
                 verticalMediumSpacing(),
                 BlocBuilder<AdvancedSearchCubit, AdvancedSearchStates>(
