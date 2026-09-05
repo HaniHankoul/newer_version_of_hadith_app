@@ -34,7 +34,7 @@ class _SearchModeSwitcherState extends State<SearchModeSwitcher> {
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: AppColors.primaryLight,
-        border: Border.all(color: AppColors.primaryRich),
+        border: Border.all(color: AppColors.primaryRich, width: 2),
         borderRadius: BorderRadius.circular(borderRadiusM),
       ),
       child: Row(

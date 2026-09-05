@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
     this.onFieldSubmitted,
     this.onTap,
+    this.readOnly = false,
     this.controller,
     this.suffixIcon,
     required this.hintText,
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   });
   final Function(String)? onFieldSubmitted;
   final VoidCallback? onTap;
+  final bool readOnly;
   final TextEditingController? controller;
   final Widget? suffixIcon;
   final String hintText;
@@ -27,6 +29,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         onTap: onTap,
+        readOnly: readOnly,
         onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,

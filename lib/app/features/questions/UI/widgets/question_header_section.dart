@@ -36,8 +36,8 @@ class QuestionHeaderSection extends StatelessWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (context) => BlocProvider(
-                          create: (context) => QuestionsCubit(),
+                        builder: (dialogContext) => BlocProvider.value(
+                          value: context.read<QuestionsCubit>(),
                           child: DialogBody(),
                         ),
                       );

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith_app/app/core/widgets/custom_text.dart';
-import 'package:hadith_app/app/features/profile/UI/widgets/profile_form_info.dart';
-import 'package:hadith_app/app/features/profile/UI/widgets/profile_header.dart';
-import 'package:hadith_app/app/features/profile/data/models/profile_response_model.dart';
-import 'package:hadith_app/app/features/profile/logic/profile/profile_cubit.dart';
-import 'package:hadith_app/app/features/profile/logic/profile/profile_cubit_state.dart';
 
 import '../../../core/app_theme.dart';
 import '../../../core/helper/general_sizes.dart';
+import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/error_card.dart';
 import '../../../core/widgets/loading_card.dart';
 import '../../../core/widgets/universal_button.dart';
 import '../../../core/widgets/universal_container.dart';
+import '../data/models/profile_response_model.dart';
+import '../logic/profile/profile_cubit.dart';
+import '../logic/profile/profile_cubit_state.dart';
+import 'widgets/profile_form_info.dart';
+import 'widgets/profile_header.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -48,17 +48,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _pickBirthDate() async {
+    final today = DateTime.now();
+    final latestBirthDate = DateTime(today.year - 6, today.month, today.day);
     final selected = await showDatePicker(
       context: context,
       firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      initialDate:
-          DateTime.tryParse(birthDateController.text) ?? DateTime(2000),
+      lastDate: latestBirthDate,
+      initialDate: _validInitialBirthDate(latestBirthDate),
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.light(
+            primary: AppColors.primary,
+            onPrimary: AppColors.textWhite,
+            surface: AppColors.primaryLight,
+            onSurface: AppColors.textPrimary,
+          ),
+          datePickerTheme: DatePickerThemeData(
+            backgroundColor: AppColors.primaryLight,
+            headerBackgroundColor: AppColors.primary,
+            headerForegroundColor: AppColors.textWhite,
+          ),
+        ),
+        child: child!,
+      ),
     );
     if (selected != null) {
       birthDateController.text =
           '${selected.year.toString().padLeft(4, '0')}-${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}';
     }
+  }
+
+  DateTime _validInitialBirthDate(DateTime latestBirthDate) {
+    final currentDate = DateTime.tryParse(birthDateController.text);
+    if (currentDate == null || currentDate.isAfter(latestBirthDate)) {
+      return latestBirthDate;
+    }
+    return currentDate;
   }
 
   @override
@@ -68,6 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (state is ProfileCubitLoading) {
           return LoadingCard();
         }
+
         if (state is ProfileCubitError) {
           return ErrorCard(message: 'عذرا حدث خطا ما');
         }

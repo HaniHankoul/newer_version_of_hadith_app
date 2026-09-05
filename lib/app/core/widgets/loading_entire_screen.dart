@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+import '../helper/assets.dart';
 
 class LoadingEntireScreen extends StatelessWidget {
   const LoadingEntireScreen({super.key});
@@ -10,8 +13,12 @@ class LoadingEntireScreen extends StatelessWidget {
       children: [
         const ModalBarrier(dismissible: false, color: Color(0x99FFFFFF)),
         Center(
-          child: CircularProgressIndicator(
-            color: Theme.of(context).colorScheme.primary,
+          child: SizedBox(
+            height: 120,
+            width: 120,
+            child: LottieBuilder.asset(
+              Assets.assetsImagesLottiesLoadingGrayCircles,
+            ),
           ),
         ),
       ],

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
+import 'package:lottie/lottie.dart';
+
+import '../helper/assets.dart';
 
 class UniversalButton extends StatefulWidget {
   const UniversalButton({
@@ -86,13 +89,10 @@ class _UniversalButtonState extends State<UniversalButton> {
             textDirection: TextDirection.rtl,
             children: [
               if (widget.isLoading)
-                SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: widget.textColor,
-                  ),
+                LottieBuilder.asset(
+                  fit: BoxFit.cover,
+                  width: 30,
+                  Assets.assetsImagesLottiesLoadingBlackDots,
                 )
               else if (widget.icon != null)
                 Icon(widget.icon, size: 18, color: widget.textColor),

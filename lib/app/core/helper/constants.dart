@@ -3,7 +3,6 @@ import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:toastification/toastification.dart';
 
-
 class Constants {
   final String appName = "Hadith App";
   void successBar(String message) {
@@ -25,6 +24,18 @@ class Constants {
       borderRadius: BorderRadius.circular(borderRadiusL),
       icon: Icon(Icons.error, color: Colors.white),
       autoCloseDuration: const Duration(seconds: 5),
+    );
+  }
+
+  void detailsBar(String message) {
+    toastification.show(
+      title: CustomText(text: message, color: Colors.black, fontSize: 14),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.lightBlue.withAlpha(50),
+      borderSide: BorderSide(color: Colors.lightBlue.withAlpha(50), width: 1),
+      borderRadius: BorderRadius.circular(borderRadiusL),
+      alignment: Alignment.bottomCenter,
+      autoCloseDuration: const Duration(seconds: 3),
     );
   }
 }

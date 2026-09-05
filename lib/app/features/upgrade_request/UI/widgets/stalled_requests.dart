@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../../../core/helper/assets.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../data/models/upgrade_model_response.dart';
 
@@ -42,7 +44,15 @@ class StalledRequests extends StatelessWidget {
           const SizedBox(height: 14),
 
           if (isLoading)
-            const Center(child: CircularProgressIndicator())
+            Center(
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: LottieBuilder.asset(
+                  Assets.assetsImagesLottiesLoadingBlackDots,
+                ),
+              ),
+            )
           else if (requests.isEmpty)
             Text(
               'لا توجد طلبات معلقة حالياً',

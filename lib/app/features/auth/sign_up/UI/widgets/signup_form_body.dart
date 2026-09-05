@@ -20,11 +20,53 @@ class SignupFormBody extends StatelessWidget {
       validators: [Validators.required, Validators.email],
     ),
     'gender': FormControl<String>(validators: [Validators.required]),
-    'birthdate': FormControl<String>(validators: [Validators.required]),
+    'birthdate': FormControl<Object?>(validators: [Validators.required]),
     'password': FormControl<String>(
       validators: [Validators.required, Validators.minLength(8)],
     ),
   });
+
+  Future<void> _pickBirthDate(
+    BuildContext context,
+    FormControl<Object?> control,
+  ) async {
+    final today = DateTime.now();
+    final latestBirthDate = DateTime(today.year - 6, today.month, today.day);
+    final currentValue = DateTime.tryParse(control.value?.toString() ?? '');
+    final initialDate =
+        currentValue != null && !currentValue.isAfter(latestBirthDate)
+        ? currentValue
+        : latestBirthDate;
+
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1900),
+      lastDate: latestBirthDate,
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.light(
+            primary: AppColors.primary,
+            onPrimary: AppColors.textWhite,
+            surface: AppColors.primaryLight,
+            onSurface: AppColors.textPrimary,
+          ),
+          datePickerTheme: DatePickerThemeData(
+            backgroundColor: AppColors.primaryLight,
+            headerBackgroundColor: AppColors.primary,
+            headerForegroundColor: AppColors.textWhite,
+          ),
+        ),
+        child: child!,
+      ),
+    );
+
+    if (selectedDate == null) return;
+    control.value =
+        '${selectedDate.year.toString().padLeft(4, '0')}-'
+        '${selectedDate.month.toString().padLeft(2, '0')}-'
+        '${selectedDate.day.toString().padLeft(2, '0')}';
+  }
 
   void _submit(FormGroup form, BuildContext context) {
     if (!form.valid) {
@@ -259,7 +301,7 @@ class SignupFormBody extends StatelessWidget {
                         ValidationMessage.required: (_) =>
                             'الرجاء إدخال كلمة المرور',
                         ValidationMessage.minLength: (_) =>
-                            'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
+                            'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
                       },
                     ),
                   ),
@@ -341,7 +383,8 @@ class SignupFormBody extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                     child: ReactiveTextField(
                       formControlName: 'birthdate',
-                      keyboardType: TextInputType.datetime,
+                      readOnly: true,
+                      onTap: (control) => _pickBirthDate(context, control),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         hintText: 'مثال: 1990-01-01',

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../../../core/helper/assets.dart';
 import '../../../../core/helper/constants.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
@@ -38,8 +40,8 @@ class _DialogBodyState extends State<DialogBody> {
       setState(() {
         _isLoading = false;
         _message = 'تم ارسال سؤالك بنجاح';
-        context.read<QuestionsCubit>().getQuestions();
       });
+      context.read<QuestionsCubit>().getQuestions();
       Navigator.pop(context);
 
       Constants().successBar('تم ارسال سؤالك بنجاح');
@@ -51,12 +53,7 @@ class _DialogBodyState extends State<DialogBody> {
         _message = e.toString();
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(_message ?? 'حدث خطأ'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      Constants().errorBar('حدث خطأ أثناء ارسال سؤالك');
     }
   }
 
@@ -102,7 +99,6 @@ class _DialogBodyState extends State<DialogBody> {
         textDirection: TextDirection.rtl,
         maxLines: 5,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
           hintText: 'اكتب سؤالك',
           hintTextDirection: TextDirection.rtl,
           hintStyle: TextStyle(
@@ -128,7 +124,11 @@ class _DialogBodyState extends State<DialogBody> {
       ),
       actions: [
         _isLoading
-            ? const CircularProgressIndicator()
+            ? LottieBuilder.asset(
+                width: 50,
+                height: 50,
+                Assets.assetsImagesLottiesLoadingBlackDots,
+              )
             : UniversalButton(
                 onTap: _sendQuestion,
                 title: 'إرسال',

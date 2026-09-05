@@ -8,6 +8,7 @@ import 'package:hadith_app/app/core/widgets/universal_container.dart';
 
 import '../hadith_detail/logic/hadith_detail_cubit.dart';
 import '../hadith_detail/logic/hadith_detail_cubit_state.dart';
+import '../helper/constants.dart';
 import 'custom_text.dart';
 import 'universal_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,23 +25,15 @@ class DetailScreen extends StatelessWidget {
     return BlocListener<FavoriteCubit, FavoritCubitStates>(
       listener: (context, state) {
         if (state is FavoriteCubitAddSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.added
-                    ? 'تمت إضافة الحديث إلى المفضلة'
-                    : 'الحديث موجود مسبقاً في المفضلة',
-              ),
-            ),
+          Constants().detailsBar(
+            state.added
+                ? 'تمت إضافة الحديث إلى المفضلة'
+                : 'الحديث موجود مسبقاً في المفضلة',
           );
         } else if (state is FavoriteCubitRemoveSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تمت إزالة الحديث من المفضلة')),
-          );
+          Constants().detailsBar('تمت إزالة الحديث من المفضلة');
         } else if (state is FavoriteCubitError) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.error)));
+          Constants().detailsBar('سجل الدخول اولا');
         }
       },
       child: Scaffold(
@@ -325,6 +318,7 @@ class DetailScreen extends StatelessWidget {
                                 state is FavoriteCubitLoading;
 
                             return UniversalButton(
+                              widthPortion: .4,
                               icon: favorite
                                   ? Icons.bookmark_remove_outlined
                                   : Icons.bookmark_added_sharp,
@@ -354,7 +348,7 @@ class DetailScreen extends StatelessWidget {
                         ),
                         horizontalLargeSpacing(),
                         UniversalButton(
-                          widthPortion: .37,
+                          widthPortion: .35,
                           icon: Icons.copy,
                           title: 'نسخ',
                           onTap: () => _copyHadith(context, hadith.text),
@@ -364,7 +358,7 @@ class DetailScreen extends StatelessWidget {
                         ),
                         horizontalLargeSpacing(),
                         UniversalButton(
-                          widthPortion: .37,
+                          widthPortion: .35,
                           icon: Icons.share_outlined,
                           title: 'مشاركة',
                           onTap: () => _shareHadith(context, hadith.text),
@@ -391,9 +385,7 @@ class DetailScreen extends StatelessWidget {
 
     await Clipboard.setData(ClipboardData(text: hadithText));
     if (!context.mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('تم نسخ نص الحديث')));
+    Constants().detailsBar('تم نسخ نص الحديث إلى الحافظة');
   }
 
   Future<void> _shareHadith(BuildContext context, String? text) async {
@@ -405,17 +397,9 @@ class DetailScreen extends StatelessWidget {
     } catch (e) {
       await Clipboard.setData(ClipboardData(text: hadithText));
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تعذر فتح المشاركة، تم نسخ نص الحديث بدلاً من ذلك'),
-        ),
+      Constants().detailsBar(
+        'تعذر مشاركة الحديث، تم نسخ نص الحديث إلى الحافظة',
       );
     }
   }
-
-  // void _addFavorite(BuildContext context, String hadithId) {
-  //   final cubit = context.read<FavoriteCubit?>();
-  //   if (cubit == null) return;
-  //   cubit.addFavorite(hadithId);
-  // }
 }

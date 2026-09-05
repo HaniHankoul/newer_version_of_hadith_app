@@ -84,7 +84,9 @@ class QuestionsRepo {
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         final payload = _extractQuestionPayload(response.data);
 
         if (payload is Map<String, dynamic>) {
@@ -97,7 +99,7 @@ class QuestionsRepo {
           );
         }
 
-        throw Exception('Unexpected response format: ${response.data}');
+        return QuestionModelResponse(askerText: cleanQuery);
       }
 
       throw Exception(

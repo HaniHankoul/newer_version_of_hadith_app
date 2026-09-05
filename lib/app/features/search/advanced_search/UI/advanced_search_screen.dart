@@ -167,9 +167,12 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                                 return HadithCard(items: item);
                               }),
                               if (state is AdvancedSearchLoadingMore)
-                                const Padding(
-                                  padding: EdgeInsets.all(GeneralSizes.medium),
-                                  child: CircularProgressIndicator(),
+                                SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: LottieBuilder.asset(
+                                    Assets.assetsImagesLottiesLoadingBlackDots,
+                                  ),
                                 ),
                             ],
                           );

@@ -150,7 +150,7 @@ class LoginFormBody extends StatelessWidget {
                         ValidationMessage.required: (_) =>
                             'الرجاء إدخال كلمة المرور',
                         ValidationMessage.minLength: (_) =>
-                            'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
+                            'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
                       },
                     ),
                   ),

@@ -80,6 +80,7 @@ class ProfileFormInfo extends StatelessWidget {
           ),
           child: CustomTextField(
             controller: birthDateController,
+            readOnly: true,
             hintText: 'YYYY-MM-DD',
             icon: HugeIcons.strokeRoundedDateTime,
             onTap: onBirthDateTap,
