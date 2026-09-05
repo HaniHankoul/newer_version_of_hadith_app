@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadith_app/app/core/app_theme.dart';
+import 'package:hadith_app/app/core/helper/constants.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/core/widgets/universal_button.dart';
@@ -46,13 +48,15 @@ class TranslatorsCard extends StatelessWidget {
             verticalLargeSpacing(),
             CustomText(
               text: cardText,
-              fontSize: 13,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
             verticalMediumSpacing(),
             UniversalButton(
-              widthPortion: .2,
-              onTap: () {},
+              widthPortion: .24,
+              onTap: () {
+                _copyHadith(context, cardText);
+              },
               title: 'نسخ ',
               icon: Icons.copy,
               color: transparent,
@@ -64,4 +68,13 @@ class TranslatorsCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _copyHadith(BuildContext context, String? text) async {
+  final hadithText = text?.trim() ?? '';
+  if (hadithText.isEmpty) return;
+
+  await Clipboard.setData(ClipboardData(text: hadithText));
+  if (!context.mounted) return;
+  Constants().detailsBar('تم نسخ نص الحديث إلى الحافظة');
 }

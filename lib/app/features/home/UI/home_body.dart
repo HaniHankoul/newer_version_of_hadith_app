@@ -128,8 +128,8 @@ class _HomeBodyState extends State<HomeBody> {
                                 SearchBodyModel(
                                   query: value,
                                   sort: 'RELEVANCE',
-                                  mode: 'EXACT',
-                                  page: 1,
+                                  mode: 'FLEXIBLE',
+                                  page: 0,
                                   size: 10,
                                   includeExplanation: false,
                                 ),

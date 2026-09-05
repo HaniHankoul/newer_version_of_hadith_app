@@ -28,7 +28,7 @@ class ProfileFormInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: GeneralSizes.medium),
           child: CustomText(
-            text: 'تغيير اسم المستخدم',
+            text: ' اسم المستخدم',
             fontSize: 14,
             fontWeight: FontWeight.w700,
           ),
@@ -36,7 +36,7 @@ class ProfileFormInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: GeneralSizes.medium,
-            vertical: GeneralSizes.small,
+            vertical: 2,
           ),
           child: CustomTextField(
             controller: nameController,
@@ -48,7 +48,7 @@ class ProfileFormInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: GeneralSizes.medium),
           child: CustomText(
-            text: 'تغيير البريد الإلكتروني',
+            text: 'البريد الالكتروني',
             fontSize: 14,
             fontWeight: FontWeight.w700,
           ),
@@ -56,7 +56,27 @@ class ProfileFormInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: GeneralSizes.medium,
-            vertical: GeneralSizes.small,
+            vertical: 2,
+          ),
+          child: CustomTextField(
+            readOnly: true,
+            hintText: state.profileResponse?.email ?? '',
+            icon: HugeIcons.strokeRoundedUser02,
+          ),
+        ),
+        verticalSmallSpacing(),
+        Padding(
+          padding: const EdgeInsets.only(right: GeneralSizes.medium),
+          child: CustomText(
+            text: 'الجنس',
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: GeneralSizes.medium,
+            vertical: 2,
           ),
           child: CustomTextField(
             controller: genderController,
@@ -68,7 +88,7 @@ class ProfileFormInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: GeneralSizes.medium),
           child: CustomText(
-            text: ' تغيير تاريخ الميلاد',
+            text: ' تاريخ الميلاد',
             fontSize: 14,
             fontWeight: FontWeight.w700,
           ),
@@ -76,7 +96,7 @@ class ProfileFormInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: GeneralSizes.medium,
-            vertical: GeneralSizes.small,
+            vertical: 2,
           ),
           child: CustomTextField(
             controller: birthDateController,

@@ -82,9 +82,13 @@ class TodaysHadithHeader extends StatelessWidget {
                   ),
                 ),
               ]
-              .animate(interval: 230.ms)
-              .fade(duration: 250.ms)
-              .slide(begin: Offset(0, 1), end: Offset(0, 0), duration: 200.ms),
+              .animate(onPlay: (controller) => controller.repeat(reverse: true))
+              .moveY(
+                begin: -3,
+                end: 3,
+                duration: 1.seconds,
+                curve: Curves.easeInOut,
+              ),
     );
   }
 }

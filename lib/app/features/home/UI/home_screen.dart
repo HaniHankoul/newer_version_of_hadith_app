@@ -47,7 +47,11 @@ class HomeScreen extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                Expanded(child: SingleChildScrollView(child: body(state))),
+                Expanded(
+                  child: state == NavigationState.home
+                      ? body(state)
+                      : SingleChildScrollView(child: body(state)),
+                ),
                 NavigationPanel(),
               ],
             ),
@@ -67,7 +71,18 @@ Widget body(NavigationState state) {
           BlocProvider(create: (context) => SearchCubit()),
           BlocProvider(create: (context) => SearchHistoryCubit()),
         ],
-        child: HomeBody(),
+        child: Builder(
+          builder: (context) => NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              if (notification.metrics.pixels >=
+                  notification.metrics.maxScrollExtent - 200) {
+                context.read<SearchCubit>().loadMore();
+              }
+              return false;
+            },
+            child: SingleChildScrollView(child: HomeBody()),
+          ),
+        ),
       );
     case NavigationState.settings:
       return MultiBlocProvider(

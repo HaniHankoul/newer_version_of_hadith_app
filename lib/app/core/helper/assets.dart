@@ -6,9 +6,13 @@ class Assets {
   /// assets/fonts/cairo.ttf
   static const String assetsFontsCairo = "assets/fonts/cairo.ttf";
 
-  /// Assets for assetsImagesBigCircle
-  /// assets/images/big_circle.svg
-  static const String assetsImagesBigCircle = "assets/images/big_circle.svg";
+  /// Assets for assetsImagesLottiesIcons8Bookmark
+  /// assets/images/lotties/icons8-bookmark.json
+  static const String assetsImagesLottiesIcons8Bookmark = "assets/images/lotties/icons8-bookmark.json";
+
+  /// Assets for assetsImagesLottiesIcons8Key
+  /// assets/images/lotties/icons8-key.json
+  static const String assetsImagesLottiesIcons8Key = "assets/images/lotties/icons8-key.json";
 
   /// Assets for assetsImagesLottiesLoadingBlackCircle
   /// assets/images/lotties/loading_black_circle.json
@@ -41,9 +45,5 @@ class Assets {
   /// Assets for assetsImagesQuran
   /// assets/images/quran.svg
   static const String assetsImagesQuran = "assets/images/quran.svg";
-
-  /// Assets for assetsImagesSmallCircle
-  /// assets/images/small_circle.svg
-  static const String assetsImagesSmallCircle = "assets/images/small_circle.svg";
 }
 

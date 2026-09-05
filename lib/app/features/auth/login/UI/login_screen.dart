@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/helper/constants.dart';
 import 'package:hadith_app/app/core/navigation/logic/navigation_cubit.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import '../../../../core/app_theme.dart';
-import '../../../../core/helper/assets.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/loading_entire_screen.dart';
@@ -68,20 +66,20 @@ class LoginScreen extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: SvgPicture.asset(
-                      Assets.assetsImagesSmallCircle,
-                      width: 160,
-                      height: 160,
+                  Positioned(
+                    top: -120,
+                    left: -150,
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primary.withAlpha(80),
+                      radius: 160,
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: SvgPicture.asset(
-                      Assets.assetsImagesBigCircle,
-                      width: 160,
-                      height: 200,
+                  Positioned(
+                    bottom: -140,
+                    right: -150,
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primary.withAlpha(80),
+                      radius: 180,
                     ),
                   ),
                   Align(
