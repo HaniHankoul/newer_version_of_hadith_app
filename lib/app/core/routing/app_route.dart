@@ -13,7 +13,6 @@ import '../../features/favourite/UI/favourite_screen.dart';
 import '../../features/favourite/data/models/favorite_model.dart' as favorite;
 import '../../features/favourite/logic/favorite_cubit.dart';
 import '../../features/home/UI/home_screen.dart';
-import '../../features/home/data/models/search_model.dart';
 import '../hadith_detail/logic/hadith_detail_cubit.dart';
 import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
@@ -136,31 +135,4 @@ final router = GoRouter(
       },
     ),
   ],
-);
-
-Item _toSearchItem(favorite.Item item) => Item(
-  id: item.id,
-  text: item.text,
-  normalText: item.normalText,
-  hadithNumber: item.hadithNumber,
-  type: item.type,
-  sanad: item.sanad,
-  book: item.book == null
-      ? null
-      : Book(id: item.book!.id, name: item.book!.name),
-  rawi: item.rawi == null
-      ? null
-      : Book(id: item.rawi!.id, name: item.rawi!.name),
-  ruling: item.ruling == null
-      ? null
-      : Book(id: item.ruling!.id, name: item.ruling!.name),
-  muhaddith: item.muhaddith == null
-      ? null
-      : Book(id: item.muhaddith!.id, name: item.muhaddith!.name),
-  topics: item.topics
-      ?.whereType<Map>()
-      .map((topic) => Book.fromJson(Map<String, dynamic>.from(topic)))
-      .toList(),
-  hasExplanation: item.hasExplanation,
-  hasSubValid: item.hasSubValid,
 );

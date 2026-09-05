@@ -21,7 +21,9 @@ class BooksScreen extends StatelessWidget {
       body: BlocBuilder<BookCubit, BookCubitState>(
         builder: (context, state) {
           if (state is BookCubitLoading) return const LoadingCard();
-          if (state is BookCubitError) return ErrorCard(message: state.message);
+          if (state is BookCubitError) {
+            return ErrorCard(message: 'حدث خطأ أثناء التحميل');
+          }
           if (state is BookCubitSuccess) {
             if (state.books.isEmpty) {
               return Center(child: CustomText(text: 'لا توجد كتب'));

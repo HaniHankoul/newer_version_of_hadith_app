@@ -91,7 +91,7 @@ class _UniversalButtonState extends State<UniversalButton> {
               if (widget.isLoading)
                 LottieBuilder.asset(
                   fit: BoxFit.cover,
-                  width: 30,
+                  width: 20,
                   Assets.assetsImagesLottiesLoadingBlackDots,
                 )
               else if (widget.icon != null)

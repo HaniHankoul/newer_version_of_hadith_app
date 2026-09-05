@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hadith_app/app/core/widgets/loading_card.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
@@ -32,9 +33,10 @@ class DetailScreen extends StatelessWidget {
           );
         } else if (state is FavoriteCubitRemoveSuccess) {
           Constants().detailsBar('تمت إزالة الحديث من المفضلة');
-        } else if (state is FavoriteCubitError) {
-          Constants().detailsBar('سجل الدخول اولا');
         }
+        //  else if (state is FavoriteCubitError) {
+        //   Constants().detailsBar('سجل الدخول اولا');
+        // }
       },
       child: Scaffold(
         backgroundColor: AppColors.primaryBackground,
@@ -45,7 +47,7 @@ class DetailScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is HadithDetailLoading ||
                   state is HadithDetailInitial) {
-                return const Center(child: CircularProgressIndicator());
+                return LoadingCard();
               }
               if (state is HadithDetailError) {
                 return Center(child: Text(state.message));
@@ -112,52 +114,56 @@ class DetailScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: GeneralSizes.large,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          borderRadiusM,
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: GeneralSizes.large,
+                                          vertical: 4,
                                         ),
-                                        border: Border.all(
-                                          color: AppColors.primary,
-                                          width: 2,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            borderRadiusM,
+                                          ),
+                                          border: Border.all(
+                                            color: AppColors.primary,
+                                            width: 2,
+                                          ),
                                         ),
-                                      ),
-                                      child: CustomText(
-                                        text: hadith.type ?? '',
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    horizontalSmallSpacing(),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: GeneralSizes.large,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          borderRadiusM,
-                                        ),
-                                        border: Border.all(
-                                          color: AppColors.primary,
-                                          width: 2,
+                                        child: CustomText(
+                                          text:
+                                              'نوع الحديث: ${hadith.type ?? ''}',
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                      child: CustomText(
-                                        text:
-                                            'رقم الحديث: ${hadith.hadithNumber ?? ''}',
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700,
+                                      horizontalSmallSpacing(),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: GeneralSizes.large,
+                                          vertical: 4,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            borderRadiusM,
+                                          ),
+                                          border: Border.all(
+                                            color: AppColors.primary,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child: CustomText(
+                                          text:
+                                              'رقم الحديث: ${hadith.hadithNumber ?? ''}',
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 verticalMediumSpacing(),
                                 UniversalContainer(

@@ -16,7 +16,7 @@ class QuestionHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return UniversalContainer(
-      borderColor: Colors.white,
+      borderColor: AppColors.primary,
       heightPortion: 0,
       widthPortion: .9,
       child: Padding(

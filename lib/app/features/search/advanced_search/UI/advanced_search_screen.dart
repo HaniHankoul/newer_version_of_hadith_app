@@ -153,6 +153,25 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                               ),
                             ],
                           );
+                        }
+                        if (state is AdvancedSearchInitial ||
+                            state is AdvancedSearchFiltersLoaded) {
+                          return Column(
+                            children: [
+                              verticalLargeSpacing(),
+                              SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: LottieBuilder.asset(
+                                  Assets.assetsImagesLottiesSearch,
+                                ),
+                              ),
+                              CustomText(
+                                text: 'ابحث عن حديث باستخدام الفلاتر',
+                                color: AppColors.primary,
+                              ),
+                            ],
+                          );
                         } else if (state is AdvancedSearchSuccess ||
                             state is AdvancedSearchLoadingMore) {
                           final items = context
@@ -176,7 +195,9 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                                 ),
                             ],
                           );
-                        } else if (state is AdvancedSearchError) {
+                        }
+
+                        if (state is AdvancedSearchError) {
                           return CustomText(text: state.message);
                         }
                         return const SizedBox.shrink();

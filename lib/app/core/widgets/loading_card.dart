@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/core/widgets/universal_container.dart';
 import 'package:lottie/lottie.dart';

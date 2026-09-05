@@ -17,53 +17,66 @@ class TranslatorsCard extends StatelessWidget {
   final String cardText;
   @override
   Widget build(BuildContext context) {
-    return UniversalContainer(
-      heightPortion: 0,
-      widthPortion: .7,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: GeneralSizes.medium,
-          vertical: GeneralSizes.small + 4,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: GeneralSizes.large,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(borderRadiusM),
-                  border: Border.all(color: AppColors.primary, width: 2),
-                ),
-                child: CustomText(
-                  text: nameTitle,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadiusM),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withAlpha(100),
+            spreadRadius: 2,
+            blurRadius: 3,
+            offset: Offset(0, 2), // changes position of shadow
+          ),
+        ],
+      ),
+      child: UniversalContainer(
+        heightPortion: 0,
+        widthPortion: .7,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: GeneralSizes.medium,
+            vertical: GeneralSizes.small + 4,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: GeneralSizes.large,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(borderRadiusM),
+                    border: Border.all(color: AppColors.primary, width: 2),
+                  ),
+                  child: CustomText(
+                    text: nameTitle,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-            ),
-            verticalLargeSpacing(),
-            CustomText(
-              text: cardText,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-            verticalMediumSpacing(),
-            UniversalButton(
-              widthPortion: .24,
-              onTap: () {
-                _copyHadith(context, cardText);
-              },
-              title: 'نسخ ',
-              icon: Icons.copy,
-              color: transparent,
-              textColor: Colors.black,
-              borderColor: AppColors.primary,
-            ),
-          ],
+              verticalLargeSpacing(),
+              CustomText(
+                text: cardText,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+              verticalMediumSpacing(),
+              UniversalButton(
+                widthPortion: .24,
+                onTap: () {
+                  _copyHadith(context, cardText);
+                },
+                title: 'نسخ ',
+                icon: Icons.copy,
+                color: transparent,
+                textColor: Colors.black,
+                borderColor: AppColors.primary,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -28,7 +28,7 @@ class UniversalContainer extends StatelessWidget {
       width: widthPortion == 0 ? null : screenWidth * widthPortion,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderR ?? GeneralSizes.medium),
-        border: Border.all(color: borderColor ?? Colors.black26),
+        border: Border.all(color: borderColor ?? Colors.black26, width: 1),
         color: color ?? AppColors.white,
       ),
       child: child,

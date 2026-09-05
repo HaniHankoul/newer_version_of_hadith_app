@@ -28,7 +28,6 @@ class SearchApiService {
           },
         ),
       );
-      print("search response: ${response.data}");
       return SearchResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw Exception(e.response?.data ?? "search failed");

@@ -10,6 +10,7 @@ import 'package:hugeicons/hugeicons.dart';
 
 import '../logic/fake_hadtith_cubit.dart';
 import '../logic/fake_hadith_state.dart';
+import 'widgets/fake_hadith_card.dart';
 
 class FakeHadithScreen extends StatelessWidget {
   const FakeHadithScreen({super.key});
@@ -73,14 +74,7 @@ class FakeHadithScreen extends StatelessWidget {
                         );
                       }
                       final hadith = hadiths[index];
-                      return Card(
-                        child: ListTile(
-                          title: Text(hadith.text ?? 'لا يوجد نص للحديث'),
-                          subtitle: Text(
-                            hadith.ruling?.name ?? 'حديث منتشر لا يصح',
-                          ),
-                        ),
-                      );
+                      return FakeHadithCard(item: hadith);
                     },
                   );
                 },

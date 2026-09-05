@@ -92,8 +92,9 @@ class FavoriteRepo {
 
   Future<String> _accessToken() async {
     final token = await AuthStorage.getAccessToken();
-    if (token == null || token.isEmpty)
+    if (token == null || token.isEmpty) {
       throw Exception('No access token found');
+    }
     return token;
   }
 

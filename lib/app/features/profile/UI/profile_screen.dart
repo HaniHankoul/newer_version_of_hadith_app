@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../core/app_theme.dart';
+import '../../../core/helper/assets.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/error_card.dart';
@@ -134,24 +136,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.symmetric(
                               horizontal: GeneralSizes.large,
                             ),
-                            child: UniversalButton(
-                              onTap: () {
-                                if (profile != null) {
-                                  context.read<ProfileCubit>().updateProfile(
-                                    name: nameController.text,
-                                    gender: genderController.text,
-                                    birthDate: birthDateController.text,
-                                  );
-                                }
-                              },
-                              height: 45,
-                              title: 'حفظ التغييرات في الملف الشخصي',
-                              color: AppColors.primaryRich,
-                              textColor: Colors.black,
-                              borderColor: AppColors.primaryRich,
-                              icon: Icons.person_3_outlined,
-                              isLoading: state is ProfileCubitUpdating,
-                            ),
+                            child: state is ProfileCubitUpdating
+                                ? SizedBox(
+                                    width: 100,
+                                    height: 45,
+                                    child: LottieBuilder.asset(
+                                      fit: BoxFit.cover,
+                                      width: 20,
+                                      Assets
+                                          .assetsImagesLottiesLoadingBlackDots,
+                                    ),
+                                  )
+                                : UniversalButton(
+                                    onTap: () {
+                                      if (profile != null) {
+                                        context
+                                            .read<ProfileCubit>()
+                                            .updateProfile(
+                                              name: nameController.text,
+                                              gender: genderController.text,
+                                              birthDate:
+                                                  birthDateController.text,
+                                            );
+                                      }
+                                    },
+                                    height: 45,
+                                    title: 'حفظ التغييرات في الملف الشخصي',
+                                    color: AppColors.primaryRich,
+                                    textColor: Colors.black,
+                                    borderColor: AppColors.primaryRich,
+                                    icon: Icons.person_3_outlined,
+                                  ),
                           ),
                         ]
                         .animate(interval: 100.ms)

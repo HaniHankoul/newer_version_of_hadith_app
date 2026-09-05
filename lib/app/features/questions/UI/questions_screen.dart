@@ -20,12 +20,15 @@ class QuestionsScreen extends StatelessWidget {
         if (state is QuestionsLoadingState) {
           return LoadingCard();
         } else if (state is QuestionsErrorState) {
-          return ErrorCard(message: state.errorMessage);
+          return ErrorCard(message: 'حدثت مشكلة أثناء تحميل الأسئلة');
         } else if (state is QuestionsSuccessState) {
           return Column(
             children: [
               verticalLargeSpacing(),
-              QuestionHeaderSection(state: state.questions),
+              QuestionHeaderSection(state: state.questions)
+                  .animate()
+                  .fade(duration: 250.ms)
+                  .slide(begin: Offset(0, 0.3), duration: 200.ms),
               verticalSmallSpacing(),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.5,

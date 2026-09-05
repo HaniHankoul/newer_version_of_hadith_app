@@ -30,6 +30,10 @@ class Assets {
   /// assets/images/lotties/loading_gray_circles.json
   static const String assetsImagesLottiesLoadingGrayCircles = "assets/images/lotties/loading_gray_circles.json";
 
+  /// Assets for assetsImagesLottiesSearch
+  /// assets/images/lotties/Search.json
+  static const String assetsImagesLottiesSearch = "assets/images/lotties/Search.json";
+
   /// Assets for assetsImagesOrnament
   /// assets/images/ornament.svg
   static const String assetsImagesOrnament = "assets/images/ornament.svg";
