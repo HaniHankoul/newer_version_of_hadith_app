@@ -175,22 +175,24 @@ class DetailScreen extends StatelessWidget {
                                   ),
                                 ),
                                 verticalMediumSpacing(),
-                                UniversalContainer(
-                                  heightPortion: 0,
-                                  widthPortion: .84,
-                                  borderColor: AppColors.primary,
-                                  color: AppColors.primaryLight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CustomText(
-                                      text:
-                                          hadith.explanation?.text.toString() ??
-                                          '',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
+                                if (hadith.explanation != null)
+                                  UniversalContainer(
+                                    heightPortion: 0,
+                                    widthPortion: .84,
+                                    borderColor: AppColors.primary,
+                                    color: AppColors.primaryLight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomText(
+                                        text:
+                                            hadith.explanation?.text
+                                                .toString() ??
+                                            '',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
-                                ),
                                 verticalMediumSpacing(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,

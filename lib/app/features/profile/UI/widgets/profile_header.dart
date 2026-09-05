@@ -21,7 +21,7 @@ class ProfileHeader extends StatelessWidget {
     return BlocConsumer<AvatarCubit, AvatarState>(
       listener: (context, state) {
         if (state is AvatarError) {
-          Constants().errorBar(state.errorMessage);
+          Constants().errorBar('جرب اختيار صورة بحجم اقل من 2 ميجابايت');
         }
       },
       builder: (context, state) {
@@ -55,64 +55,65 @@ class ProfileHeader extends StatelessWidget {
               ),
             ),
             Center(
-              child: CircleAvatar(
-                backgroundColor: AppColors.black.withAlpha(200),
-                radius: 50,
-                backgroundImage: currentAvatarUrl == null
-                    ? null
-                    : NetworkImage(currentAvatarUrl),
-                child: currentAvatarUrl == null
-                    ? HugeIcon(
-                        icon: HugeIcons.strokeRoundedMale02,
-                        size: 60,
-                        color: AppColors.white,
-                      )
-                    : null,
-              ),
+              child: isProcessing
+                  ? CircleAvatar(
+                      radius: 50,
+                      backgroundColor: AppColors.black.withAlpha(200),
+                      child: CircularProgressIndicator(color: Colors.white),
+                    )
+                  : CircleAvatar(
+                      backgroundColor: AppColors.black.withAlpha(200),
+                      radius: 50,
+                      backgroundImage: currentAvatarUrl == null
+                          ? null
+                          : NetworkImage(currentAvatarUrl),
+                      child: currentAvatarUrl == null
+                          ? HugeIcon(
+                              icon: HugeIcons.strokeRoundedMale02,
+                              size: 60,
+                              color: AppColors.white,
+                            )
+                          : null,
+                    ),
             ),
             verticalMediumSpacing(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                state is AvatarLoading
-                    ? CircularProgressIndicator(color: AppColors.primary)
-                    : UniversalButton(
-                        icon: Icons.delete,
-                        title: 'ازالة الصورة',
-                        onTap: isProcessing
-                            ? () {}
-                            : () => context.read<AvatarCubit>().deleteAvatar(),
-                        color: AppColors.white,
-                        textColor: AppColors.black,
-                        borderColor: AppColors.primary,
-                        isLoading: isProcessing,
-                      ),
+                UniversalButton(
+                  icon: Icons.delete,
+                  title: 'ازالة الصورة',
+                  onTap: isProcessing
+                      ? () {}
+                      : () => context.read<AvatarCubit>().deleteAvatar(),
+                  color: AppColors.white,
+                  textColor: AppColors.black,
+                  borderColor: AppColors.primary,
+                ),
                 horizontalLargeSpacing(),
                 horizontalMediumSpacing(),
-                state is AvatarLoading
-                    ? SizedBox()
-                    : UniversalButton(
-                        icon: Icons.photo,
-                        title: 'تعيين صورة',
-                        onTap: isProcessing
-                            ? () {}
-                            : () {
-                                final avatarCubit = context.read<AvatarCubit>();
-                                showModalBottomSheet(
-                                  context: context,
-                                  showDragHandle: true,
-                                  builder: (context) => PictureBottomSheetBody(
-                                    onImageSelected: (image) {
-                                      avatarCubit.updateAvatar(image);
-                                    },
-                                  ),
-                                );
+
+                UniversalButton(
+                  icon: Icons.photo,
+                  title: 'تعيين صورة',
+                  onTap: isProcessing
+                      ? () {}
+                      : () {
+                          final avatarCubit = context.read<AvatarCubit>();
+                          showModalBottomSheet(
+                            context: context,
+                            showDragHandle: true,
+                            builder: (context) => PictureBottomSheetBody(
+                              onImageSelected: (image) {
+                                avatarCubit.updateAvatar(image);
                               },
-                        color: AppColors.primary,
-                        textColor: AppColors.white,
-                        borderColor: AppColors.primary,
-                        isLoading: isProcessing,
-                      ),
+                            ),
+                          );
+                        },
+                  color: AppColors.primary,
+                  textColor: AppColors.white,
+                  borderColor: AppColors.primary,
+                ),
               ],
             ),
           ],

@@ -26,6 +26,22 @@ class Assets {
   /// assets/images/lotties/loading_gray_circles.json
   static const String assetsImagesLottiesLoadingGrayCircles = "assets/images/lotties/loading_gray_circles.json";
 
+  /// Assets for assetsImagesOrnament
+  /// assets/images/ornament.svg
+  static const String assetsImagesOrnament = "assets/images/ornament.svg";
+
+  /// Assets for assetsImagesPetik
+  /// assets/images/petik.svg
+  static const String assetsImagesPetik = "assets/images/petik.svg";
+
+  /// Assets for assetsImagesPray
+  /// assets/images/pray.svg
+  static const String assetsImagesPray = "assets/images/pray.svg";
+
+  /// Assets for assetsImagesQuran
+  /// assets/images/quran.svg
+  static const String assetsImagesQuran = "assets/images/quran.svg";
+
   /// Assets for assetsImagesSmallCircle
   /// assets/images/small_circle.svg
   static const String assetsImagesSmallCircle = "assets/images/small_circle.svg";

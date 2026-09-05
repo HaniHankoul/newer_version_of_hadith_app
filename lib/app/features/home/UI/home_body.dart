@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../../../core/app_theme.dart';
+import '../../../core/helper/assets.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/search_history/UI/search_history_list.dart';
 import '../../../core/search_history/logic/search_history_cubit.dart';
@@ -198,52 +199,84 @@ Widget body(BuildContext context, SearchCubitState state) {
         children: [
           verticalSmallSpacing(),
           TodaysHadithHeader(),
-          GridView.count(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: GeneralSizes.large,
-            crossAxisSpacing: GeneralSizes.large,
-            padding: EdgeInsets.symmetric(horizontal: GeneralSizes.large),
-            children:
-                [
-                      ContainerElement(
-                        onTap: () {
-                          context.push('/fakeHadith');
-                        },
-                        icon: HugeIcons.strokeRoundedAlert01,
-                        title: "احاديث منتشرة لا تصح",
-                      ),
-                      ContainerElement(
-                        onTap: () {
-                          context.push('/books');
-                        },
-                        icon: HugeIcons.strokeRoundedBook01,
+          verticalSmallSpacing(),
+          SingleChildScrollView(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:
+                  [
+                        Column(
+                          children: [
+                            ContainerElement(
+                              height: MediaQuery.sizeOf(context).height * .15,
+                              width: MediaQuery.sizeOf(context).width * .42,
+                              backColor: AppColors.primaryRich.withAlpha(200),
+                              onTap: () {
+                                context.push('/fakeHadith');
+                              },
+                              icon: HugeIcons.strokeRoundedAlert01,
+                              title: "احاديث منتشرة لا تصح",
+                              backImag: Assets.assetsImagesOrnament,
+                              color: Colors.white,
+                            ),
+                            verticalMediumSpacing(),
+                            ContainerElement(
+                              height: MediaQuery.sizeOf(context).height * .24,
+                              width: MediaQuery.sizeOf(context).width * .42,
+                              backColor: AppColors.primaryLight,
+                              isBig: true,
+                              onTap: () {
+                                context.push('/rawi');
+                              },
+                              icon: HugeIcons.strokeRoundedUser,
+                              title: "تراجم الرواة",
+                              backImag: Assets.assetsImagesPray,
+                              color: AppColors.primary,
+                            ),
+                          ],
+                        ),
+                        horizontalMediumSpacing(),
+                        Column(
+                          children: [
+                            ContainerElement(
+                              height: MediaQuery.sizeOf(context).height * .24,
+                              width: MediaQuery.sizeOf(context).width * .42,
+                              backColor: AppColors.primaryLight,
 
-                        title: "الكتب و المصادر",
+                              onTap: () {
+                                context.push('/books');
+                              },
+                              icon: HugeIcons.strokeRoundedBook01,
+                              backImag: Assets.assetsImagesQuran,
+                              title: "الكتب و المصادر",
+                              color: AppColors.primary.withAlpha(240),
+                              isBig: true,
+                            ),
+                            verticalMediumSpacing(),
+                            ContainerElement(
+                              height: MediaQuery.sizeOf(context).height * .15,
+                              width: MediaQuery.sizeOf(context).width * .42,
+                              backColor: AppColors.primaryRich.withAlpha(200),
+
+                              onTap: () {
+                                context.push('/muhaddiths');
+                              },
+                              icon: HugeIcons.strokeRoundedBook04,
+                              title: "تراجم المحدثين",
+                              backImag: Assets.assetsImagesOrnament,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ]
+                      .animate(interval: 230.ms)
+                      .fade(duration: 250.ms)
+                      .slide(
+                        begin: Offset(-0.5, 0),
+                        end: Offset(0, 0),
+                        duration: 200.ms,
                       ),
-                      ContainerElement(
-                        onTap: () {
-                          context.push('/rawi');
-                        },
-                        icon: HugeIcons.strokeRoundedUser,
-                        title: "تراجم الرواة",
-                      ),
-                      ContainerElement(
-                        onTap: () {
-                          context.push('/muhaddiths');
-                        },
-                        icon: HugeIcons.strokeRoundedBook04,
-                        title: "تراجم المحدثين",
-                      ),
-                    ]
-                    .animate(interval: 230.ms)
-                    .fade(duration: 250.ms)
-                    .slide(
-                      begin: Offset(-0.5, 0),
-                      end: Offset(0, 0),
-                      duration: 200.ms,
-                    ),
+            ),
           ),
         ],
       );

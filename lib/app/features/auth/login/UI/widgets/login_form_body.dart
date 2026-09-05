@@ -7,7 +7,7 @@ import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../core/widgets/universal_container.dart';
 import 'divider_stack.dart';
 
-class LoginFormBody extends StatelessWidget {
+class LoginFormBody extends StatefulWidget {
   const LoginFormBody({
     super.key,
     required this.formGroup,
@@ -16,6 +16,13 @@ class LoginFormBody extends StatelessWidget {
 
   final FormGroup formGroup;
   final VoidCallback onSubmit;
+
+  @override
+  State<LoginFormBody> createState() => _LoginFormBodyState();
+}
+
+class _LoginFormBodyState extends State<LoginFormBody> {
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,7 @@ class LoginFormBody extends StatelessWidget {
           borderColor: AppColors.primary,
           widthPortion: 0.8,
           child: ReactiveForm(
-            formGroup: formGroup,
+            formGroup: widget.formGroup,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -111,7 +118,7 @@ class LoginFormBody extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                     child: ReactiveTextField(
                       formControlName: 'password',
-                      obscureText: true,
+                      obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         hintText: 'اكتب كلمة المرور',
@@ -122,6 +129,22 @@ class LoginFormBody extends StatelessWidget {
                         prefixIcon: Icon(
                           Icons.password,
                           color: AppColors.primary,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: AppColors.primary,
+                          ),
+                          tooltip: _isPasswordVisible
+                              ? 'إخفاء كلمة المرور'
+                              : 'إظهار كلمة المرور',
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),

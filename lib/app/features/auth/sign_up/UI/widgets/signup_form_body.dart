@@ -9,8 +9,15 @@ import '../../../../../core/widgets/universal_container.dart';
 import '../../data/models/signup_model.dart';
 import '../../logic/signup_cubit.dart';
 
-class SignupFormBody extends StatelessWidget {
+class SignupFormBody extends StatefulWidget {
   const SignupFormBody({super.key});
+
+  @override
+  State<SignupFormBody> createState() => _SignupFormBodyState();
+}
+
+class _SignupFormBodyState extends State<SignupFormBody> {
+  bool _isPasswordVisible = false;
 
   FormGroup get _signupForm => FormGroup({
     'username': FormControl<String>(
@@ -262,7 +269,7 @@ class SignupFormBody extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                     child: ReactiveTextField(
                       formControlName: 'password',
-                      obscureText: true,
+                      obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         hintText: 'اكتب كلمة المرور',
@@ -273,6 +280,22 @@ class SignupFormBody extends StatelessWidget {
                         prefixIcon: Icon(
                           Icons.password,
                           color: AppColors.primary,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: AppColors.primary,
+                          ),
+                          tooltip: _isPasswordVisible
+                              ? 'إخفاء كلمة المرور'
+                              : 'إظهار كلمة المرور',
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
