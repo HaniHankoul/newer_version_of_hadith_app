@@ -24,7 +24,7 @@ class HadithDetailRepo {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (error) {
-      throw Exception(error.response?.data ?? 'Failed to load hadith detail');
+      throw Exception(error.response?.data ?? 'حدثت مشكلة ما');
     }
   }
 }

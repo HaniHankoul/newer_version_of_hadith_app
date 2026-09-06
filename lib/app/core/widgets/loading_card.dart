@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/core/widgets/universal_container.dart';
 import 'package:lottie/lottie.dart';
@@ -29,7 +30,7 @@ class LoadingCard extends StatelessWidget {
               CustomText(text: 'الرجاء الانتظار...', color: Colors.black),
             ],
           ),
-        ),
+        ).animate().scale(curve: Curves.easeInOut, duration: 300.ms),
       ),
     );
   }

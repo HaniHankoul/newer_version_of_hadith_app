@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
 
         if (state is ProfileCubitError) {
-          return ErrorCard(message: 'عذرا حدث خطا ما');
+          return ErrorCard(message: state.errorMessage);
         }
         if (state is ProfileCubitSuccess || state is ProfileCubitUpdating) {
           final profile = state is ProfileCubitSuccess

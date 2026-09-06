@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 
 import '../../features/home/data/models/search_model.dart';
 import '../app_theme.dart';
+import '../font_size/logic/font_size_cubit.dart';
 import 'custom_text.dart';
 
 class HadithCard extends StatelessWidget {
@@ -11,6 +13,7 @@ class HadithCard extends StatelessWidget {
   final Item items;
   @override
   Widget build(BuildContext context) {
+    final hadithFontSize = context.watch<FontSizeCubit>().state.fontSize;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: InkWell(
@@ -57,11 +60,11 @@ class HadithCard extends StatelessWidget {
                       Text(
                         textDirection: TextDirection.rtl,
                         items.text ?? '',
-                        maxLines: 5,
+                        maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontFamily: 'cairo',
-                          fontSize: GeneralSizes.hadithFontSize,
+                          fontSize: hadithFontSize,
                         ),
                       ),
                       Text(
@@ -70,7 +73,7 @@ class HadithCard extends StatelessWidget {
                         style: TextStyle(
                           color: AppColors.primary,
                           fontFamily: 'cairo',
-                          fontSize: GeneralSizes.hadithFontSize,
+                          fontSize: hadithFontSize,
                         ),
                       ),
                     ],

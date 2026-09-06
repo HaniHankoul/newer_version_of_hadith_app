@@ -61,7 +61,7 @@ class ProfileFormInfo extends StatelessWidget {
           child: CustomTextField(
             readOnly: true,
             hintText: state.profileResponse?.email ?? '',
-            icon: HugeIcons.strokeRoundedUser02,
+            icon: HugeIcons.strokeRoundedMail01,
           ),
         ),
         verticalSmallSpacing(),

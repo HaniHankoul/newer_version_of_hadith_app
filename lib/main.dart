@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
 
 import 'app/core/navigation/logic/navigation_cubit.dart';
+import 'app/core/font_size/logic/font_size_cubit.dart';
 import 'app/core/routing/app_route.dart';
 import 'app/core/theme/logic/theme_cubit.dart';
 import 'app/core/theme/logic/theme_state.dart';
@@ -24,8 +25,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => ThemeCubit()..loadTheme()),
+        BlocProvider(create: (context) => FontSizeCubit()..loadFontSize()),
         BlocProvider(create: (context) => NavigationCubit()),
-        BlocProvider(create: (context) => ThemeCubit()),
       ],
       child: ToastificationWrapper(
         child: BlocBuilder<ThemeCubit, ThemeState>(

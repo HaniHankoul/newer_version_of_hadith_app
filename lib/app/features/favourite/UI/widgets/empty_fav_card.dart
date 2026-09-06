@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hadith_app/app/core/widgets/universal_container.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/general_sizes.dart';
@@ -26,7 +27,11 @@ class EmptyFavCard extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: AppColors.primary.withAlpha(100),
                   radius: 50,
-                  child: Icon(Icons.person, size: 50, color: AppColors.primary),
+                  child: HugeIcon(
+                    icon: HugeIcons.strokeRoundedBookBookmark02,
+                    color: AppColors.primary,
+                    size: 50,
+                  ),
                 ),
                 verticalLargeSpacing(),
                 CustomText(

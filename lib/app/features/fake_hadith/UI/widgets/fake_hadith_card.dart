@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../../../core/font_size/logic/font_size_cubit.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/universal_container.dart';
@@ -11,6 +13,7 @@ class FakeHadithCard extends StatelessWidget {
   final FakeHadithResponse item;
   @override
   Widget build(BuildContext context) {
+    final hadithFontSize = context.watch<FontSizeCubit>().state.fontSize;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Container(
@@ -55,7 +58,7 @@ class FakeHadithCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'cairo',
-                        fontSize: GeneralSizes.hadithFontSize,
+                        fontSize: hadithFontSize,
                       ),
                     ),
                     Text(
@@ -64,7 +67,7 @@ class FakeHadithCard extends StatelessWidget {
                       style: TextStyle(
                         color: AppColors.primary,
                         fontFamily: 'cairo',
-                        fontSize: GeneralSizes.hadithFontSize,
+                        fontSize: hadithFontSize,
                       ),
                     ),
                   ],

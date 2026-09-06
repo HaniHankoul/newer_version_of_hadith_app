@@ -20,7 +20,7 @@ class QuestionsScreen extends StatelessWidget {
         if (state is QuestionsLoadingState) {
           return LoadingCard();
         } else if (state is QuestionsErrorState) {
-          return ErrorCard(message: 'حدثت مشكلة أثناء تحميل الأسئلة');
+          return ErrorCard(message: state.errorMessage);
         } else if (state is QuestionsSuccessState) {
           return Column(
             children: [

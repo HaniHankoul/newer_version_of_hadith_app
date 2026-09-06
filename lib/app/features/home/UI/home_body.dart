@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/core/widgets/error_card.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../../../core/app_theme.dart';
@@ -285,7 +286,7 @@ Widget body(BuildContext context, SearchCubitState state) {
     case SearchCubitSuccess():
       return SearchResults(res: state.searchModel);
     case SearchCubitError():
-      return CustomText(text: state.errorMessage);
+      return ErrorCard(message: 'حدث خطأ أثناء البحث');
     default:
       return CustomText(text: 'sdkhfkshalkhf');
   }

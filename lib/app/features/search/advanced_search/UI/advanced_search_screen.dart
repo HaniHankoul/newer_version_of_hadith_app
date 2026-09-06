@@ -11,6 +11,7 @@ import '../../../../core/search_history/UI/search_history_list.dart';
 import '../../../../core/search_history/logic/search_history_cubit.dart';
 import '../../../../core/widgets/custom_appbar.dart';
 import '../../../../core/widgets/custom_text.dart';
+import '../../../../core/widgets/error_card.dart';
 import '../../../../core/widgets/hadith_card.dart';
 import '../logic/advanced_search_cubit.dart';
 import '../logic/advanced_search_states.dart';
@@ -123,7 +124,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                           return CustomText(text: 'جاري تحميل الفلاتر ...');
                         }
                         if (filters == null && state is AdvancedSearchError) {
-                          return CustomText(text: state.message);
+                          return ErrorCard(message: 'حدث خطأ أثناء التحميل');
                         }
                         if (filters == null) return const SizedBox.shrink();
                         return FilteringSection(
@@ -197,9 +198,6 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                           );
                         }
 
-                        if (state is AdvancedSearchError) {
-                          return CustomText(text: state.message);
-                        }
                         return const SizedBox.shrink();
                       },
                     ),

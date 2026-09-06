@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../helper/general_sizes.dart';
@@ -21,15 +22,22 @@ class ErrorCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               HugeIcon(
-                icon: HugeIcons.strokeRoundedRssError,
+                icon: message.contains('token') || message.contains('Token')
+                    ? HugeIcons.strokeRoundedLogin01
+                    : HugeIcons.strokeRoundedRssError,
                 size: 50,
                 color: Colors.red,
               ),
               verticalMediumSpacing(),
-              CustomText(text: message, color: Colors.black),
+              CustomText(
+                text: message.contains('token') || message.contains('Token')
+                    ? 'يرجى تسجيل الدخول  '
+                    : message,
+                color: Colors.black,
+              ),
             ],
           ),
-        ),
+        ).animate().scale(curve: Curves.easeInOut, duration: 300.ms),
       ),
     );
   }

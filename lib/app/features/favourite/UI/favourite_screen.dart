@@ -10,6 +10,7 @@ import 'package:hadith_app/app/features/favourite/UI/widgets/favourite_card.dart
 import '../../../core/widgets/universal_button.dart';
 import '../logic/favorite_cubit.dart';
 import '../logic/favorit_cubit_states.dart';
+import 'widgets/empty_fav_card.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});
@@ -20,24 +21,12 @@ class FavouriteScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is FavoriteCubitLoading) return const LoadingCard();
         if (state is FavoriteCubitError) {
-          return Column(
-            children: [
-              ErrorCard(message: 'حدث خطأ أثناء التحميل'),
-              UniversalButton(
-                widthPortion: .4,
-                borderColor: AppColors.primary,
-                color: AppColors.primary,
-                onTap: () => context.read<FavoriteCubit>().showFavorite(),
-                title: 'إعادة المحاولة',
-                textColor: Colors.black,
-              ),
-            ],
-          );
+          return ErrorCard(message: state.error);
         }
         if (state is FavoriteCubitSuccess) {
           final items = state.favoritModel.items ?? [];
           if (items.isEmpty) {
-            return Center(child: CustomText(text: 'لا توجد أحاديث مفضلة'));
+            return EmptyFavCard();
           }
           return ListView.separated(
             shrinkWrap: true,

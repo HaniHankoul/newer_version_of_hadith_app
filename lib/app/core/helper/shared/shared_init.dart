@@ -34,3 +34,33 @@ class AuthStorage {
     await prefs.remove(tokenTypeKey);
   }
 }
+
+class UserPreferences {
+  static const String primaryColorKey = 'primaryColor';
+  static const String secondaryColorKey = 'secondaryColor';
+  static const String fontSizeKey = 'fontSize';
+
+  static Future<void> saveTheme({
+    required int primaryColor,
+    required int secondaryColor,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(primaryColorKey, primaryColor);
+    await prefs.setInt(secondaryColorKey, secondaryColor);
+  }
+
+  static Future<(int?, int?)> getTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    return (prefs.getInt(primaryColorKey), prefs.getInt(secondaryColorKey));
+  }
+
+  static Future<void> saveFontSize(double fontSize) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(fontSizeKey, fontSize);
+  }
+
+  static Future<double?> getFontSize() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getDouble(fontSizeKey);
+  }
+}

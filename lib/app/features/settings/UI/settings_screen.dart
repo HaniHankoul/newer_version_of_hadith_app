@@ -5,6 +5,8 @@ import 'package:hadith_app/app/core/widgets/error_card.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../../../core/app_theme.dart';
+import '../../../core/font_size/logic/font_size_cubit.dart';
+import '../../../core/font_size/logic/font_size_state.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/helper/shared/shared_init.dart';
 import '../../../core/widgets/loading_card.dart';
@@ -43,22 +45,7 @@ class SettingsScreen extends StatelessWidget {
                     ThemeCard(),
                     verticalSmallSpacing(),
                     SettingsTile(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          showDragHandle: true,
-                          backgroundColor: AppColors.secondary,
-                          builder: (context) {
-                            return SizedBox(
-                              height: 200,
-                              child: Center(
-                                child: Text('Content for bottom sheet'),
-                              ),
-                            );
-                          },
-                        );
-                      },
+                      onTap: () => _showFontSizeSheet(context),
                       title: 'حجم الخط',
                       icon: HugeIcons.strokeRoundedPencil,
                       color: Colors.black,
@@ -94,6 +81,61 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void _showFontSizeSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      backgroundColor: AppColors.secondary,
+      builder: (_) => const _FontSizeSheet(),
+    );
+  }
+}
+
+class _FontSizeSheet extends StatelessWidget {
+  const _FontSizeSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FontSizeCubit, FontSizeState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'حجم الخط',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontFamily: 'Cairo',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                state.fontSize.toStringAsFixed(0),
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontFamily: 'Cairo',
+                  fontSize: state.fontSize,
+                ),
+              ),
+              Slider(
+                value: state.fontSize,
+                min: FontSizeCubit.minimumFontSize,
+                max: FontSizeCubit.maximumFontSize,
+                divisions: 16,
+                activeColor: AppColors.primary,
+                onChanged: context.read<FontSizeCubit>().selectFontSize,
+              ),
+            ],
+          ),
         );
       },
     );
