@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith_app/app/features/questions/UI/widgets/empty_question_screen.dart';
 import '../../../core/helper/general_sizes.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/error_card.dart';
@@ -22,6 +23,9 @@ class QuestionsScreen extends StatelessWidget {
         } else if (state is QuestionsErrorState) {
           return ErrorCard(message: state.errorMessage);
         } else if (state is QuestionsSuccessState) {
+          if (state.questions.isEmpty) {
+            return EmptyQuestionScreen();
+          }
           return Column(
             children: [
               verticalLargeSpacing(),
