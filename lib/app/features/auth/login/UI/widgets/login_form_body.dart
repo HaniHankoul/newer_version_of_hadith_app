@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -7,7 +6,6 @@ import '../../../../../core/app_theme.dart';
 import '../../../../../core/helper/general_sizes.dart';
 import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../core/widgets/universal_container.dart';
-import '../../logic/login_cubit.dart';
 import 'divider_stack.dart';
 
 class LoginFormBody extends StatefulWidget {
@@ -97,9 +95,9 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            'الرجاء إدخال البريد الإلكتروني',
+                            'الرجاء إدخال البريد الإلكتروني*',
                         ValidationMessage.email: (_) =>
-                            'الرجاء إدخال بريد إلكتروني صحيح',
+                            'الرجاء إدخال بريد إلكتروني صحيح*',
                       },
                     ),
                   ),
@@ -148,8 +146,8 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                             color: AppColors.primary,
                           ),
                           tooltip: _isPasswordVisible
-                              ? 'إخفاء كلمة المرور'
-                              : 'إظهار كلمة المرور',
+                              ? 'إخفاء كلمة المرور*'
+                              : 'إظهار كلمة المرور*',
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -176,9 +174,9 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            'الرجاء إدخال كلمة المرور',
+                            ' * الرجاء إدخال كلمة المرور',
                         ValidationMessage.minLength: (_) =>
-                            'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
+                            ' * كلمة المرور يجب أن تكون 8 أحرف على الأقل',
                       },
                     ),
                   ),
@@ -198,7 +196,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                         children: [
                           HugeIcon(
                             icon: HugeIcons.strokeRoundedGoogle,
-                            color: Colors.black,
+                            color: AppColors.primary,
                             size: 23,
                           ),
                           CustomText(

@@ -184,9 +184,9 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            'الرجاء إدخال اسم المستخدم',
+                            '* الرجاء إدخال اسم المستخدم',
                         ValidationMessage.minLength: (_) =>
-                            'اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
+                            ' * اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
                       },
                     ),
                   ),
@@ -244,9 +244,9 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            'الرجاء إدخال البريد الإلكتروني',
+                            ' *الرجاء إدخال البريد الإلكتروني',
                         ValidationMessage.email: (_) =>
-                            'الرجاء إدخال بريد إلكتروني صحيح',
+                            ' * الرجاء إدخال بريد إلكتروني صحيح',
                       },
                     ),
                   ),
@@ -322,9 +322,9 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            'الرجاء إدخال كلمة المرور',
+                            ' * الرجاء إدخال كلمة المرور',
                         ValidationMessage.minLength: (_) =>
-                            'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
+                            ' * كلمة المرور يجب أن تكون 8 أحرف على الأقل',
                       },
                     ),
                   ),
@@ -444,7 +444,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            'الرجاء إدخال تاريخ الميلاد',
+                            ' * الرجاء إدخال تاريخ الميلاد',
                       },
                     ),
                   ),

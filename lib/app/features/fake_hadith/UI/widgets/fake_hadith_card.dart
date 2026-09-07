@@ -9,11 +9,19 @@ import '../../../../core/widgets/universal_container.dart';
 import '../../data/model/fake_hadith_response.dart';
 
 class FakeHadithCard extends StatelessWidget {
-  const FakeHadithCard({super.key, required this.item});
+  const FakeHadithCard({
+    super.key,
+    required this.item,
+    this.showFullText = false,
+  });
+
   final FakeHadithResponse item;
+  final bool showFullText;
+
   @override
   Widget build(BuildContext context) {
     final hadithFontSize = context.watch<FontSizeCubit>().state.fontSize;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Container(
@@ -27,7 +35,7 @@ class FakeHadithCard extends StatelessWidget {
               color: Colors.grey.withAlpha(100),
               spreadRadius: 1,
               blurRadius: 3,
-              offset: Offset(0, 2), // changes position of shadow
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -42,7 +50,7 @@ class FakeHadithCard extends StatelessWidget {
               ),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(GeneralSizes.small),
+                padding: const EdgeInsets.all(GeneralSizes.small),
                 decoration: BoxDecoration(
                   color: AppColors.primaryLight.withAlpha(50),
                   borderRadius: BorderRadius.circular(borderRadiusM),
@@ -52,24 +60,28 @@ class FakeHadithCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      textDirection: TextDirection.rtl,
                       item.text ?? '',
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: 'cairo',
-                        fontSize: hadithFontSize,
-                      ),
-                    ),
-                    Text(
                       textDirection: TextDirection.rtl,
-                      'عرض المزيد ... ',
+                      maxLines: showFullText ? null : 5,
+                      overflow: showFullText
+                          ? TextOverflow.visible
+                          : TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: AppColors.primary,
-                        fontFamily: 'cairo',
+                        fontFamily: 'Cairo',
                         fontSize: hadithFontSize,
                       ),
                     ),
+
+                    if (!showFullText)
+                      Text(
+                        'عرض المزيد ...',
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontFamily: 'Cairo',
+                          fontSize: hadithFontSize,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -84,14 +96,15 @@ class FakeHadithCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   CustomText(
-                    text: ' الحكم : ${item.ruling?.name ?? ' '}',
+                    text: 'الحكم : ${item.ruling?.name ?? ' '}',
                     fontSize: 16,
                   ),
+
                   if (item.subValid?.normalText != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        CustomText(text: 'الصحبح البديل: ', fontSize: 16),
+                        CustomText(text: 'الصحيح البديل:', fontSize: 16),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: GeneralSizes.small,

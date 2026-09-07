@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
+import '../../features/auth/sign_up/UI/widgets/fake_hadith_notification_screen.dart';
 import '../../features/fake_hadith/UI/fake_hadith_screen.dart';
 import '../../features/fake_hadith/logic/fake_hadtith_cubit.dart';
 import '../../features/books_resource/UI/books_screen.dart';
@@ -141,6 +142,14 @@ final router = GoRouter(
           create: (context) => FakeHadtithCubit()..loadFakeHadith(),
           child: FakeHadithScreen(),
         );
+      },
+    ),
+    GoRoute(
+      path: '/fakeHadithAlert/:id',
+      builder: (context, state) {
+        final fakeHadithId = state.pathParameters['id'] ?? '';
+
+        return FakeHadithNotificationScreen(fakeHadithId: fakeHadithId);
       },
     ),
   ],

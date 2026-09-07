@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/core/app_theme.dart';
+import 'package:hadith_app/app/core/widgets/universal_button.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../helper/general_sizes.dart';
@@ -35,15 +38,17 @@ class ErrorCard extends StatelessWidget {
                     : 'حدث خطأ ما',
                 color: Colors.black,
               ),
+              verticalSmallSpacing(),
               if (message.contains('token'))
-                UniversalContainer(
-                  heightPortion: 0.1,
-                  widthPortion: 0.5,
-                  child: CustomText(
-                    text: ' تسجيل الدخول  ',
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
+                UniversalButton(
+                  widthPortion: .35,
+                  onTap: () {
+                    context.push('/login');
+                  },
+                  borderColor: AppColors.primaryLight,
+                  color: AppColors.primary,
+                  textColor: Colors.black,
+                  title: 'تسجيل الدخول',
                 ),
             ],
           ),
