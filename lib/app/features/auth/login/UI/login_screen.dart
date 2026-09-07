@@ -54,6 +54,7 @@ class LoginScreen extends StatelessWidget {
             context.go('/', extra: NavigationState.home);
           } else if (state is LoginError) {
             Constants().errorBar('حدث خطأ أثناء تسجيل الدخول');
+            debugPrint('GOOGLE LOGIN ERROR: ${state.error}');
           }
         },
         builder: (context, state) {

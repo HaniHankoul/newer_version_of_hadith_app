@@ -14,7 +14,7 @@ class GoogleLoginService {
 
     await _googleSignIn.initialize(
       serverClientId:
-          '714947697386-tbms98u50vck25r417o1dvgvttno29jt.apps.googleusercontent.com',
+          '714947697386-kan9567kqnncu1plhqj8f0s4u6h7654l.apps.googleusercontent.com',
     );
 
     _initialized = true;
