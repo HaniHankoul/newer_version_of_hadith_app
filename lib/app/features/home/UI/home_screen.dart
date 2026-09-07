@@ -17,6 +17,8 @@ import '../../settings/UI/settings_screen.dart';
 import '../../settings/logic/setting_cubit.dart';
 import '../Logic/access_token_bloc/access_bloc.dart';
 import '../Logic/search_bloc/search_cubit.dart';
+import '../../../core/theme/logic/theme_cubit.dart';
+import '../../../core/theme/logic/theme_state.dart';
 import 'home_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,38 +26,42 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavigationCubit, NavigationState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppColors.primaryBackground,
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: AppBar(
-              title: CustomText(
-                text: titleSelect(state),
-                color: AppColors.primary,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              elevation: 0,
-              centerTitle: true,
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, themeState) {
+        return BlocBuilder<NavigationCubit, NavigationState>(
+          builder: (context, state) {
+            return Scaffold(
               backgroundColor: AppColors.primaryBackground,
-              shape: RoundedRectangleBorder(),
-            ),
-          ),
-          drawer: CustomDrawer(),
-          body: SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: state == NavigationState.home
-                      ? body(state)
-                      : SingleChildScrollView(child: body(state)),
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(kToolbarHeight),
+                child: AppBar(
+                  title: CustomText(
+                    text: titleSelect(state),
+                    color: AppColors.primary,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  elevation: 0,
+                  centerTitle: true,
+                  backgroundColor: AppColors.primaryBackground,
+                  shape: RoundedRectangleBorder(),
                 ),
-                NavigationPanel(),
-              ],
-            ),
-          ),
+              ),
+              drawer: CustomDrawer(),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: state == NavigationState.home
+                          ? body(state)
+                          : SingleChildScrollView(child: body(state)),
+                    ),
+                    NavigationPanel(),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
     );

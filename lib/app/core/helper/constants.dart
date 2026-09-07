@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:toastification/toastification.dart';
 
 class Constants {
@@ -35,6 +36,21 @@ class Constants {
       borderSide: BorderSide(color: Colors.lightBlue.withAlpha(50), width: 1),
       borderRadius: BorderRadius.circular(borderRadiusL),
       alignment: Alignment.bottomCenter,
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void detailsBarAbove(String message) {
+    toastification.show(
+      title: CustomText(text: message, color: Colors.black, fontSize: 14),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.lightBlue.withAlpha(50),
+      borderSide: BorderSide(color: Colors.lightBlue.withAlpha(50), width: 1),
+      icon: HugeIcon(
+        icon: HugeIcons.strokeRoundedInformationCircle,
+        color: Colors.lightBlue,
+      ),
+      borderRadius: BorderRadius.circular(borderRadiusL),
       autoCloseDuration: const Duration(seconds: 3),
     );
   }

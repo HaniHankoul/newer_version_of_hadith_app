@@ -21,12 +21,12 @@ class UpgradeCubit extends Cubit<UpgradeState> {
   }
 
   Future<void> loadCurrentRequest() async {
-    emit(UpgradeLoading());
+    emit(UpgradeCurrentLoading());
     try {
       final res = await repository.getCurrentUpgradeRequests();
       emit(UpgradeCurrentLoaded(request: res));
     } catch (e) {
-      if (!isClosed) emit(UpgradeFailure(_cleanError(e)));
+      if (!isClosed) emit(UpgradeCurrentFailure(_cleanError(e)));
     }
   }
 

@@ -32,9 +32,19 @@ class ErrorCard extends StatelessWidget {
               CustomText(
                 text: message.contains('token') || message.contains('Token')
                     ? 'يرجى تسجيل الدخول  '
-                    : message,
+                    : 'حدث خطأ ما',
                 color: Colors.black,
               ),
+              if (message.contains('token'))
+                UniversalContainer(
+                  heightPortion: 0.1,
+                  widthPortion: 0.5,
+                  child: CustomText(
+                    text: ' تسجيل الدخول  ',
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                ),
             ],
           ),
         ).animate().scale(curve: Curves.easeInOut, duration: 300.ms),

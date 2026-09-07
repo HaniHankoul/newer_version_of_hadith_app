@@ -166,22 +166,26 @@ class _ProfileDrawerHeader extends StatelessWidget {
               onTap: () => context.push('/signUp'),
               child: Padding(
                 padding: const EdgeInsets.all(GeneralSizes.small),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    LottieBuilder.asset(
-                      Assets.assetsImagesLottiesIcons8Key,
-                      width: 30,
-                    ),
+                child:
+                    state is ProfileCubitError &&
+                        state.errorMessage.contains('token')
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          LottieBuilder.asset(
+                            Assets.assetsImagesLottiesIcons8Key,
+                            width: 30,
+                          ),
 
-                    CustomText(
-                      text: 'سجل الآن لإنشاء حساب',
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ],
-                ),
+                          CustomText(
+                            text: 'سجل الآن لإنشاء حساب',
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ],
+                      )
+                    : Center(child: CustomText(text: 'حدث خطأ ما')),
               ),
             );
           },

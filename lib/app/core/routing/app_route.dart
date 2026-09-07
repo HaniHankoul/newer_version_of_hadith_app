@@ -119,8 +119,17 @@ final router = GoRouter(
     GoRoute(
       path: '/upgradeRequestScreen',
       builder: (context, state) {
-        return BlocProvider(
-          create: (context) => UpgradeCubit()..loadRequests(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => UpgradeCubit()
+                ..loadRequests()
+                ..loadCurrentRequest(),
+            ),
+            // BlocProvider(
+            //   create: (context) => UpgradeCubit()..loadCurrentRequest(),
+            // ),
+          ],
           child: UpgradeRequestScreen(),
         );
       },

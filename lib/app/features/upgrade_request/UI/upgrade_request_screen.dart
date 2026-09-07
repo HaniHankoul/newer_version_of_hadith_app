@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/upgrade_request/UI/widgets/send_bottom_sheet.dart';
+import '../../../core/widgets/error_card.dart';
 import '../data/models/upgrade_model_response.dart';
 import '../logic/upgrade_cubit.dart';
 import '../logic/upgrade_state.dart';
@@ -23,9 +24,7 @@ class UpgradeRequestScreen extends StatelessWidget {
             context,
           ).showSnackBar(const SnackBar(content: Text('تم إرسال الطلب بنجاح')));
         } else if (state is UpgradeFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+          ErrorCard(message: state.errorMessage);
         }
       },
       builder: (context, state) {
@@ -45,9 +44,12 @@ class UpgradeRequestScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ?state is UpgradeCurrentLoaded
-                        ? CustomText(text: state.request.status.toString())
-                        : null,
+                    if (state is UpgradeCurrentLoaded)
+                      CustomText(text: state.request.status.toString()),
+                    if (state is UpgradeCurrentLoading)
+                      const Center(child: CircularProgressIndicator()),
+                    if (state is UpgradeCurrentFailure)
+                      ErrorCard(message: state.errorMessage),
                     const SizedBox(height: 22),
                     InfoHeader(),
                     const SizedBox(height: 22),

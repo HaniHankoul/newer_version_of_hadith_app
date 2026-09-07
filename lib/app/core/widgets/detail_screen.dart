@@ -41,9 +41,9 @@ class DetailScreen extends StatelessWidget {
           Constants().detailsBar('تمت إزالة الحديث من المفضلة');
         }
         if (state is FavoriteCubitError) {
-          return Constants().detailsBar(
-            state.error.contains('token') ? 'سجل الدخول اولا' : 'حدث خطأ ما ',
-          );
+          return !state.error.contains('token')
+              ? Constants().detailsBarAbove('حدث خطأ ما ')
+              : null;
         }
       },
       child: Scaffold(
