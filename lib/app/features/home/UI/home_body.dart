@@ -121,6 +121,20 @@ class _HomeBodyState extends State<HomeBody> {
                         clipBehavior: Clip.none,
                         children: [
                           CustomTextField(
+                            prefixCallBack: () {
+                              context.read<SearchHistoryCubit>().clear();
+                              context.read<SearchCubit>().search(
+                                SearchBodyModel(
+                                  query: _searchController.text,
+                                  sort: 'RELEVANCE',
+                                  mode: 'FLEXIBLE',
+                                  page: 0,
+                                  size: 10,
+                                  includeExplanation: false,
+                                ),
+                              );
+                              FocusScope.of(context).unfocus();
+                            },
                             controller: _searchController,
                             onTap: _showSearchHistory,
                             onFieldSubmitted: (value) {

@@ -10,13 +10,13 @@ class Assets {
   /// assets/images/lotties/icons8-bookmark.json
   static const String assetsImagesLottiesIcons8Bookmark = "assets/images/lotties/icons8-bookmark.json";
 
+  /// Assets for assetsImagesLottiesIcons8Help
+  /// assets/images/lotties/icons8-help.gif
+  static const String assetsImagesLottiesIcons8Help = "assets/images/lotties/icons8-help.gif";
+
   /// Assets for assetsImagesLottiesIcons8Key
   /// assets/images/lotties/icons8-key.json
   static const String assetsImagesLottiesIcons8Key = "assets/images/lotties/icons8-key.json";
-
-  /// Assets for assetsImagesLottiesLoadingBlackCircle
-  /// assets/images/lotties/loading_black_circle.json
-  static const String assetsImagesLottiesLoadingBlackCircle = "assets/images/lotties/loading_black_circle.json";
 
   /// Assets for assetsImagesLottiesLoadingBlackDots
   /// assets/images/lotties/loading_black_dots.json
@@ -30,6 +30,10 @@ class Assets {
   /// assets/images/lotties/loading_gray_circles.json
   static const String assetsImagesLottiesLoadingGrayCircles = "assets/images/lotties/loading_gray_circles.json";
 
+  /// Assets for assetsImagesLottiesLoadingGreySpinCircles
+  /// assets/images/lotties/loading_grey_spin_circles.json
+  static const String assetsImagesLottiesLoadingGreySpinCircles = "assets/images/lotties/loading_grey_spin_circles.json";
+
   /// Assets for assetsImagesLottiesSearch
   /// assets/images/lotties/Search.json
   static const String assetsImagesLottiesSearch = "assets/images/lotties/Search.json";
@@ -41,6 +45,10 @@ class Assets {
   /// Assets for assetsImagesPetik
   /// assets/images/petik.svg
   static const String assetsImagesPetik = "assets/images/petik.svg";
+
+  /// Assets for assetsImagesPic1
+  /// assets/images/pic1.png
+  static const String assetsImagesPic1 = "assets/images/pic1.png";
 
   /// Assets for assetsImagesPray
   /// assets/images/pray.svg

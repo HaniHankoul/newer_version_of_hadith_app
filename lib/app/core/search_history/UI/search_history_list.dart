@@ -37,7 +37,12 @@ class SearchHistoryList extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 10, 10, 4),
                 child: Row(
                   children: [
-                    HugeIcon(icon: HugeIcons.strokeRoundedTransactionHistory),
+                    InkWell(
+                      onTap: () {
+                        context.read<SearchHistoryCubit>().clear();
+                      },
+                      child: HugeIcon(icon: HugeIcons.strokeRoundedCancel01),
+                    ),
                     const SizedBox(width: 8),
                     const Expanded(
                       child: Text(

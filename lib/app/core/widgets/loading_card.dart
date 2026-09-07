@@ -22,9 +22,12 @@ class LoadingCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LottieBuilder.asset(
-                width: 150,
-                Assets.assetsImagesLottiesLoadingBlackCircle,
+              SizedBox(
+                width: 90,
+                child: LottieBuilder.asset(
+                  Assets.assetsImagesLottiesLoadingGreySpinCircles,
+                  fit: BoxFit.fill,
+                ),
               ),
               verticalMediumSpacing(),
               CustomText(text: 'الرجاء الانتظار...', color: Colors.black),

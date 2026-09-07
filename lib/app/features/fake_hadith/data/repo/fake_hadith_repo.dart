@@ -64,10 +64,16 @@ class FakeHadithRepo {
     String? query,
   }) async {
     try {
+      final searchQuery = query?.trim();
+
       final response = await _dio.get(
         '/fake-ahadith',
-        queryParameters: {'page': page, 'size': size},
-        data: query == null ? null : {'query': query},
+        queryParameters: {
+          'page': page,
+          'size': size,
+          if (searchQuery != null && searchQuery.isNotEmpty)
+            'query': searchQuery,
+        },
       );
 
       return FakeHadithPage.fromJson(response.data as Map<String, dynamic>);

@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     required this.hintText,
     required this.icon,
+    this.prefixCallBack,
   });
   final Function(String)? onFieldSubmitted;
   final VoidCallback? onTap;
@@ -21,7 +22,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final String hintText;
   final List<List<dynamic>> icon;
-
+  final VoidCallback? prefixCallBack;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -35,12 +36,10 @@ class CustomTextField extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           hintText: hintText,
           hintStyle: TextStyle(color: AppColors.primary, fontFamily: "cairo"),
-          prefixIcon: SizedBox(
-            width: 40,
-            height: 25,
-            child: HugeIcon(icon: icon, size: 20, color: AppColors.primary),
+          prefixIcon: IconButton(
+            onPressed: prefixCallBack,
+            icon: Icon(Icons.search, color: AppColors.primary, size: 26),
           ),
-          prefixIconConstraints: BoxConstraints(maxHeight: 30, maxWidth: 50),
           suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

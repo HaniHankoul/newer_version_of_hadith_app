@@ -12,9 +12,10 @@ import '../../logic/avatar/avatar_cubit.dart';
 import 'picture_bottom_sheet_body.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key, this.avatarUrl});
+  const ProfileHeader({super.key, this.avatarUrl, this.gender});
 
   final String? avatarUrl;
+  final String? gender;
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +69,17 @@ class ProfileHeader extends StatelessWidget {
                           ? null
                           : NetworkImage(currentAvatarUrl),
                       child: currentAvatarUrl == null
-                          ? HugeIcon(
-                              icon: HugeIcons.strokeRoundedMale02,
-                              size: 60,
-                              color: AppColors.white,
-                            )
+                          ? gender == 'male'
+                                ? HugeIcon(
+                                    icon: HugeIcons.strokeRoundedMale02,
+                                    size: 60,
+                                    color: AppColors.white,
+                                  )
+                                : HugeIcon(
+                                    icon: HugeIcons.strokeRoundedFemale02,
+                                    size: 60,
+                                    color: AppColors.white,
+                                  )
                           : null,
                     ),
             ),

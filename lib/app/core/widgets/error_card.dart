@@ -29,7 +29,7 @@ class ErrorCard extends StatelessWidget {
                     ? HugeIcons.strokeRoundedLogin01
                     : HugeIcons.strokeRoundedRssError,
                 size: 50,
-                color: Colors.red,
+                color: message.contains('token') ? Colors.blue : Colors.red,
               ),
               verticalMediumSpacing(),
               CustomText(

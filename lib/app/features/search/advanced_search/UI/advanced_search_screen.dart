@@ -81,6 +81,13 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                 Column(
                   children: [
                     CustomTextField(
+                      prefixCallBack: () {
+                        _clearSearchHistory();
+                        context.read<AdvancedSearchCubit>().search(
+                          _searchController.text,
+                        );
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: _searchController,
                       onTap: _showSearchHistory,
                       onFieldSubmitted: (query) {

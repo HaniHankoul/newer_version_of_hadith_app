@@ -121,7 +121,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                ProfileHeader(avatarUrl: profile?.avatarUrl),
+                                ProfileHeader(
+                                  avatarUrl: profile?.avatarUrl,
+                                  gender: profile?.gender,
+                                ),
                                 verticalLargeSpacing(),
                                 ProfileFormInfo(
                                   state: ProfileCubitSuccess(

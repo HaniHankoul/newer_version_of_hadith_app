@@ -40,7 +40,7 @@ class _FakeHadithNotificationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryLight,
-      appBar: customAppbar('انتبه: حديث منتشر لا يصح'),
+      appBar: customAppbar(' حديث منتشر لا يصح'),
       body: SafeArea(
         child: Column(
           children: [

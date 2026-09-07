@@ -19,7 +19,7 @@ class Constants {
 
   void errorBar(String message) {
     toastification.show(
-      title: CustomText(text: message, color: Colors.white, fontSize: 11),
+      title: CustomText(text: message, color: Colors.white),
       backgroundColor: Colors.red,
       foregroundColor: Colors.red,
       borderRadius: BorderRadius.circular(borderRadiusL),
