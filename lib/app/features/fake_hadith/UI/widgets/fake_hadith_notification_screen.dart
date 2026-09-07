@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/core/widgets/loading_card.dart';
 
-import '../../../../../core/app_theme.dart';
-import '../../../../../core/widgets/custom_appbar.dart';
-import '../../../../../core/widgets/custom_text.dart';
-import '../../../../fake_hadith/UI/widgets/fake_hadith_card.dart';
-import '../../../../fake_hadith/data/model/fake_hadith_response.dart';
-import '../../../../fake_hadith/data/repo/fake_hadith_repo.dart';
+import '../../../../core/app_theme.dart';
+import '../../../../core/widgets/custom_appbar.dart';
+import '../../../../core/widgets/custom_text.dart';
+import 'fake_hadith_card.dart';
+import '../../data/model/fake_hadith_response.dart';
+import '../../data/repo/fake_hadith_repo.dart';
 
 class FakeHadithNotificationScreen extends StatefulWidget {
   const FakeHadithNotificationScreen({super.key, required this.fakeHadithId});
@@ -48,7 +49,7 @@ class _FakeHadithNotificationScreenState
                 future: _future,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return LoadingCard();
                   }
 
                   if (snapshot.hasError) {
@@ -86,29 +87,29 @@ class _FakeHadithNotificationScreenState
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.go('/');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'العودة إلى الصفحة الرئيسية',
-                    style: TextStyle(fontFamily: 'Cairo', fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            //   child: SizedBox(
+            //     width: double.infinity,
+            //     height: 52,
+            //     child: ElevatedButton(
+            //       onPressed: () {
+            //         context.go('/');
+            //       },
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: AppColors.primary,
+            //         foregroundColor: Colors.white,
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(12),
+            //         ),
+            //       ),
+            //       child: const Text(
+            //         'العودة إلى الصفحة الرئيسية',
+            //         style: TextStyle(fontFamily: 'Cairo', fontSize: 16),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

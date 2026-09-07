@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/universal_button.dart';
 import '../../../../core/widgets/universal_container.dart';
+import '../../logic/questions_cubit.dart';
+import '../../logic/questions_msg_cubit.dart';
 import 'dialog_body.dart';
 
 class EmptyQuestionScreen extends StatelessWidget {
@@ -47,7 +50,16 @@ class EmptyQuestionScreen extends StatelessWidget {
           UniversalButton(
             widthPortion: 0.65,
             onTap: () {
-              showDialog(context: context, builder: (context) => DialogBody());
+              showDialog(
+                context: context,
+                builder: (dialogContext) => BlocProvider.value(
+                  value: context.read<QuestionsCubit>(),
+                  child: BlocProvider(
+                    create: (context) => QuestionsMsgCubit(),
+                    child: DialogBody(),
+                  ),
+                ),
+              );
             },
             title: 'اطرح سؤالك هنا',
             color: AppColors.primaryRich,

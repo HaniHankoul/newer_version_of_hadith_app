@@ -27,6 +27,8 @@ class SignupScreen extends StatelessWidget {
             context.go('/login');
           } else if (state is SignupErrorState) {
             Constants().errorBar('حدث خطأ أثناء إنشاء الحساب');
+            Constants().errorBar(state.errorMessage);
+            debugPrint('Signup Error: ${state.errorMessage}');
           }
         },
         builder: (context, state) {

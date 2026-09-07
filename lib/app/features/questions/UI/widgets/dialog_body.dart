@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../../../core/app_theme.dart';
 import '../../../../core/helper/assets.dart';
 import '../../../../core/helper/constants.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/universal_button.dart';
-import '../../data/repo/questions_repo.dart';
-import '../../logic/questions_cubit.dart';
+import '../../logic/questions_msg_cubit.dart';
+import '../../logic/questions_states.dart';
 
 class DialogBody extends StatefulWidget {
   const DialogBody({super.key});
@@ -20,42 +20,6 @@ class DialogBody extends StatefulWidget {
 
 class _DialogBodyState extends State<DialogBody> {
   final TextEditingController _controller = TextEditingController();
-  bool _isLoading = false;
-  String? _message;
-
-  Future<void> _sendQuestion() async {
-    final text = _controller.text.trim();
-    if (text.isEmpty) return;
-
-    setState(() {
-      _isLoading = true;
-      _message = null;
-    });
-
-    try {
-      await QuestionsRepo().sendMessage(text);
-
-      if (!mounted) return;
-
-      setState(() {
-        _isLoading = false;
-        _message = 'تم ارسال سؤالك بنجاح';
-      });
-      context.read<QuestionsCubit>().getQuestions();
-      Navigator.pop(context);
-
-      Constants().successBar('تم ارسال سؤالك بنجاح');
-    } catch (e) {
-      if (!mounted) return;
-
-      setState(() {
-        _isLoading = false;
-        _message = e.toString();
-      });
-
-      Constants().errorBar('حدث خطأ أثناء ارسال سؤالك');
-    }
-  }
 
   @override
   void dispose() {
@@ -77,7 +41,10 @@ class _DialogBodyState extends State<DialogBody> {
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   backgroundColor: AppColors.primary,
-                  child: Icon(Icons.list, color: AppColors.white),
+                  child: HugeIcon(
+                    icon: HugeIcons.strokeRoundedQuillWrite01,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               CustomText(
@@ -123,21 +90,39 @@ class _DialogBodyState extends State<DialogBody> {
         ),
       ),
       actions: [
-        _isLoading
-            ? LottieBuilder.asset(
+        BlocConsumer<QuestionsMsgCubit, QuestionsMessageStates>(
+          listener: (context, state) {
+            if (state is QuestionsMessageSuccessState) {
+              Navigator.of(context).pop();
+              _controller.clear();
+              Constants().successBar('تم ارسال سؤالك بنجاح');
+            }
+            if (state is QuestionsMessageErrorState) {
+              Constants().errorBar('حدث خطأ أثناء ارسال سؤالك');
+            }
+          },
+          builder: (context, state) {
+            if (state is QuestionsMessageLoadingState) {
+              return LottieBuilder.asset(
                 width: 50,
                 height: 50,
                 Assets.assetsImagesLottiesLoadingBlackDots,
-              )
-            : UniversalButton(
-                onTap: _sendQuestion,
-                title: 'إرسال',
-                color: AppColors.primaryRich,
-                textColor: Colors.black,
-                borderColor: AppColors.primaryRich,
-                icon: Icons.send,
-                widthPortion: .3,
+              );
+            }
+            return UniversalButton(
+              onTap: () => context.read<QuestionsMsgCubit>().sendMessage(
+                context,
+                _controller.text.trim(),
               ),
+              title: 'إرسال',
+              color: AppColors.primaryRich,
+              textColor: Colors.white,
+              borderColor: AppColors.primaryRich,
+              icon: Icons.send,
+              widthPortion: .3,
+            );
+          },
+        ),
       ],
     );
   }

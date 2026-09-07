@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/font_size/logic/font_size_cubit.dart';
@@ -48,41 +49,38 @@ class FakeHadithCard extends StatelessWidget {
                 right: GeneralSizes.small,
                 left: GeneralSizes.small,
               ),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(GeneralSizes.small),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLight.withAlpha(50),
-                  borderRadius: BorderRadius.circular(borderRadiusM),
-                  border: Border.all(color: AppColors.primary, width: 1),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      item.text ?? '',
-                      textDirection: TextDirection.rtl,
-                      maxLines: showFullText ? null : 5,
-                      overflow: showFullText
-                          ? TextOverflow.visible
-                          : TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: hadithFontSize,
-                      ),
-                    ),
-
-                    if (!showFullText)
+              child: InkWell(
+                onTap: () {
+                  context.push(
+                    '/fakeHadithAlert/${item.id}',
+                    extra: {'hadithId': item.id},
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(GeneralSizes.small),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryLight.withAlpha(50),
+                    borderRadius: BorderRadius.circular(borderRadiusM),
+                    border: Border.all(color: AppColors.primary, width: 1),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
                       Text(
-                        'عرض المزيد ...',
+                        item.text ?? '',
                         textDirection: TextDirection.rtl,
+                        maxLines: showFullText ? null : 5,
+                        overflow: showFullText
+                            ? TextOverflow.visible
+                            : TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: AppColors.primary,
                           fontFamily: 'Cairo',
                           fontSize: hadithFontSize,
                         ),
                       ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -109,18 +107,27 @@ class FakeHadithCard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                             vertical: GeneralSizes.small,
                           ),
-                          child: UniversalContainer(
-                            heightPortion: 0,
-                            widthPortion: .84,
-                            borderColor: AppColors.primary,
-                            color: AppColors.primaryLight.withAlpha(50),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CustomText(
-                                text:
-                                    item.subValid?.normalText?.toString() ?? '',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
+                          child: InkWell(
+                            onTap: () {
+                              context.push(
+                                '/hadithDetail',
+                                extra: {'hadithId': item.subValid?.id},
+                              );
+                            },
+                            child: UniversalContainer(
+                              heightPortion: 0,
+                              widthPortion: .84,
+                              borderColor: AppColors.primary,
+                              color: AppColors.primaryLight.withAlpha(50),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CustomText(
+                                  text:
+                                      item.subValid?.normalText?.toString() ??
+                                      '',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith_app/app/core/helper/constants.dart';
 import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/features/upgrade_request/UI/widgets/send_bottom_sheet.dart';
 import '../../../core/widgets/error_card.dart';
@@ -20,9 +21,7 @@ class UpgradeRequestScreen extends StatelessWidget {
     return BlocConsumer<UpgradeCubit, UpgradeState>(
       listener: (context, state) {
         if (state is UpgradeSubmitSuccess) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('تم إرسال الطلب بنجاح')));
+          Constants().successBar('تم إرسال الطلب بنجاح');
         } else if (state is UpgradeFailure) {
           ErrorCard(message: state.errorMessage);
         }

@@ -38,7 +38,11 @@ class _SignupFormBodyState extends State<SignupFormBody> {
     FormControl<Object?> control,
   ) async {
     final today = DateTime.now();
-    final latestBirthDate = DateTime(today.year - 6, today.month, today.day);
+    final latestBirthDate = DateTime(
+      today.year - 10,
+      today.month,
+      today.day,
+    ).subtract(const Duration(days: 1));
     final currentValue = DateTime.tryParse(control.value?.toString() ?? '');
     final initialDate =
         currentValue != null && !currentValue.isAfter(latestBirthDate)
@@ -344,46 +348,57 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                     horizontal: GeneralSizes.medium,
                     vertical: GeneralSizes.small,
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary),
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.primaryLight,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ReactiveRadioListTile<String>(
-                            formControlName: 'gender',
-                            value: 'male',
-                            title: const Text(
-                              'ذكر',
-                              style: TextStyle(
-                                fontFamily: "cairo",
-                                fontSize: 16,
-                              ),
-                            ),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            activeColor: AppColors.primary,
-                          ),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ReactiveDropdownField<String>(
+                      formControlName: 'gender',
+                      isExpanded: true,
+                      hint: Text(
+                        'اختر الجنس',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontFamily: 'cairo',
                         ),
-                        Expanded(
-                          child: ReactiveRadioListTile<String>(
-                            formControlName: 'gender',
-                            value: 'female',
-                            title: const Text(
-                              'أنثى',
-                              style: TextStyle(
-                                fontFamily: "cairo",
-                                fontSize: 16,
-                              ),
-                            ),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            activeColor: AppColors.primary,
-                          ),
-                        ),
+                      ),
+                      items: const [
+                        DropdownMenuItem(value: 'male', child: Text('ذكر')),
+                        DropdownMenuItem(value: 'female', child: Text('أنثى')),
                       ],
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: AppColors.primary,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppColors.primary),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppColors.primary),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppColors.primary),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Colors.red),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Colors.red),
+                        ),
+                        filled: true,
+                        fillColor: AppColors.primaryLight,
+                      ),
+                      validationMessages: {
+                        ValidationMessage.required: (_) =>
+                            ' * الرجاء اختيار الجنس',
+                      },
                     ),
                   ),
                 ),
