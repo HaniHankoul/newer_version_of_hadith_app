@@ -117,6 +117,9 @@ class LoginScreen extends StatelessWidget {
                         LoginFormBody(
                           formGroup: loginForm,
                           onSubmit: () => _submitForm(context, loginForm),
+                          onGoogleLogin: () {
+                            context.read<LoginCubit>().loginWithGoogle();
+                          },
                         ),
                         verticalLargeSpacing(),
                         Row(

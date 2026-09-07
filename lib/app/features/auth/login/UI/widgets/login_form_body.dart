@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../../core/app_theme.dart';
 import '../../../../../core/helper/general_sizes.dart';
 import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../core/widgets/universal_container.dart';
+import '../../logic/login_cubit.dart';
 import 'divider_stack.dart';
 
 class LoginFormBody extends StatefulWidget {
@@ -12,10 +15,12 @@ class LoginFormBody extends StatefulWidget {
     super.key,
     required this.formGroup,
     required this.onSubmit,
+    required this.onGoogleLogin,
   });
 
   final FormGroup formGroup;
   final VoidCallback onSubmit;
+  final VoidCallback onGoogleLogin;
 
   @override
   State<LoginFormBody> createState() => _LoginFormBodyState();
@@ -179,10 +184,33 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   ),
                 ),
                 verticalMediumSpacing(),
-
                 DividerStack(),
-                verticalMediumSpacing(),
-
+                verticalSmallSpacing(),
+                Center(
+                  child: InkWell(
+                    onTap: widget.onGoogleLogin,
+                    child: UniversalContainer(
+                      heightPortion: 0.06,
+                      widthPortion: 0.6,
+                      color: AppColors.primary.withAlpha(70),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          HugeIcon(
+                            icon: HugeIcons.strokeRoundedGoogle,
+                            color: Colors.black,
+                            size: 23,
+                          ),
+                          CustomText(
+                            text: ' تسجيل الدخول عبر Google  ',
+                            color: AppColors.black,
+                            fontSize: 14,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
                 // ReactiveFormConsumer(
                 //   builder: (context, form, child) {
                 //     final isLoading =

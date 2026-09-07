@@ -13,6 +13,39 @@ class LoginApiService {
     ),
   );
 
+  Future<Loginmodelresponse> googleLogin(String idToken) async {
+    try {
+      final response = await dio.post(
+        "/auth/google",
+        data: {"idToken": idToken},
+      );
+
+      return Loginmodelresponse.fromJson(response.data);
+    } on DioException catch (e) {
+      final data = e.response?.data;
+
+      if (data is Map<String, dynamic>) {
+        final message = data["message"];
+
+        if (message is String && message.trim().isNotEmpty) {
+          throw Exception(message.trim());
+        }
+      }
+
+      if (data is String && data.trim().isNotEmpty) {
+        throw Exception(data.trim());
+      }
+
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        throw Exception("Unable to connect to the server");
+      }
+
+      throw Exception("Google login failed");
+    }
+  }
+
   Future<Loginmodelresponse> login(Loginmodel model) async {
     try {
       final response = await dio.post("/auth/login", data: model.toJson());
