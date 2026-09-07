@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'services/services.dart';
 import '../../../../core/helper/shared/shared_init.dart';
+import '../../../../core/notifications/fcm_service.dart';
 import '../data/models/login_model.dart';
 import '../data/models/login_model_res.dart';
 import '../data/repo/login_repo.dart';
 import 'login_states.dart';
+import 'services/services.dart';
 
 Loginmodelresponse? loginResponseGlobal;
 
@@ -16,9 +17,11 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(LoginLoading());
 
     try {
-      final idToken = await GoogleLoginService.instance.signIn();
+      final idToken =
+          await GoogleLoginService.instance.signIn();
 
-      final login = await LoginApiService().googleLogin(idToken);
+      final login =
+          await LoginApiService().googleLogin(idToken);
 
       loginResponseGlobal = login;
 
@@ -27,6 +30,8 @@ class LoginCubit extends Cubit<LoginStates> {
         refreshToken: login.refreshToken,
         tokenType: login.tokenType,
       );
+
+      await FcmService.syncCurrentToken();
 
       emit(LoginSuccess(login));
     } catch (e) {
@@ -42,21 +47,31 @@ class LoginCubit extends Cubit<LoginStates> {
     }
   }
 
-  void login(Loginmodel model) async {
+  Future<void> login(Loginmodel model) async {
     emit(LoginLoading());
+
     try {
       final login = await LoginApiService().login(
-        Loginmodel(email: model.email, password: model.password),
+        Loginmodel(
+          email: model.email,
+          password: model.password,
+        ),
       );
+
       loginResponseGlobal = login;
+
       await AuthStorage.saveTokens(
         accessToken: login.accessToken,
         refreshToken: login.refreshToken,
         tokenType: login.tokenType,
       );
+
+      await FcmService.syncCurrentToken();
+
       emit(LoginSuccess(login));
     } catch (e) {
       final error = e.toString();
+
       emit(
         LoginError(
           error.startsWith('Exception: ')

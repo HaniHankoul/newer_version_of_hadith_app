@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "714947697386",
+    "project_id": "project-900091ab-837c-412a-940",
+    "storage_bucket": "project-900091ab-837c-412a-940.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714947697386:android:f64b8c53d95bf293c8d593",
+        "android_client_info": {
+          "package_name": "com.example.hadith_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714947697386-kan9567kqnncu1plhqj8f0s4u6h7654l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_oC8uEXi0sS4EWiOLQGQ7kv8Eiu-Fy8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714947697386-kan9567kqnncu1plhqj8f0s4u6h7654l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
