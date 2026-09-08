@@ -20,16 +20,6 @@ class UpgradeCubit extends Cubit<UpgradeState> {
     }
   }
 
-  Future<void> loadCurrentRequest() async {
-    emit(UpgradeCurrentLoading());
-    try {
-      final res = await repository.getCurrentUpgradeRequests();
-      emit(UpgradeCurrentLoaded(request: res));
-    } catch (e) {
-      if (!isClosed) emit(UpgradeCurrentFailure(_cleanError(e)));
-    }
-  }
-
   Future<void> submit({
     required String filePath,
     required String fileName,

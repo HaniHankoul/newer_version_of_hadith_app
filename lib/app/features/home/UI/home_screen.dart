@@ -6,6 +6,7 @@ import '../../../core/navigation/logic/navigation_cubit.dart';
 import '../../../core/search_history/logic/search_history_cubit.dart';
 import '../../../core/widgets/custom_text.dart';
 import '../../../core/widgets/drawer/custom_drawer.dart';
+import '../../books_resource/logic/book_details_cubit.dart';
 import '../../favourite/UI/favourite_screen.dart';
 import '../../favourite/logic/favorite_cubit.dart';
 import '../../profile/UI/profile_screen.dart';
@@ -76,6 +77,11 @@ Widget body(NavigationState state) {
           BlocProvider(create: (context) => AccessBloc()..getAccessToken()),
           BlocProvider(create: (context) => SearchCubit()),
           BlocProvider(create: (context) => SearchHistoryCubit()),
+          BlocProvider(
+            create: (context) =>
+                BookDetailsCubit(bookId: '6a844791-778e-48ca-99a4-264edbc2689d')
+                  ..fetchBookHadiths(),
+          ),
         ],
         child: Builder(
           builder: (context) => NotificationListener<ScrollNotification>(

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "714947697386-tbms98u50vck25r417o1dvgvttno29jt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hadith_app",
+            "certificate_hash": "9c0bc803803e1615eb33500a45f9a859385f2507"
+          }
+        },
+        {
           "client_id": "714947697386-kan9567kqnncu1plhqj8f0s4u6h7654l.apps.googleusercontent.com",
           "client_type": 3
         }

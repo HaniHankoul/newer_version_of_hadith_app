@@ -16,7 +16,6 @@ class ThemeCard extends StatelessWidget {
     Color(0xffC59653),
     Color(0xff2AC17E),
     Color(0xff35A2FF),
-    Color(0xffEF3F4C),
     Color(0xff736C8B),
     Color(0xff24B4AA),
   ];
@@ -25,7 +24,6 @@ class ThemeCard extends StatelessWidget {
     Color(0xffFFF1E1),
     Color(0xffE8F7EF),
     Color(0xffE8F3FF),
-    Color(0xffffe8ea),
     Color(0xffF0ECF8),
     Color(0xffE5F7F5),
   ];

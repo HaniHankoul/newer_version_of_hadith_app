@@ -155,7 +155,7 @@ class DetailScreen extends StatelessWidget {
                                                 ),
                                                 child: CustomText(
                                                   text:
-                                                      'نوع الحديث: ${hadith.type ?? ''}',
+                                                      'نوع الحديث: ${hadith.type!.contains('marfu') ? 'مرفوع' : ''}',
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -198,9 +198,7 @@ class DetailScreen extends StatelessWidget {
                                             padding: const EdgeInsets.all(8.0),
                                             child: CustomText(
                                               text:
-                                                  hadith.normalText
-                                                      ?.toString() ??
-                                                  '',
+                                                  hadith.text?.toString() ?? '',
                                               fontSize: hadithFontSize,
                                               fontWeight: FontWeight.w700,
                                             ),

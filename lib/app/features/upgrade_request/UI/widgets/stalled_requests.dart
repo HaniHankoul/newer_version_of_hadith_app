@@ -7,7 +7,7 @@ import '../../../../core/widgets/custom_text.dart';
 import '../../data/models/upgrade_model_response.dart';
 
 class StalledRequests extends StatelessWidget {
-  final List<UpgradeModelResponse> requests;
+  final UpgradeModelResponse requests;
   final bool isLoading;
 
   const StalledRequests({
@@ -34,7 +34,7 @@ class StalledRequests extends StatelessWidget {
               Icon(Icons.pending_actions_rounded, color: AppColors.primary),
               const SizedBox(width: 8),
               CustomText(
-                text: 'الطلبات المعلقة',
+                text: 'الطلب الحالي',
                 color: AppColors.textPrimaryDark,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -53,16 +53,16 @@ class StalledRequests extends StatelessWidget {
                 ),
               ),
             )
-          else if (requests.isEmpty)
+          else if (requests.id == "")
             Text(
-              'لا توجد طلبات معلقة حالياً',
+              'لا توجد طلبات حالياً',
               style: TextStyle(
                 fontFamily: 'cairo',
                 color: AppColors.textSecondary,
               ),
             )
           else
-            ...requests.map(_requestCard),
+            _requestCard(requests),
         ],
       ),
     );
@@ -80,7 +80,19 @@ class StalledRequests extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.schedule_rounded, color: AppColors.warning),
+          Icon(
+            request.status == 'approved'
+                ? Icons.check
+                : request.status == 'rejected'
+                ? Icons.close
+                : Icons.schedule_rounded,
+            color: request.status == 'approved'
+                ? Colors.green
+                : request.status == 'rejected'
+                ? Colors.red
+                : Colors.orange,
+          ),
+
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -97,7 +109,7 @@ class StalledRequests extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  request.status ?? 'قيد المراجعة',
+                  ' الحالة : ${request.status}' ?? 'قيد المراجعة',
                   style: TextStyle(
                     fontFamily: 'cairo',
                     fontSize: 13,
@@ -107,7 +119,7 @@ class StalledRequests extends StatelessWidget {
                 Text(
                   request.notes == null || request.notes!.isEmpty
                       ? ''
-                      : ' - ${request.notes}',
+                      : ' ملاحظات : ${request.notes}',
                   style: TextStyle(
                     fontFamily: 'cairo',
                     fontSize: 13,

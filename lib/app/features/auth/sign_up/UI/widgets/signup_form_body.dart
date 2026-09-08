@@ -21,7 +21,11 @@ class _SignupFormBodyState extends State<SignupFormBody> {
 
   FormGroup get _signupForm => FormGroup({
     'username': FormControl<String>(
-      validators: [Validators.required, Validators.minLength(3)],
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern(r'^[A-Za-z\u0621-\u064A\u0671-\u06D3]+$'),
+      ],
     ),
     'email': FormControl<String>(
       validators: [Validators.required, Validators.email],
@@ -191,6 +195,8 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                             '* الرجاء إدخال اسم المستخدم',
                         ValidationMessage.minLength: (_) =>
                             ' * اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
+                        ValidationMessage.pattern: (_) =>
+                            ' * اسم المستخدم يجب أن يحتوي على أحرف عربية أو إنجليزية فقط',
                       },
                     ),
                   ),

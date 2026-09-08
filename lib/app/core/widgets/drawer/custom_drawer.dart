@@ -67,13 +67,6 @@ class CustomDrawer extends StatelessWidget {
                       ),
                       CustomDrawerButton(
                         onTap: () {
-                          context.push('/hadithDetail', extra: 'حديث اليوم');
-                        },
-                        title: 'حديث اليوم ',
-                        icon: HugeIcons.strokeRoundedBookBookmark01,
-                      ),
-                      CustomDrawerButton(
-                        onTap: () {
                           context.push('/upgradeRequestScreen');
                         },
                         title: 'طلب الترقية ',

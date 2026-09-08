@@ -34,7 +34,7 @@ class _FilteringSectionState extends State<FilteringSection> {
     _FilterGroupData(
       'التصنيف',
       (widget.filters.types ?? [])
-          .map((type) => Book(id: type.id, name: type.label))
+          .map((type) => Book(id: type.id, name: _arabicTypeLabel(type.label)))
           .toList(growable: false),
       'types',
     ),
@@ -179,5 +179,27 @@ class _FilterGroupCardState extends State<_FilterGroupCard> {
         ],
       ),
     );
+  }
+}
+
+String _arabicTypeLabel(String? label) {
+  switch (label?.trim().toLowerCase()) {
+    case 'marfu':
+      return 'مرفوع';
+    case 'mawquf':
+      return 'موقوف';
+    case 'qudsi':
+      return 'قدسي';
+    case 'atharsahaba':
+    case 'athar_sahaba':
+      return 'أثر الصحابة';
+    case 'mursal':
+      return 'مرسل';
+    case 'muallaq':
+      return 'معلّق';
+    case 'maqtu':
+      return 'مقطوع';
+    default:
+      return label ?? '';
   }
 }

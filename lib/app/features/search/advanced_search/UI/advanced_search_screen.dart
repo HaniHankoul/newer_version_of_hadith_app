@@ -145,6 +145,8 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                     verticalLargeSpacing(),
                     BlocBuilder<AdvancedSearchCubit, AdvancedSearchStates>(
                       builder: (context, state) {
+                        final cubit = context.read<AdvancedSearchCubit>();
+
                         if (state is AdvancedSearchLoading) {
                           return Column(
                             children: [
@@ -190,6 +192,19 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                           }
                           return Column(
                             children: [
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: GeneralSizes.medium,
+                                    vertical: 4,
+                                  ),
+                                  child: CustomText(
+                                    text:
+                                        'عدد النتائج: ${cubit.totalResults ?? items.length}',
+                                  ),
+                                ),
+                              ),
                               ...items.map<Widget>((item) {
                                 return HadithCard(items: item);
                               }),

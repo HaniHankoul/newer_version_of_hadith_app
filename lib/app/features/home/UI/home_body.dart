@@ -298,7 +298,24 @@ Widget body(BuildContext context, SearchCubitState state) {
     case SearchCubitLoading():
       return LoadingCard();
     case SearchCubitSuccess():
-      return SearchResults(res: state.searchModel);
+      return Column(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: GeneralSizes.medium,
+                vertical: 4,
+              ),
+              child: CustomText(
+                text:
+                    'عدد النتائج: ${state.searchModel.pagination?.totalItems ?? 0}',
+              ),
+            ),
+          ),
+          SearchResults(res: state.searchModel),
+        ],
+      );
     case SearchCubitError():
       return ErrorCard(message: 'حدث خطأ أثناء البحث');
     default:

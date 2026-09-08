@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith_app/app/features/upgrade_request/logic/upgrade_current_cubit.dart';
 import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
 import '../../features/fake_hadith/UI/widgets/fake_hadith_notification_screen.dart';
@@ -122,14 +123,7 @@ final router = GoRouter(
       builder: (context, state) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(
-              create: (context) => UpgradeCubit()
-                ..loadRequests()
-                ..loadCurrentRequest(),
-            ),
-            // BlocProvider(
-            //   create: (context) => UpgradeCubit()..loadCurrentRequest(),
-            // ),
+            BlocProvider(create: (context) => UpgradeCubit()..loadRequests()),
           ],
           child: UpgradeRequestScreen(),
         );

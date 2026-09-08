@@ -6,24 +6,10 @@ class UpgradeInitial extends UpgradeState {}
 
 class UpgradeLoading extends UpgradeState {}
 
-class UpgradeCurrentLoading extends UpgradeState {}
-
 class UpgradeLoaded extends UpgradeState {
   final List<UpgradeModelResponse> requests;
 
   UpgradeLoaded(this.requests);
-}
-
-class UpgradeCurrentLoaded extends UpgradeState {
-  final UpgradeModelResponse request;
-
-  UpgradeCurrentLoaded({required this.request});
-}
-
-class UpgradeCurrentFailure extends UpgradeState {
-  final String errorMessage;
-
-  UpgradeCurrentFailure(this.errorMessage);
 }
 
 class UpgradeSubmitting extends UpgradeState {

@@ -18,11 +18,11 @@ class AdvancedSearchCubit extends Cubit<AdvancedSearchStates> {
   int _page = 0;
   bool _hasNext = false;
   final List<Item> results = [];
-
+  int? totalResults;
   String get searchMode => _searchMode;
 
   void updateSearchMode(String mode) {
-    if (mode == 'EXACT' || mode == 'FLEXIBLE') {
+    if (mode == 'EXACT' || mode == 'FLEXIBLE' || mode == 'SEMANTIC') {
       _searchMode = mode;
     }
   }
@@ -71,6 +71,7 @@ class AdvancedSearchCubit extends Cubit<AdvancedSearchStates> {
       final response = await _repository.search(_buildSearchBody(page: _page));
       results.addAll(response.items ?? []);
       _hasNext = response.pagination?.hasNext ?? false;
+      totalResults = response.pagination?.totalItems;
       if (!isClosed) emit(AdvancedSearchSuccess(response));
     } catch (e) {
       if (isClosed) return;
@@ -94,6 +95,7 @@ class AdvancedSearchCubit extends Cubit<AdvancedSearchStates> {
       _page = nextPage;
       _hasNext = response.pagination?.hasNext ?? false;
       results.addAll(response.items ?? []);
+      totalResults = response.pagination?.totalItems;
       if (!isClosed) emit(AdvancedSearchSuccess(response));
     } catch (e) {
       if (!isClosed) emit(AdvancedSearchError('Failed to search: $e'));

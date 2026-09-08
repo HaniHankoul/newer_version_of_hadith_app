@@ -40,14 +40,21 @@ class _SearchModeSwitcherState extends State<SearchModeSwitcher> {
       child: Row(
         children: [
           _ModeOption(
-            label: 'بحث مطابق',
-            mode: 'EXACT',
+            label: 'بحث دلالي',
+            mode: 'SEMANTIC',
+            selectedMode: _selectedMode,
+            onTap: _selectMode,
+          ),
+
+          _ModeOption(
+            label: 'بحث مرن',
+            mode: 'FLEXIBLE',
             selectedMode: _selectedMode,
             onTap: _selectMode,
           ),
           _ModeOption(
-            label: 'بحث مرن',
-            mode: 'FLEXIBLE',
+            label: 'بحث مطابق',
+            mode: 'EXACT',
             selectedMode: _selectedMode,
             onTap: _selectMode,
           ),
