@@ -1,25 +1,27 @@
 import 'package:dio/dio.dart';
 
-import '../../../../core/helper/shared/shared_init.dart';
+import '../../../../core/helper/shared/api_client.dart';
 import '../models/questions_model_response.dart';
 
 class QuestionsRepo {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://api.jamilhelal.me/api/v1',
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-      headers: {'Content-Type': 'application/json'},
-    ),
-  );
+  final Dio _dio = ApiClient.instance.dio;
 
   dynamic _extractQuestionPayload(dynamic data) {
     if (data is Map) {
       final map = Map<String, dynamic>.from(data);
 
-      if (map.containsKey('data')) return map['data'];
-      if (map.containsKey('question')) return map['question'];
-      if (map.containsKey('questions')) return map['questions'];
+      if (map.containsKey('data')) {
+        return map['data'];
+      }
+
+      if (map.containsKey('question')) {
+        return map['question'];
+      }
+
+      if (map.containsKey('questions')) {
+        return map['questions'];
+      }
+
       return map;
     }
 
@@ -32,16 +34,7 @@ class QuestionsRepo {
 
   Future<List<QuestionModelResponse>> getQuestions() async {
     try {
-      final token = await AuthStorage.getAccessToken();
-
-      if (token == null || token.isEmpty) {
-        throw Exception('No access token found');
-      }
-
-      final response = await _dio.get(
-        '/me/questions',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-      );
+      final response = await _dio.get('/me/questions');
 
       if (response.statusCode == 200) {
         final data = response.data;
@@ -67,13 +60,8 @@ class QuestionsRepo {
 
   Future<QuestionModelResponse> sendMessage(String query) async {
     try {
-      final token = await AuthStorage.getAccessToken();
-
-      if (token == null || token.isEmpty) {
-        throw Exception('No access token found');
-      }
-
       final cleanQuery = query.trim();
+
       if (cleanQuery.isEmpty) {
         throw Exception('Question cannot be empty');
       }
@@ -81,7 +69,6 @@ class QuestionsRepo {
       final response = await _dio.post(
         '/me/questions',
         data: {'askerText': cleanQuery},
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       if (response.statusCode != null &&
@@ -113,34 +100,25 @@ class QuestionsRepo {
       if (errorMap is Map) {
         final message =
             errorMap['message'] ?? errorMap['error'] ?? errorMap['errors'];
+
         throw Exception(
           message?.toString() ?? e.message ?? 'Question send failed',
         );
       }
 
       throw Exception(e.message ?? 'Question send failed');
-    } catch (e) {
-      throw Exception(e.toString());
     }
   }
 
   Future<void> deleteQuestion(String questionId) async {
     try {
-      final token = await AuthStorage.getAccessToken();
-
-      if (token == null || token.isEmpty) {
-        throw Exception('No access token found');
-      }
-
       final id = questionId.trim();
+
       if (id.isEmpty) {
         throw Exception('Question id is required');
       }
 
-      final response = await _dio.delete(
-        '/me/questions/$id',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-      );
+      final response = await _dio.delete('/me/questions/$id');
 
       if (response.statusCode == 200 || response.statusCode == 204) {
         return;
@@ -164,8 +142,6 @@ class QuestionsRepo {
       }
 
       throw Exception(e.message ?? 'Delete question failed');
-    } catch (e) {
-      throw Exception(e.toString());
     }
   }
 }

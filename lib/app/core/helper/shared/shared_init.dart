@@ -11,33 +11,52 @@ class AuthStorage {
     String? tokenType,
   }) async {
     final prefs = await SharedPreferences.getInstance();
+
     await prefs.setString(accessTokenKey, accessToken);
 
-    if (refreshToken != null) {
+    if (refreshToken != null && refreshToken.isNotEmpty) {
       await prefs.setString(refreshTokenKey, refreshToken);
     }
 
-    if (tokenType != null) {
+    if (tokenType != null && tokenType.isNotEmpty) {
       await prefs.setString(tokenTypeKey, tokenType);
     }
   }
 
   static Future<String?> getAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
+
     return prefs.getString(accessTokenKey);
+  }
+
+  static Future<String?> getRefreshToken() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(refreshTokenKey);
+  }
+
+  static Future<String?> getTokenType() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(tokenTypeKey);
   }
 
   static Future<void> clearTokens() async {
     final prefs = await SharedPreferences.getInstance();
+
     await prefs.remove(accessTokenKey);
+
     await prefs.remove(refreshTokenKey);
+
     await prefs.remove(tokenTypeKey);
   }
 }
 
 class UserPreferences {
   static const String primaryColorKey = 'primaryColor';
+
   static const String secondaryColorKey = 'secondaryColor';
+
   static const String fontSizeKey = 'fontSize';
 
   static Future<void> saveTheme({
@@ -45,22 +64,27 @@ class UserPreferences {
     required int secondaryColor,
   }) async {
     final prefs = await SharedPreferences.getInstance();
+
     await prefs.setInt(primaryColorKey, primaryColor);
+
     await prefs.setInt(secondaryColorKey, secondaryColor);
   }
 
   static Future<(int?, int?)> getTheme() async {
     final prefs = await SharedPreferences.getInstance();
+
     return (prefs.getInt(primaryColorKey), prefs.getInt(secondaryColorKey));
   }
 
   static Future<void> saveFontSize(double fontSize) async {
     final prefs = await SharedPreferences.getInstance();
+
     await prefs.setDouble(fontSizeKey, fontSize);
   }
 
   static Future<double?> getFontSize() async {
     final prefs = await SharedPreferences.getInstance();
+
     return prefs.getDouble(fontSizeKey);
   }
 }

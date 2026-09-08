@@ -1,23 +1,14 @@
 import 'package:dio/dio.dart';
 
-import '../../../../core/helper/shared/shared_init.dart';
+import '../../../../core/helper/shared/api_client.dart';
 import '../models/upgrade_model_response.dart';
 
 class UpgradeRepo {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://api.jamilhelal.me/api/v1',
-      connectTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 30),
-    ),
-  );
+  final Dio _dio = ApiClient.instance.dio;
 
   Future<UpgradeModelResponse?> getUpgradeRequest() async {
     try {
-      final response = await _dio.get(
-        '/me/upgrade-requests',
-        options: Options(headers: {'Authorization': 'Bearer ${await _token}'}),
-      );
+      final response = await _dio.get('/me/upgrade-requests');
 
       if (response.statusCode == 200) {
         final payload = response.data is Map && response.data['data'] is Map
@@ -62,10 +53,7 @@ class UpgradeRepo {
       final response = await _dio.post(
         '/me/upgrade-requests',
         data: FormData.fromMap(data),
-        options: Options(
-          headers: {'Authorization': 'Bearer ${await _token}'},
-          contentType: 'multipart/form-data',
-        ),
+        options: Options(contentType: 'multipart/form-data'),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -86,16 +74,6 @@ class UpgradeRepo {
         _messageFrom(e.response?.data) ?? e.message ?? 'Upgrade request failed',
       );
     }
-  }
-
-  Future<String> get _token async {
-    final token = await AuthStorage.getAccessToken();
-
-    if (token == null || token.isEmpty) {
-      throw Exception('No access token found');
-    }
-
-    return token;
   }
 
   String? _messageFrom(dynamic data) {

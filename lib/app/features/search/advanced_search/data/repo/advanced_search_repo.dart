@@ -1,21 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:xml/xml.dart';
 
-import '../../../../../core/helper/shared/shared_init.dart';
+import '../../../../../core/helper/shared/api_client.dart';
 import '../../../../home/data/models/search_model.dart';
 import '../../../../home/data/models/search_query_model.dart';
-
 import '../models/search_filters_model.dart';
 
 class AdvancedSearchApiService {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://api.jamilhelal.me/api/v1',
-      connectTimeout: const Duration(seconds: 60),
-      receiveTimeout: const Duration(seconds: 60),
-      headers: {'Content-Type': 'application/json'},
-    ),
-  );
+  final Dio dio = ApiClient.instance.dio;
 
   Future<FilterModel> getFilters() async {
     try {
@@ -25,11 +17,14 @@ class AdvancedSearchApiService {
           headers: {'Accept': 'application/xml, application/json'},
         ),
       );
+
       return _parseFilters(response.data);
     } on DioException catch (e) {
       final data = e.response?.data;
+
       if (data is Map<String, dynamic>) {
         final message = data['message'];
+
         if (message is String && message.trim().isNotEmpty) {
           throw Exception(message.trim());
         }
@@ -49,26 +44,23 @@ class AdvancedSearchApiService {
 
   Future<SearchResponseModel> search(SearchBodyModel body) async {
     try {
-      final token = await AuthStorage.getAccessToken();
       final response = await dio.post(
         '/ahadith/search',
         data: body.toJson(),
-        options: Options(
-          headers: {
-            'Accept': 'application/json',
-            if (token != null && token.isNotEmpty)
-              'Authorization': 'Bearer $token',
-          },
-        ),
+        options: Options(headers: {'Accept': 'application/json'}),
       );
+
       if (response.data is! Map) {
         throw const FormatException('Unsupported search response');
       }
+
       return _parseSearchResponse(response.data);
     } on DioException catch (e) {
       final data = e.response?.data;
+
       if (data is Map<String, dynamic>) {
         final message = data['message'];
+
         if (message is String && message.trim().isNotEmpty) {
           throw Exception(message.trim());
         }
@@ -93,6 +85,7 @@ class AdvancedSearchApiService {
 
     if (data is String) {
       final document = XmlDocument.parse(data);
+
       return FilterModel.fromJson({
         'books': _parseBooks(document, 'books'),
         'muhaddiths': _parseBooks(document, 'muhaddiths'),
@@ -108,16 +101,20 @@ class AdvancedSearchApiService {
 
   SearchResponseModel _parseSearchResponse(dynamic data) {
     final response = Map<String, dynamic>.from(data as Map);
+
     final topLevelItems = response['items'];
+
     if (topLevelItems is List && topLevelItems.isNotEmpty) {
       return SearchResponseModel.fromJson(response);
     }
 
     for (final key in ['data', 'result', 'payload']) {
       final nested = response[key];
+
       if (nested is Map && nested['items'] is List) {
         return SearchResponseModel.fromJson(Map<String, dynamic>.from(nested));
       }
+
       if (nested is List) {
         return SearchResponseModel.fromJson({
           'items': nested,
@@ -128,6 +125,7 @@ class AdvancedSearchApiService {
 
     for (final key in ['results', 'content', 'hadiths']) {
       final items = response[key];
+
       if (items is List) {
         return SearchResponseModel.fromJson({
           'items': items,

@@ -1,39 +1,31 @@
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../core/helper/shared/shared_init.dart';
+import '../../../../core/helper/shared/api_client.dart';
 import '../models/avatar_model.dart';
 
 class AvatarRepo {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://api.jamilhelal.me/api/v1',
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 30),
-    ),
-  );
+  final Dio _dio = ApiClient.instance.dio;
 
   Future<Avatarmodel> uploadAvatar(XFile image) async {
     try {
-      final token = await AuthStorage.getAccessToken();
-      if (token == null || token.isEmpty) {
-        throw Exception('No access token found');
-      }
-
       final formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(image.path, filename: image.name),
       });
+
       final response = await _dio.post(
         '/me/profile-image',
         data: formData,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(contentType: 'multipart/form-data'),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data;
+
         final avatarJson = data is Map<String, dynamic> && data['data'] is Map
             ? Map<String, dynamic>.from(data['data'] as Map)
             : Map<String, dynamic>.from(data as Map);
+
         return Avatarmodel.fromJson(avatarJson);
       }
 
@@ -51,15 +43,7 @@ class AvatarRepo {
 
   Future<void> deleteAvatar() async {
     try {
-      final token = await AuthStorage.getAccessToken();
-      if (token == null || token.isEmpty) {
-        throw Exception('No access token found');
-      }
-
-      final response = await _dio.delete(
-        '/me/profile-image',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-      );
+      final response = await _dio.delete('/me/profile-image');
 
       if (response.statusCode != 200 && response.statusCode != 204) {
         throw Exception(
@@ -79,6 +63,7 @@ class AvatarRepo {
     if (data is Map && data['message'] != null) {
       return data['message'].toString();
     }
+
     return null;
   }
 }
