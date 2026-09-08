@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -24,7 +25,9 @@ class _SignupFormBodyState extends State<SignupFormBody> {
       validators: [
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern(r'^[A-Za-z\u0621-\u064A\u0671-\u06D3]+$'),
+        Validators.pattern(
+          r'^(?=(?:.*[A-Za-z\u0621-\u064A\u0671-\u06D3]){3,}$)[A-Za-z\u0621-\u064A\u0671-\u06D3]+(?: [A-Za-z\u0621-\u064A\u0671-\u06D3]+)*$',
+        ),
       ],
     ),
     'email': FormControl<String>(
@@ -42,12 +45,15 @@ class _SignupFormBodyState extends State<SignupFormBody> {
     FormControl<Object?> control,
   ) async {
     final today = DateTime.now();
+
     final latestBirthDate = DateTime(
       today.year - 10,
       today.month,
       today.day,
     ).subtract(const Duration(days: 1));
+
     final currentValue = DateTime.tryParse(control.value?.toString() ?? '');
+
     final initialDate =
         currentValue != null && !currentValue.isAfter(latestBirthDate)
         ? currentValue
@@ -56,7 +62,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
     final selectedDate = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: DateTime(1900),
+      firstDate: DateTime(1930),
       lastDate: latestBirthDate,
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
@@ -76,7 +82,10 @@ class _SignupFormBodyState extends State<SignupFormBody> {
       ),
     );
 
-    if (selectedDate == null) return;
+    if (selectedDate == null) {
+      return;
+    }
+
     control.value =
         '${selectedDate.year.toString().padLeft(4, '0')}-'
         '${selectedDate.month.toString().padLeft(2, '0')}-'
@@ -89,9 +98,26 @@ class _SignupFormBodyState extends State<SignupFormBody> {
       return;
     }
 
+    final username = (form.control('username').value ?? '').toString().trim();
+
+    if (username.length < 3) {
+      form.control('username').setErrors({'minLength': true});
+      return;
+    }
+
+    final validUsername = RegExp(
+      r'^(?=(?:.*[A-Za-z\u0621-\u064A\u0671-\u06D3]){3,}$)[A-Za-z\u0621-\u064A\u0671-\u06D3]+(?: [A-Za-z\u0621-\u064A\u0671-\u06D3]+)*$',
+    );
+
+    if (!validUsername.hasMatch(username)) {
+      form.control('username').setErrors({'pattern': true});
+      return;
+    }
+
     final birthDateText = (form.control('birthdate').value ?? '')
         .toString()
         .trim();
+
     final birthDate = DateTime.tryParse(birthDateText);
 
     if (birthDate == null) {
@@ -100,6 +126,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
     }
 
     final genderValue = (form.control('gender').value ?? '').toString();
+
     final mappedGender = genderValue == 'ذكر'
         ? 'male'
         : genderValue == 'أنثى'
@@ -113,7 +140,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
 
     context.read<SignupCubit>().signup(
       Signupmodel(
-        name: (form.control('username').value ?? '').toString().trim(),
+        name: username,
         email: (form.control('email').value ?? '').toString().trim(),
         password: (form.control('password').value ?? '').toString(),
         gender: mappedGender,
@@ -147,6 +174,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: GeneralSizes.medium,
@@ -154,14 +182,20 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                   ),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
+                    child: ReactiveTextField<String>(
                       formControlName: 'username',
+                      textInputAction: TextInputAction.next,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[A-Za-z\u0621-\u064A\u0671-\u06D3 ]'),
+                        ),
+                      ],
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         hintText: 'اكتب اسمك',
                         hintStyle: TextStyle(
                           color: AppColors.primary,
-                          fontFamily: "cairo",
+                          fontFamily: 'cairo',
                         ),
                         prefixIcon: Icon(
                           Icons.person,
@@ -194,13 +228,14 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                         ValidationMessage.required: (_) =>
                             '* الرجاء إدخال اسم المستخدم',
                         ValidationMessage.minLength: (_) =>
-                            ' * اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
+                            '* اسم المستخدم يجب أن يكون 3 أحرف على الأقل',
                         ValidationMessage.pattern: (_) =>
-                            ' * اسم المستخدم يجب أن يحتوي على أحرف عربية أو إنجليزية فقط',
+                            '* اسم المستخدم يجب أن يحتوي على أحرف عربية أو إنجليزية فقط وبدون أرقام',
                       },
                     ),
                   ),
                 ),
+
                 verticalSmallSpacing(),
 
                 Padding(
@@ -211,6 +246,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: GeneralSizes.medium,
@@ -218,15 +254,16 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                   ),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
+                    child: ReactiveTextField<String>(
                       formControlName: 'email',
                       keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         hintText: 'اكتب بريدك',
                         hintStyle: TextStyle(
                           color: AppColors.primary,
-                          fontFamily: "cairo",
+                          fontFamily: 'cairo',
                         ),
                         prefixIcon: Icon(Icons.email, color: AppColors.primary),
                         border: OutlineInputBorder(
@@ -250,18 +287,21 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                           borderSide: const BorderSide(color: Colors.red),
                         ),
                         filled: true,
+
                         fillColor: AppColors.primaryLight,
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            ' *الرجاء إدخال البريد الإلكتروني',
+                            '* الرجاء إدخال البريد الإلكتروني',
                         ValidationMessage.email: (_) =>
-                            ' * الرجاء إدخال بريد إلكتروني صحيح',
+                            '* الرجاء إدخال بريد إلكتروني صحيح',
                       },
                     ),
                   ),
                 ),
+
                 verticalSmallSpacing(),
+
                 Padding(
                   padding: const EdgeInsets.only(right: GeneralSizes.medium),
                   child: CustomText(
@@ -270,6 +310,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: GeneralSizes.medium,
@@ -277,15 +318,16 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                   ),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
+                    child: ReactiveTextField<String>(
                       formControlName: 'password',
                       obscureText: !_isPasswordVisible,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         hintText: 'اكتب كلمة المرور',
                         hintStyle: TextStyle(
                           color: AppColors.primary,
-                          fontFamily: "cairo",
+                          fontFamily: 'cairo',
                         ),
                         prefixIcon: Icon(
                           Icons.password,
@@ -328,17 +370,19 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                           borderSide: const BorderSide(color: Colors.red),
                         ),
                         filled: true,
+
                         fillColor: AppColors.primaryLight,
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            ' * الرجاء إدخال كلمة المرور',
+                            '* الرجاء إدخال كلمة المرور',
                         ValidationMessage.minLength: (_) =>
-                            ' * كلمة المرور يجب أن تكون 8 أحرف على الأقل',
+                            '* كلمة المرور يجب أن تكون 8 أحرف على الأقل',
                       },
                     ),
                   ),
                 ),
+
                 verticalSmallSpacing(),
 
                 Padding(
@@ -349,6 +393,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: GeneralSizes.medium,
@@ -403,11 +448,12 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            ' * الرجاء اختيار الجنس',
+                            '* الرجاء اختيار الجنس',
                       },
                     ),
                   ),
                 ),
+
                 verticalSmallSpacing(),
 
                 Padding(
@@ -418,6 +464,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: GeneralSizes.medium,
@@ -425,7 +472,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                   ),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: ReactiveTextField(
+                    child: ReactiveTextField<Object?>(
                       formControlName: 'birthdate',
                       readOnly: true,
                       onTap: (control) => _pickBirthDate(context, control),
@@ -434,7 +481,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                         hintText: 'مثال: 1990-01-01',
                         hintStyle: TextStyle(
                           color: AppColors.primary,
-                          fontFamily: "cairo",
+                          fontFamily: 'cairo',
                         ),
                         prefixIcon: Icon(
                           Icons.date_range,
@@ -465,12 +512,12 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                       ),
                       validationMessages: {
                         ValidationMessage.required: (_) =>
-                            ' * الرجاء إدخال تاريخ الميلاد',
+                            '* الرجاء إدخال تاريخ الميلاد',
+                        'invalidDate': (_) => '* تاريخ الميلاد غير صحيح',
                       },
                     ),
                   ),
                 ),
-                verticalSmallSpacing(),
 
                 verticalSmallSpacing(),
 
@@ -493,10 +540,10 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                             ),
                             child: Center(
                               child: CustomText(
-                                text: 'انشاء الحساب',
-                                color: AppColors.black,
-                                fontSize: 15,
+                                text: 'إنشاء حساب',
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
+                                color: AppColors.textWhite,
                               ),
                             ),
                           ),
@@ -505,6 +552,7 @@ class _SignupFormBodyState extends State<SignupFormBody> {
                     );
                   },
                 ),
+
                 verticalMediumSpacing(),
               ],
             ),

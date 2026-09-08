@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hadith_app/app/core/widgets/loading_card.dart';
 
 import '../../../../core/app_theme.dart';

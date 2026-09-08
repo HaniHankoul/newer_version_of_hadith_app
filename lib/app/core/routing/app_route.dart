@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith_app/app/features/upgrade_request/logic/upgrade_current_cubit.dart';
 import '../../features/auth/login/UI/login_screen.dart';
 import '../../features/auth/sign_up/UI/signup_screen.dart';
 import '../../features/fake_hadith/UI/widgets/fake_hadith_notification_screen.dart';
@@ -15,6 +14,7 @@ import '../../features/favourite/UI/favourite_screen.dart';
 import '../../features/favourite/data/models/favorite_model.dart' as favorite;
 import '../../features/favourite/logic/favorite_cubit.dart';
 import '../../features/home/UI/home_screen.dart';
+import '../../features/profile/logic/profile/profile_cubit.dart';
 import '../hadith_detail/logic/hadith_detail_cubit.dart';
 import '../../features/search/advanced_search/UI/advanced_search_screen.dart';
 import '../../features/search/advanced_search/logic/advanced_search_cubit.dart';
@@ -123,12 +123,14 @@ final router = GoRouter(
       builder: (context, state) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => UpgradeCubit()..loadRequests()),
+            BlocProvider(create: (context) => ProfileCubit()..loadProfile()),
+            BlocProvider(create: (context) => UpgradeCubit()..loadRequest()),
           ],
-          child: UpgradeRequestScreen(),
+          child: const UpgradeRequestScreen(),
         );
       },
     ),
+
     GoRoute(
       path: '/fakeHadith',
       builder: (context, state) {

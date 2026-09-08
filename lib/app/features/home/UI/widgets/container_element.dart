@@ -64,7 +64,7 @@ class ContainerElement extends StatelessWidget {
                     ? CrossAxisAlignment.end
                     : CrossAxisAlignment.center,
                 children: [
-                  verticalMediumSpacing(),
+                  isBig ? verticalMediumSpacing() : verticalSmallSpacing(),
                   CircleAvatar(
                     radius: 30,
                     backgroundColor: AppColors.primaryLight.withAlpha(500),
@@ -74,7 +74,7 @@ class ContainerElement extends StatelessWidget {
                       color: AppColors.primary,
                     ),
                   ),
-                  verticalMediumSpacing(),
+                  isBig ? verticalMediumSpacing() : verticalSmallSpacing(),
                   CustomText(
                     text: title,
                     fontSize: isBig ? 18 : 14,

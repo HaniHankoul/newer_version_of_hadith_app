@@ -65,12 +65,27 @@ class CustomDrawer extends StatelessWidget {
                         title: 'قائمة الاسئلة ',
                         icon: HugeIcons.strokeRoundedUserQuestion02,
                       ),
-                      CustomDrawerButton(
-                        onTap: () {
-                          context.push('/upgradeRequestScreen');
+                      BlocBuilder<ProfileCubit, ProfileCubitState>(
+                        builder: (context, state) {
+                          if (state is! ProfileCubitSuccess) {
+                            return const SizedBox.shrink();
+                          }
+
+                          final userType = state.profileResponse?.type
+                              ?.toLowerCase();
+
+                          if (userType == 'admin') {
+                            return const SizedBox.shrink();
+                          }
+
+                          return CustomDrawerButton(
+                            onTap: () {
+                              context.push('/upgradeRequestScreen');
+                            },
+                            title: 'طلب الترقية ',
+                            icon: HugeIcons.strokeRoundedFileQuestionMark,
+                          );
                         },
-                        title: 'طلب الترقية ',
-                        icon: HugeIcons.strokeRoundedFileQuestionMark,
                       ),
                     ],
                   ),

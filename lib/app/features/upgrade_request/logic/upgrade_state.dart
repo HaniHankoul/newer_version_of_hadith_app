@@ -7,26 +7,26 @@ class UpgradeInitial extends UpgradeState {}
 class UpgradeLoading extends UpgradeState {}
 
 class UpgradeLoaded extends UpgradeState {
-  final List<UpgradeModelResponse> requests;
+  final UpgradeModelResponse? request;
 
-  UpgradeLoaded(this.requests);
+  UpgradeLoaded(this.request);
 }
 
 class UpgradeSubmitting extends UpgradeState {
-  final List<UpgradeModelResponse> requests;
+  final UpgradeModelResponse? request;
 
-  UpgradeSubmitting(this.requests);
+  UpgradeSubmitting(this.request);
 }
 
-class UpgradeSubmitSuccess extends UpgradeLoaded {
+class UpgradeSubmitSuccess extends UpgradeState {
   final UpgradeModelResponse request;
 
-  UpgradeSubmitSuccess(super.requests, this.request);
+  UpgradeSubmitSuccess(this.request);
 }
 
 class UpgradeFailure extends UpgradeState {
   final String errorMessage;
-  final List<UpgradeModelResponse> requests;
+  final UpgradeModelResponse? request;
 
-  UpgradeFailure(this.errorMessage, [this.requests = const []]);
+  UpgradeFailure(this.errorMessage, [this.request]);
 }

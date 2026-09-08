@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith_app/app/core/app_theme.dart';
 import 'package:hadith_app/app/core/helper/general_sizes.dart';
-import 'package:hadith_app/app/core/widgets/custom_text.dart';
 import 'package:hadith_app/app/core/widgets/error_card.dart';
 import 'package:hadith_app/app/core/widgets/loading_card.dart';
 import 'package:hadith_app/app/features/favourite/UI/widgets/favourite_card.dart';
-import '../../../core/widgets/universal_button.dart';
 import '../logic/favorite_cubit.dart';
 import '../logic/favorit_cubit_states.dart';
 import 'widgets/empty_fav_card.dart';

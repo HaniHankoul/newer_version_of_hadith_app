@@ -5,6 +5,7 @@ import 'package:hadith_app/app/core/helper/constants.dart';
 import 'package:hadith_app/app/core/navigation/logic/navigation_cubit.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import '../../../../core/app_theme.dart';
+import '../../../../core/helper/assets.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/loading_entire_screen.dart';
@@ -97,12 +98,9 @@ class LoginScreen extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  backgroundColor: AppColors.primary,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: AppColors.white,
-                                  ),
+                                child: SizedBox(
+                                  height: 50,
+                                  child: Image.asset(Assets.assetsImagesPic1),
                                 ),
                               ),
                               CustomText(

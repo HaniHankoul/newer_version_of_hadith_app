@@ -102,6 +102,8 @@ class _FontSizeSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hadithFontSize = context.watch<FontSizeCubit>().state.fontSize;
+
     return BlocBuilder<FontSizeCubit, FontSizeState>(
       builder: (context, state) {
         return Padding(
@@ -114,7 +116,7 @@ class _FontSizeSheet extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.primary,
                   fontFamily: 'Cairo',
-                  fontSize: 18,
+                  fontSize: hadithFontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),

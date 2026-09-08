@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ).subtract(const Duration(days: 1));
     final selected = await showDatePicker(
       context: context,
-      firstDate: DateTime(1900),
+      firstDate: DateTime(1930),
       lastDate: latestBirthDate,
       initialDate: _validInitialBirthDate(latestBirthDate),
       builder: (context, child) => Theme(

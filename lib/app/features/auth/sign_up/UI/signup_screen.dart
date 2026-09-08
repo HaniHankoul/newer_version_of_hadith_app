@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../../../core/helper/assets.dart';
 import '../../../../core/helper/constants.dart';
 import '../../../../core/helper/general_sizes.dart';
 import '../../../../core/widgets/custom_text.dart';
@@ -71,12 +72,9 @@ class SignupScreen extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  backgroundColor: AppColors.primary,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: AppColors.white,
-                                  ),
+                                child: SizedBox(
+                                  height: 50,
+                                  child: Image.asset(Assets.assetsImagesPic1),
                                 ),
                               ),
                               CustomText(
@@ -88,7 +86,7 @@ class SignupScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const Spacer(),
+                        verticalLargeSpacing(),
                         const SignupFormBody(),
                         verticalLargeSpacing(),
                         Row(

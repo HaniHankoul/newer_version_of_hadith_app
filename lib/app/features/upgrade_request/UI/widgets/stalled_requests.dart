@@ -7,12 +7,12 @@ import '../../../../core/widgets/custom_text.dart';
 import '../../data/models/upgrade_model_response.dart';
 
 class StalledRequests extends StatelessWidget {
-  final UpgradeModelResponse requests;
+  final UpgradeModelResponse? request;
   final bool isLoading;
 
   const StalledRequests({
     super.key,
-    required this.requests,
+    required this.request,
     this.isLoading = false,
   });
 
@@ -41,6 +41,7 @@ class StalledRequests extends StatelessWidget {
               ),
             ],
           ),
+
           const SizedBox(height: 14),
 
           if (isLoading)
@@ -53,26 +54,31 @@ class StalledRequests extends StatelessWidget {
                 ),
               ),
             )
-          else if (requests.id == "")
+          else if (request == null)
             Text(
-              'لا توجد طلبات حالياً',
+              'لا يوجد طلب ترقية حالياً',
               style: TextStyle(
                 fontFamily: 'cairo',
                 color: AppColors.textSecondary,
               ),
             )
           else
-            _requestCard(requests),
+            _requestCard(request!),
         ],
       ),
     );
   }
 
   Widget _requestCard(UpgradeModelResponse request) {
+    final statusText = _translateStatus(request.status);
+
+    final statusColor = _statusColor(request.status);
+
+    final statusIcon = _statusIcon(request.status);
+
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.primaryLight,
         borderRadius: BorderRadius.circular(14),
@@ -80,20 +86,10 @@ class StalledRequests extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            request.status == 'approved'
-                ? Icons.check
-                : request.status == 'rejected'
-                ? Icons.close
-                : Icons.schedule_rounded,
-            color: request.status == 'approved'
-                ? Colors.green
-                : request.status == 'rejected'
-                ? Colors.red
-                : Colors.orange,
-          ),
+          Icon(statusIcon, color: statusColor),
 
           const SizedBox(width: 10),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,30 +103,116 @@ class StalledRequests extends StatelessWidget {
                     color: AppColors.textPrimaryDark,
                   ),
                 ),
-                const SizedBox(height: 4),
+
+                const SizedBox(height: 6),
+
                 Text(
-                  ' الحالة : ${request.status}' ?? 'قيد المراجعة',
+                  'الحالة: $statusText',
                   style: TextStyle(
                     fontFamily: 'cairo',
                     fontSize: 13,
-                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w600,
+                    color: statusColor,
                   ),
                 ),
-                Text(
-                  request.notes == null || request.notes!.isEmpty
-                      ? ''
-                      : ' ملاحظات : ${request.notes}',
-                  style: TextStyle(
-                    fontFamily: 'cairo',
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
+
+                if (request.notes != null &&
+                    request.notes!.trim().isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    'ملاحظاتك: ${request.notes}',
+                    style: TextStyle(
+                      fontFamily: 'cairo',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
-                ),
+                ],
+
+                if (request.reviewNotes != null &&
+                    request.reviewNotes.toString().trim().isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    'ملاحظات المراجعة: ${request.reviewNotes}',
+                    style: TextStyle(
+                      fontFamily: 'cairo',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+
+                if (request.status == 'rejected' &&
+                    request.rejectionReason != null &&
+                    request.rejectionReason.toString().trim().isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    'سبب الرفض: ${request.rejectionReason}',
+                    style: const TextStyle(
+                      fontFamily: 'cairo',
+                      fontSize: 13,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _translateStatus(String? status) {
+    switch (status) {
+      case 'pending_documents':
+        return 'بانتظار المستندات';
+
+      case 'under_review':
+        return 'قيد المراجعة';
+
+      case 'approved':
+        return 'تمت الموافقة';
+
+      case 'rejected':
+        return 'مرفوض';
+
+      default:
+        return 'غير معروف';
+    }
+  }
+
+  Color _statusColor(String? status) {
+    switch (status) {
+      case 'approved':
+        return Colors.green;
+
+      case 'rejected':
+        return Colors.red;
+
+      case 'pending_documents':
+      case 'under_review':
+        return Colors.orange;
+
+      default:
+        return AppColors.textSecondary;
+    }
+  }
+
+  IconData _statusIcon(String? status) {
+    switch (status) {
+      case 'approved':
+        return Icons.check_circle_rounded;
+
+      case 'rejected':
+        return Icons.cancel_rounded;
+
+      case 'pending_documents':
+      case 'under_review':
+        return Icons.schedule_rounded;
+
+      default:
+        return Icons.help_outline_rounded;
+    }
   }
 }

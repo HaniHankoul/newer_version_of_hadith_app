@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../data/models/upgrade_model_response.dart';
 import '../data/repo/upgrade_repo.dart';
-import 'package:hadith_app/app/features/upgrade_request/logic/upgrade_state.dart';
+import 'upgrade_state.dart';
 
 class UpgradeCubit extends Cubit<UpgradeState> {
   final UpgradeRepo repository;
@@ -10,13 +11,19 @@ class UpgradeCubit extends Cubit<UpgradeState> {
     : repository = repository ?? UpgradeRepo(),
       super(UpgradeInitial());
 
-  Future<void> loadRequests() async {
+  Future<void> loadRequest() async {
     emit(UpgradeLoading());
+
     try {
-      final res = await repository.getUpgradeRequests();
-      emit(UpgradeLoaded(res));
+      final request = await repository.getUpgradeRequest();
+
+      if (!isClosed) {
+        emit(UpgradeLoaded(request));
+      }
     } catch (e) {
-      if (!isClosed) emit(UpgradeFailure(_cleanError(e)));
+      if (!isClosed) {
+        emit(UpgradeFailure(_cleanError(e)));
+      }
     }
   }
 
@@ -25,25 +32,36 @@ class UpgradeCubit extends Cubit<UpgradeState> {
     required String fileName,
     required String notes,
   }) async {
-    final currentRequests = state is UpgradeLoaded
-        ? (state as UpgradeLoaded).requests
-        : state is UpgradeSubmitting
-        ? (state as UpgradeSubmitting).requests
-        : <UpgradeModelResponse>[];
-    emit(UpgradeSubmitting(currentRequests));
+    UpgradeModelResponse? currentRequest;
+
+    if (state is UpgradeLoaded) {
+      currentRequest = (state as UpgradeLoaded).request;
+    } else if (state is UpgradeSubmitting) {
+      currentRequest = (state as UpgradeSubmitting).request;
+    } else if (state is UpgradeFailure) {
+      currentRequest = (state as UpgradeFailure).request;
+    }
+
+    emit(UpgradeSubmitting(currentRequest));
+
     try {
       final request = await repository.submitUpgradeRequest(
         filePath: filePath,
         fileName: fileName,
         notes: notes,
       );
-      final requests = await repository.getUpgradeRequests();
-      if (!isClosed) emit(UpgradeSubmitSuccess(requests, request));
+
+      if (!isClosed) {
+        emit(UpgradeSubmitSuccess(request));
+      }
     } catch (e) {
-      if (!isClosed) emit(UpgradeFailure(_cleanError(e), currentRequests));
+      if (!isClosed) {
+        emit(UpgradeFailure(_cleanError(e), currentRequest));
+      }
     }
   }
 
-  String _cleanError(Object error) =>
-      error.toString().replaceFirst('Exception: ', '');
+  String _cleanError(Object error) {
+    return error.toString().replaceFirst('Exception: ', '');
+  }
 }
