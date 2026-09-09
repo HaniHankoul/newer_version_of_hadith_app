@@ -79,7 +79,7 @@ Widget body(NavigationState state) {
           BlocProvider(create: (context) => SearchHistoryCubit()),
           BlocProvider(
             create: (context) =>
-                BookDetailsCubit(bookId: '6a844791-778e-48ca-99a4-264edbc2689d')
+                BookDetailsCubit(bookId: '0463937c-edb0-400a-9f07-ddd3e9e2fe89')
                   ..fetchBookHadiths(),
           ),
         ],

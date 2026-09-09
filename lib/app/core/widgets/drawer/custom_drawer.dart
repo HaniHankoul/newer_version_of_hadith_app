@@ -193,7 +193,22 @@ class _ProfileDrawerHeader extends StatelessWidget {
                           ),
                         ],
                       )
-                    : Center(child: CustomText(text: 'حدث خطأ ما')),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          LottieBuilder.asset(
+                            Assets.assetsImagesLottiesIcons8Key,
+                            width: 30,
+                          ),
+
+                          CustomText(
+                            text: 'سجل الآن لإنشاء حساب',
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ],
+                      ),
               ),
             );
           },

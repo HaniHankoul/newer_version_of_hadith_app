@@ -164,6 +164,10 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
                             ],
                           );
                         }
+                        if (state is AdvancedSearchError) {
+                          debugPrint('AdvancedSearchError: ${state.message}');
+                          return ErrorCard(message: state.message);
+                        }
                         if (state is AdvancedSearchInitial ||
                             state is AdvancedSearchFiltersLoaded) {
                           return Column(

@@ -70,7 +70,6 @@ class ApiClient {
             handler.next(options);
           }
         },
-
         onError: (error, handler) async {
           final requestOptions = error.requestOptions;
 
@@ -262,6 +261,7 @@ class ApiClient {
     return path.contains('/auth/login') ||
         path.contains('/auth/google') ||
         path.contains('/auth/register') ||
-        path.contains('/auth/refresh');
+        path.contains('/auth/refresh') ||
+        path.contains('/auth/logout');
   }
 }

@@ -40,7 +40,7 @@ class TodaysHadithHeader extends StatelessWidget {
                           BlocBuilder<BookDetailsCubit, BookDetailsCubitState>(
                             builder: (context, state) {
                               final hadith = state is BookDetailsSuccess
-                                  ? state.hadiths[2].text.toString()
+                                  ? state.hadiths[5].text.toString()
                                   : " ";
                               if (state is BookDetailsLoading) {
                                 return Center(
@@ -88,7 +88,7 @@ class TodaysHadithHeader extends StatelessWidget {
                                       context.push(
                                         '/hadithDetail',
                                         extra: state is BookDetailsSuccess
-                                            ? state.hadiths[2].id
+                                            ? state.hadiths[5].id
                                             : null,
                                       );
                                     },

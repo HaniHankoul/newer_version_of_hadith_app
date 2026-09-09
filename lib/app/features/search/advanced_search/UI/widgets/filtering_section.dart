@@ -20,6 +20,7 @@ class FilteringSection extends StatefulWidget {
 
 class _FilteringSectionState extends State<FilteringSection> {
   final Map<String, List<String>> _selected = {};
+  int _resetSignal = 0;
 
   List<_FilterGroupData> get _groups => [
     _FilterGroupData('الكتب', widget.filters.books ?? [], 'bookIds'),
@@ -67,13 +68,32 @@ class _FilteringSectionState extends State<FilteringSection> {
           fontWeight: FontWeight.w500,
           fontSize: 18,
         ),
-        trailing: const SizedBox.shrink(),
+        trailing: TextButton.icon(
+          onPressed: _selected.isEmpty
+              ? null
+              : () {
+                  setState(() {
+                    _selected.clear();
+                    _resetSignal++;
+                  });
+                  widget.onChanged(<String, List<String>>{});
+                },
+          icon: const Icon(Icons.clear_all, size: 18),
+          label: const Text('مسح الكل'),
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.primary,
+            disabledForegroundColor: AppColors.darkGrey,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            minimumSize: const Size(0, 36),
+          ),
+        ),
         children: _groups
             .map(
               (group) => Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: _FilterGroupCard(
                   data: group,
+                  resetSignal: _resetSignal,
                   selectedIds: _selected[group.key] ?? [],
                   onChanged: (ids) {
                     setState(() => _selected[group.key] = ids);
@@ -99,11 +119,13 @@ class _FilterGroupData {
 class _FilterGroupCard extends StatefulWidget {
   const _FilterGroupCard({
     required this.data,
+    required this.resetSignal,
     required this.selectedIds,
     required this.onChanged,
   });
 
   final _FilterGroupData data;
+  final int resetSignal;
   final List<String> selectedIds;
   final ValueChanged<List<String>> onChanged;
 
@@ -112,6 +134,8 @@ class _FilterGroupCard extends StatefulWidget {
 }
 
 class _FilterGroupCardState extends State<_FilterGroupCard> {
+  static const double _optionsMaxHeight = 320;
+
   late List<bool> _selected;
   bool isExpanded = false;
 
@@ -124,6 +148,14 @@ class _FilterGroupCardState extends State<_FilterGroupCard> {
   }
 
   @override
+  void didUpdateWidget(covariant _FilterGroupCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.resetSignal != oldWidget.resetSignal) {
+      _selected = List<bool>.filled(widget.data.options.length, false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -132,7 +164,6 @@ class _FilterGroupCardState extends State<_FilterGroupCard> {
         border: Border.all(color: AppColors.primaryRich),
       ),
       child: ExpansionTile(
-        key: PageStorageKey<String>(widget.data.title),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(borderRadiusM),
         ),
@@ -157,24 +188,29 @@ class _FilterGroupCardState extends State<_FilterGroupCard> {
         onExpansionChanged: (value) => setState(() => isExpanded = value),
         initiallyExpanded: false,
         children: [
-          Column(
-            children: List.generate(widget.data.options.length, (index) {
-              return CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                controlAffinity: ListTileControlAffinity.trailing,
-                title: Text(widget.data.options[index].name ?? ''),
-                value: _selected[index],
-                onChanged: (value) {
-                  setState(() => _selected[index] = value ?? false);
-                  widget.onChanged([
-                    for (var i = 0; i < _selected.length; i++)
-                      if (_selected[i] && widget.data.options[i].id != null)
-                        widget.data.options[i].id!,
-                  ]);
-                },
-              );
-            }),
+          SizedBox(
+            height: _optionsMaxHeight,
+            child: ListView.builder(
+              primary: false,
+              itemCount: widget.data.options.length,
+              itemBuilder: (context, index) {
+                return CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  title: Text(widget.data.options[index].name ?? ''),
+                  value: _selected[index],
+                  onChanged: (value) {
+                    setState(() => _selected[index] = value ?? false);
+                    widget.onChanged([
+                      for (var i = 0; i < _selected.length; i++)
+                        if (_selected[i] && widget.data.options[i].id != null)
+                          widget.data.options[i].id!,
+                    ]);
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),

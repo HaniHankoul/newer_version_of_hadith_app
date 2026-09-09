@@ -8,17 +8,31 @@ import '../../../core/app_theme.dart';
 import '../../../core/font_size/logic/font_size_cubit.dart';
 import '../../../core/font_size/logic/font_size_state.dart';
 import '../../../core/helper/general_sizes.dart';
-import '../../../core/helper/shared/shared_init.dart';
 import '../../../core/widgets/loading_card.dart';
+
+import '../../auth/logout/data/logout_service.dart';
+
 import '../../home/Logic/access_token_bloc/acces_states.dart';
 import '../../home/Logic/access_token_bloc/access_bloc.dart';
+
 import '../logic/setting_cubit.dart';
 import '../logic/setting_states.dart';
+
 import 'widgets/settings_tile.dart';
 import 'widgets/theme_card.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
+
+  Future<void> _logout(BuildContext context) async {
+    await LogoutService.logout();
+
+    if (!context.mounted) {
+      return;
+    }
+
+    context.go('/login');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +40,12 @@ class SettingsScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is SettingLoading) {
           return LoadingCard();
-        } else if (state is SettingError) {
+        }
+
+        if (state is SettingError) {
           return ErrorCard(message: state.errorMessage);
         }
+
         return Column(
           children: [
             BlocBuilder<AccessBloc, AccessState>(
@@ -36,27 +53,32 @@ class SettingsScreen extends StatelessWidget {
                 return Column(
                   children: [
                     verticalSmallSpacing(),
+
                     SettingsTile(
                       onTap: () {},
                       title: 'الاشعارات',
                       icon: HugeIcons.strokeRoundedNotification01,
                     ),
+
                     verticalSmallSpacing(),
+
                     ThemeCard(),
+
                     verticalSmallSpacing(),
+
                     SettingsTile(
                       onTap: () => _showFontSizeSheet(context),
                       title: 'حجم الخط',
                       icon: HugeIcons.strokeRoundedPencil,
                       color: Colors.black,
                     ),
+
                     verticalSmallSpacing(),
 
                     state is AccessSuccess && state.token != null
                         ? SettingsTile(
-                            onTap: () {
-                              AuthStorage.clearTokens();
-                              context.go('/login');
+                            onTap: () async {
+                              await _logout(context);
                             },
                             title: 'تسجيل خروج',
                             icon: HugeIcons.strokeRoundedLogout01,
@@ -70,7 +92,9 @@ class SettingsScreen extends StatelessWidget {
                             icon: HugeIcons.strokeRoundedLogin01,
                             color: Colors.black,
                           ),
+
                     verticalLargeSpacing(),
+
                     SettingsTile(
                       onTap: () {},
                       title: 'عن التطبيق',
@@ -120,6 +144,7 @@ class _FontSizeSheet extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               Text(
                 state.fontSize.toStringAsFixed(0),
                 style: TextStyle(
@@ -128,6 +153,7 @@ class _FontSizeSheet extends StatelessWidget {
                   fontSize: state.fontSize,
                 ),
               ),
+
               Slider(
                 value: state.fontSize,
                 min: FontSizeCubit.minimumFontSize,

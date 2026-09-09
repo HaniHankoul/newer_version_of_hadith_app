@@ -188,40 +188,56 @@ class DetailScreen extends StatelessWidget {
                                           ),
                                         ),
                                         verticalMediumSpacing(),
-                                        UniversalContainer(
-                                          heightPortion: 0,
-                                          widthPortion: .84,
-                                          borderColor: AppColors.primary,
-                                          color: AppColors.primaryLight
-                                              .withAlpha(50),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: CustomText(
-                                              text:
-                                                  hadith.text?.toString() ?? '',
-                                              fontSize: hadithFontSize,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ),
-                                        verticalMediumSpacing(),
-                                        if (hadith.explanation != null)
-                                          UniversalContainer(
+                                        InkWell(
+                                          onTap: () {
+                                            _copyHadith(context, hadith.text);
+                                          },
+                                          child: UniversalContainer(
                                             heightPortion: 0,
                                             widthPortion: .84,
                                             borderColor: AppColors.primary,
-                                            color: AppColors.primaryLight,
+                                            color: AppColors.primaryLight
+                                                .withAlpha(50),
                                             child: Padding(
                                               padding: const EdgeInsets.all(
                                                 8.0,
                                               ),
                                               child: CustomText(
                                                 text:
-                                                    hadith.explanation?.text
-                                                        .toString() ??
+                                                    hadith.text?.toString() ??
                                                     '',
                                                 fontSize: hadithFontSize,
                                                 fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        verticalMediumSpacing(),
+                                        if (hadith.explanation != null)
+                                          InkWell(
+                                            onTap: () {
+                                              _copyHadith(
+                                                context,
+                                                hadith.explanation?.text,
+                                              );
+                                            },
+                                            child: UniversalContainer(
+                                              heightPortion: 0,
+                                              widthPortion: .84,
+                                              borderColor: AppColors.primary,
+                                              color: AppColors.primaryLight,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(
+                                                  8.0,
+                                                ),
+                                                child: CustomText(
+                                                  text:
+                                                      hadith.explanation?.text
+                                                          .toString() ??
+                                                      '',
+                                                  fontSize: hadithFontSize,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -406,18 +422,7 @@ class DetailScreen extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                        horizontalLargeSpacing(),
-                                        UniversalButton(
-                                          widthPortion: .35,
-                                          icon: Icons.copy,
-                                          title: 'نسخ',
-                                          onTap: () =>
-                                              _copyHadith(context, hadith.text),
-                                          color: AppColors.white,
-                                          textColor: AppColors.black,
-                                          borderColor: AppColors.primary,
-                                        ),
-                                        horizontalLargeSpacing(),
+                                        horizontalMediumSpacing(),
                                         UniversalButton(
                                           widthPortion: .35,
                                           icon: Icons.share_outlined,
@@ -458,7 +463,7 @@ class DetailScreen extends StatelessWidget {
 
     await Clipboard.setData(ClipboardData(text: hadithText));
     if (!context.mounted) return;
-    Constants().detailsBar('تم نسخ نص الحديث إلى الحافظة');
+    Constants().detailsBar('تم نسخ النص إلى الحافظة');
   }
 
   Future<void> _shareHadith(BuildContext context, String? text) async {
